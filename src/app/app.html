@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <span>{{ title() }}</span>
+  <span class="toolbar-spacer"></span>
+  @if (getRouteAnimationData() === 'menu') {
+    <button type="button" mat-button color="primary" (click)="navigateByUrl(AppUrl.PAGE_HOME)">首页</button>
+  }
+  @if (getRouteAnimationData() === 'index') {
+    <button type="button" mat-flat-button color="primary" (click)="navigateByUrl(AppUrl.PAGE_MENU)">菜单页</button>
+  }
+  <button type="button" mat-flat-button color="accent" (click)="onScanClicked()">开始扫码</button>
+</mat-toolbar>
+
+<main class="main" [@routeAnimations]="getRouteAnimationData()">
+  <router-outlet #outlet="outlet" />
+</main>
+
+<!-- 全局加载遮罩 -->
+@if (loading()) {
+  <div class="global-overlay">
+    <div class="overlay-card">
+      <mat-progress-spinner mode="indeterminate" diameter="36" color="primary"></mat-progress-spinner>
+      <span>加载中...</span>
+    </div>
+  </div>
+}
+

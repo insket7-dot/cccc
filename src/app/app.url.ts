@@ -1,0 +1,17 @@
+import {Method, Url} from "@rydeen/angular-framework";
+
+/**
+ * 前端页面地址枚举类
+ */
+export class AppUrl {
+    public static readonly API_PREFIX: string = '/xxx/xxx';
+
+    /** 页面导航：登录页地址页 */
+    public static readonly PAGE_HOME: Url = new Url('PAGE_HOME', 'home', Method.NAVIGATOR);
+
+    public static readonly PAGE_MENU: Url = new Url('PAGE_MENU', 'menu', Method.NAVIGATOR);
+
+    /** Mock 菜单：全量菜单 */
+    public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
+
+}

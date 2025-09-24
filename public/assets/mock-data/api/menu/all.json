@@ -1,0 +1,33 @@
+{
+  "data": [
+    {"id":"B001","name":"香辣鸡腿堡","category":"burgers","price":22,"tags":["鸡腿","汉堡","香辣"]},
+    {"id":"B002","name":"劲脆鸡腿堡","category":"burgers","price":23,"tags":["鸡腿","脆皮"]},
+    {"id":"B003","name":"老北京鸡肉卷","category":"burgers","price":20,"tags":["卷","京酱","鸡肉"]},
+    {"id":"B004","name":"板烧鸡腿堡","category":"burgers","price":26,"tags":["板烧","鸡腿"]},
+    {"id":"B005","name":"培根双层牛堡","category":"burgers","price":28,"tags":["牛肉","双层","培根"]},
+    {"id":"C101","name":"上校鸡块 5块","category":"chicken","price":15,"tags":["鸡肉","小吃"]},
+    {"id":"C102","name":"上校鸡块 10块","category":"chicken","price":28,"tags":["鸡肉","分享"]},
+    {"id":"C103","name":"香辣鸡翅 2块","category":"chicken","price":15,"tags":["鸡翅","香辣"]},
+    {"id":"C104","name":"新奥尔良烤翅 2块","category":"chicken","price":18,"tags":["鸡翅","烤翅","微辣"]},
+    {"id":"C105","name":"藤椒吮指鸡 2块","category":"chicken","price":19,"tags":["藤椒","吮指"]},
+    {"id":"S201","name":"薯条 中份","category":"sides","price":10,"tags":["薯条","小吃"]},
+    {"id":"S202","name":"薯条 大份","category":"sides","price":12,"tags":["薯条","分享"]},
+    {"id":"S203","name":"黄金鸡米花 中份","category":"sides","price":14,"tags":["鸡米花"]},
+    {"id":"S204","name":"香甜玉米杯","category":"sides","price":9,"tags":["玉米","配餐"]},
+    {"id":"S205","name":"葡式蛋挞 2只","category":"desserts","price":16,"tags":["蛋挞","甜品"]},
+    {"id":"D301","name":"百事可乐 中杯","category":"drinks","price":8,"tags":["可乐","汽水"]},
+    {"id":"D302","name":"七喜 中杯","category":"drinks","price":8,"tags":["汽水"]},
+    {"id":"D303","name":"冰柠檬红茶 中杯","category":"drinks","price":9,"tags":["柠檬","茶饮"]},
+    {"id":"D304","name":"乌龙奶茶 中杯","category":"drinks","price":12,"tags":["奶茶"]},
+    {"id":"D305","name":"美式咖啡 中杯","category":"drinks","price":13,"tags":["咖啡"]},
+    {"id":"M401","name":"原味蛋挞酥皮卷","category":"breakfast","price":10,"tags":["早餐","甜点"]},
+    {"id":"M402","name":"老北京鸡肉卷 早餐版","category":"breakfast","price":18,"tags":["早餐","卷"]},
+    {"id":"M403","name":"黄金芝士饼","category":"breakfast","price":9,"tags":["早餐","芝士"]},
+    {"id":"T501","name":"香辣鸡腿堡套餐（可乐+薯条）","category":"combo","price":32,"tags":["套餐","鸡腿堡","薯条","可乐"]},
+    {"id":"T502","name":"板烧鸡腿堡套餐（柠檬红茶+鸡米花）","category":"combo","price":38,"tags":["套餐","板烧","鸡米花","茶饮"]}
+  ],
+  "code": 0,
+  "msg": "ok",
+  "success": true
+}
+

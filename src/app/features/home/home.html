@@ -1,0 +1,44 @@
+<div class="home-container">
+  <h2>首页</h2>
+  <p>这是独立的首页组件。</p>
+  <div class="actions">
+    <div class="action-row">
+      <button type="button" mat-stroked-button color="primary" (click)="onMenuProcess()">Worker：拉取最新菜单</button>
+      @if (processLog(); as log1) {
+        <span class="result" aria-live="polite">{{ log1 }}</span>
+      }
+    </div>
+    <div class="action-row">
+      <mat-form-field class="match-height" appearance="outline">
+        <mat-label>搜索关键字</mat-label>
+        <input matInput placeholder="请输入商品/标签" [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)" (keyup.enter)="onMenuSearch()" />
+      </mat-form-field>
+      <button type="button" class="match-height" mat-stroked-button color="accent" (click)="onMenuSearch()">搜索菜品</button>
+      @if (searchLog(); as log2) {
+        <span class="result" aria-live="polite">{{ log2 }}</span>
+      }
+    </div>
+
+    @if (searchItems().length) {
+      <div class="results-grid">
+        @for (item of searchItems(); track item.id) {
+          <mat-card class="app-card">
+            <mat-card-header>
+              <mat-card-title>[{{ item.id }}] {{ item.name }}</mat-card-title>
+              <mat-card-subtitle>¥{{ item.price }} ｜ {{ item.category }}</mat-card-subtitle>
+            </mat-card-header>
+            @if (item.tags?.length) {
+              <mat-card-content>
+                <mat-chip-listbox aria-label="tags">
+                  @for (tag of item.tags; track tag) {
+                    <mat-chip>{{ tag }}</mat-chip>
+                  }
+                </mat-chip-listbox>
+              </mat-card-content>
+            }
+          </mat-card>
+        }
+      </div>
+    }
+  </div>
+</div>

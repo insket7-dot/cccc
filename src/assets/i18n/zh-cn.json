@@ -1,0 +1,24 @@
+{
+    "app": {
+        "common": {
+            "title": "跨平台应用",
+            "request.failure": "请求失败",
+            "request.waiting": "请求中，请稍候……",
+            "request.type.error": "请求地址类型错误，数据接口请求仅支持DATA类型。",
+            "network.error": "服务请求失败，请检查网络是否可用。",
+            "back.button": "返回",
+            "close": "关闭",
+            "cancel": "取消",
+            "confirm": "确定",
+            "save": "保存",
+            "used": "已用完",
+            "unused": "未用完",
+            "search": "搜索",
+            "toast.success": "成功",
+            "toast.info": "提示",
+            "toast.warn": "警告",
+            "toast.error": "错误",
+            "toast.exit": "再次返回退出本应用"
+        }
+    }
+}

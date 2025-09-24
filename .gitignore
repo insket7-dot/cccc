@@ -1,0 +1,85 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# iOS (Capacitor/Xcode) - keep source, ignore build/caches
+ios/**/Pods/
+ios/**/DerivedData/
+ios/**/*.xcuserdatad/
+ios/**/*.xcscmblueprint
+ios/**/*.xcworkspace/xcuserdata/
+ios/**/*.xcodeproj/project.xcworkspace/xcuserdata/
+ios/**/*.xcodeproj/xcuserdata/
+ios/**/*.xcarchive
+ios/**/*.ipa
+ios/**/build/
+ios/**/.DS_Store
+ios/**/.last_build_id
+ios/**/.generated/
+ios/**/.swiftpm/
+ios/**/.symlinks/
+ios/**/.dart_tool/
+
+# Electron - keep source, ignore build/output
+electron/**/.DS_Store
+electron/**/dist/
+electron/**/dist-electron/
+electron/**/out/
+electron/**/release/
+electron/**/.webpack/
+electron/**/.electron/
+electron/**/.electron-builder/
+electron/**/.packages/
+electron/**/.temp/
+electron/**/node_modules/
+
+# Electron packaged artifacts
+*.asar
+*.dmg
+*.exe
+*.snap
+*.AppImage
+*.deb
+*.rpm
+*.msi
+*.nupkg
+*.log

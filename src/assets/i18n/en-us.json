@@ -1,0 +1,24 @@
+{
+    "app": {
+        "common": {
+            "title": "Intelligence Expiry",
+            "request.failure": "Request failed",
+            "request.waiting": "Requesting, please wait...",
+            "request.type.error": "Request address type error, data interface request only supports DATA type.",
+            "network.error": "Service request failed, please check whether the network is available.",
+            "back.button": "Return",
+            "close": "Close",
+            "cancel": "Cancel",
+            "confirm": "Confirm",
+            "save": "Save",
+            "used": "Used",
+            "unused": "Unused",
+            "search": "Search",
+            "toast.success": "Success",
+            "toast.info": "Prompt",
+            "toast.warn": "Warning",
+            "toast.error": "Error",
+            "toast.exit": "Return again and exit this application"
+        }
+    }
+}

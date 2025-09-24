@@ -1,0 +1,24 @@
+{
+    "app": {
+        "common": {
+            "title": "時小鮮",
+            "request.failure": "請求失敗",
+            "request.waiting": "請求中，請稍候…",
+            "request.type.error": "請求位址類型錯誤，資料介面請求僅支援DATA類型。",
+            "network.error": "服務請求失敗，請檢查網路是否可用。",
+            "back.button": "返回",
+            "close": "關閉",
+            "cancel": "取消",
+            "confirm": "確定",
+            "save": "保存",
+            "used": "已用完",
+            "unused": "未用完",
+            "search": "搜索",
+            "toast.success": "成功",
+            "toast.info": "提示",
+            "toast.warn": "警告",
+            "toast.error": "錯誤",
+            "toast.exit": "再次返回退出本應用"
+        }
+    }
+}

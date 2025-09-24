@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cross Platform App</string>
+    <string name="title_activity_main">cross-platform-app</string>
+    <string name="package_name">com.example.crossplatformapp</string>
+    <string name="custom_url_scheme">com.example.crossplatformapp</string>
+</resources>
