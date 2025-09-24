@@ -9,7 +9,14 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':capacitor-community-sqlite')
     implementation project(':capacitor-mlkit-barcode-scanning')
+    implementation project(':capacitor-rydeen-mqtt')
+    implementation project(':capacitor-rydeen-preferences')
+    implementation project(':capacitor-rydeen-tools')
+    implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-status-bar')
+    implementation project(':capgo-capacitor-updater')
 
 }
 

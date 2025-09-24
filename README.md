@@ -36,51 +36,84 @@ ng build -c production # 生产配置
 
 > 已在 `angular.json` 中配置 dev/mock/production 的 fileReplacements 与默认 development 运行。
 
-## 3. 目录结构（关键）
+## 3. 目录结构与开发约定
+
+本项目的源代码遵循 Angular 社区推崇的**模块化、关注点分离**的最佳实践。核心思想是按功能（Features）组织代码，并明确区分应用核心（Core）、跨功能共享（Shared）的逻辑。
+
+### 3.1. 源代码结构树 (`src/`)
 
 ```
 src/
-  app/
-    features/
-      home/            # 首页 - 例子（处理/搜索菜单演示）
-      menu/            # 菜单页 - 例子（展示本地缓存的全量菜单）
-    services/
-      barcode.service.ts       # 扫码服务（MLKit 插件）
-      worker-sample.service.ts # Worker 封装：菜单索引与搜索
-    app.config.ts      # 应用 providers（HttpClient、i18n、等）
-    app.routes.ts      # 路由与动画标识 data.animation
-    app.ts / app.html  # 根组件（工具栏、遮罩、动画绑定）
-    animations.ts      # 路由切换动画（大屏侧滑）
-    app.event.ts       # 全局事件（SHOW_GLOBAL_LOADING）
-  commons/
-    component/abstract.app.component.ts  # 提示实现（MatSnackBar/Dialog）
-    component/abstract.app.service.ts    # 重写 request，加遮罩事件
-  workers/
-    menu.worker.ts     # 菜单索引与搜索（Web Worker）
-  styles.scss          # 全局样式（统一卡片 .app-card 等）
+├── app/
+│   ├── core/                  # 核心模块 (仅导入一次)
+│   │   ├── animations/
+│   │   │   └── route-animations.ts # 全局路由切换动画
+│   │   ├── constants/
+│   │   │   ├── app.event.ts      # 全局事件常量枚举
+│   │   │   └── app.url.ts        # 全局路由/API地址枚举
+│   │   └── services/
+│   │       └── barcode.service.ts  # 单例服务 (如扫码)
+│   ├── features/              # 功能模块 (按业务划分)
+│   │   ├── home/
+│   │   │   ├── services/         # home 模块专属服务
+│   │   │   │   └── home.service.ts
+│   │   │   ├── home.html
+│   │   │   ├── home.scss
+│   │   │   └── home.ts
+│   │   └── menu/
+│   │       ├── constants/        # menu 模块专属常量
+│   │       ├── services/         # menu 模块专属服务
+│   │       ├── types/            # menu 模块专属类型定义
+│   │       └── workers/          # menu 模块专属 Web Worker
+│   ├── shared/                # 共享模块 (可被多处导入)
+│   │   ├── abstracts/         # 可复用的抽象基类
+│   │   ├── types/             # 跨模块共享的类型定义
+│   │   └── ...                # 可复用的组件、管道、指令等
+│   ├── app.config.ts          # 应用级 Providers 配置
+│   ├── app.routes.ts          # 根路由配置
+│   ├── app.html / app.scss / app.ts # 根组件
+│   └── ...
+├── assets/
+│   ├── i18n/                  # 国际化语言文件
+│   └── ...
+├── environments/              # 环境配置文件
+├── styles.scss                # 全局样式
+└── workers/                   # 全局 Web Worker
 ```
 
-### 架构总览（Mermaid）
+### 3.2. 核心目录详解
 
-```mermaid
-flowchart LR
-  UI[组件/页面] -- 调用 --> SVC[业务 Service]
-  SVC -- request() --> ABS[AbstractAppService]
-  ABS -- 发布事件 --> EVT[EventManager]
-  EVT -- SHOW_GLOBAL_LOADING --> APP[App 根组件]
-  SVC -- heavy task --> WRK[menu.worker]
-  WRK -- postMessage --> SVC
-  SVC -- LocalStorage --> LS[(menu.index/byId)]
-  APP -- RouterOutlet/动画 --> Route[路由]
-```
+*   `app/core`: **核心模块**
+    *   **用途**: 存放构成应用外壳、且只应被根模块加载一次的代码。这包括单例服务（Singleton Services）、应用级常量、拦截器和全局动画等。
+    *   **约定**: 此目录下的模块和 Providers **只能**在 `app.config.ts` 中被提供。**禁止**任何功能模块 (`features/`) 直接导入 `core` 模块。服务应在此处通过 `providedIn: 'root'` 提供。
 
-## 4. 运行机制
+*   `app/features`: **功能模块**
+    *   **用途**: 存放应用的所有业务功能，每个子目录代表一个独立的业务模块（如 `home`, `menu`）。
+    *   **约定**:
+        *   每个功能模块应是**高内聚、自包含**的。其内部可以拥有自己的 `services`, `types`, `constants` 等子目录。
+        *   模块间的通信应通过共享服务 (`shared/` 或 `core/`) 或路由事件进行，避免直接依赖。
+        *   **私有优先**: 类型定义 (`types`)、常量 (`constants`) 等应首先放在功能模块内部。只有当需要被**第二个**模块复用时，才将其**提升**到 `shared` 目录。
 
-- 全局加载遮罩：`AbstractAppService.request()` 在发起/结束时，通过 `EventManager` 发布 `AppEvent.SHOW_GLOBAL_LOADING`，根组件订阅后用 `MatProgressSpinner` 展示半透明遮罩。
-- Web Worker：`workers/menu.worker.ts` 负责构建菜单索引（byId/byCategory/index），`worker-sample.service.ts` 封装调用，支持名称、标签与 token 包含匹配，并最终返回菜品 JSON。
-- 动画：`animations.ts` 采用大屏友好的“侧滑+轻缩放”，通过 `data.animation` 与 `[@routeAnimations]` 绑定实现页面切换。
-- UI 统一：`styles.scss` 定义 `.app-card` 统一卡片高度/背景/描边，可跨页面使用；输入与按钮在首页以类 `.match-height` 对齐。
-- 国际化：已集成 `@ngx-translate/core@17`，在 `app.config.ts` 通过 `TranslateModule.forRoot({ loader })` 注册自定义 `TranslateLoader`（HTTP 加载），默认语言 `zh-CN`。
+*   `app/shared`: **共享模块**
+    *   **用途**: 存放可被多个**功能模块**复用的代码，如通用的 UI 组件、管道（Pipes）、指令（Directives）、抽象基类和跨模块的类型定义。
+    *   **约定**: `shared` 模块可以被任意多的功能模块导入。但它**不应该**包含任何业务服务的 Provider，以避免产生循环依赖或意外创建多个服务实例。
+
+### 3.3. 文件命名约定
+
+*   **组件/指令/服务等**: 使用 `kebab-case` (短横线命名法)，并遵循 `feature.type.ts` 的模式。
+    *   示例: `home.service.ts`, `route-animations.ts`
+*   **组件文件名**: 遵循 Angular 17+ 的新标准，**不带** `.component` 后缀。
+    *   示例: `home.ts`, `home.html`, `home.scss`
+*   **共享类型**: 当一个类型从功能模块提升到 `shared` 目录时，建议在文件名中体现其共享属性。
+    *   示例: `menu.shared.types.ts`
+
+## 4. 运行机制（更新）
+
+- **全局加载遮罩**: `shared/abstracts/abstract.app.service.ts` 的 `request()` 方法，在发起/结束 HTTP 请求时，通过 `core/constants/app.event.ts` 中定义的事件，通知根组件 `app.ts` 显示或隐藏全局加载遮罩。
+- **Web Worker**: `features/menu/workers/menu.worker.ts` 负责在后台线程处理密集的菜单数据，构建搜索索引。相关的调用逻辑被封装在 `features/menu/services/` 中。
+- **路由动画**: 定义在 `core/animations/route-animations.ts`，采用大屏友好的“侧滑”效果。通过在 `app.routes.ts` 中为路由添加 `data: { animation: 'pageName' }`，并由根组件 `app.html` 的 `[@routeAnimations]` 触发器绑定实现。
+- **UI 统一**: 全局基础样式（如统一卡片 `.app-card`）定义在 `styles.scss` 中，可跨页面复用。
+- **国际化**: 集成 `@ngx-translate/core`，在 `app.config.ts` 中注册自定义加载器，从 `assets/i18n/` 目录加载语言文件。
 
 ### 请求/遮罩时序
 ```mermaid

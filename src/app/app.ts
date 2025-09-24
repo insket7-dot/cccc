@@ -5,13 +5,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {AppEvent} from './app.event';
+import {AppEvent} from './core/constants/app.event';
 import {Subscription} from 'rxjs';
-import {BarcodeService} from './services/barcode.service';
+import {BarcodeService} from './core/services/barcode.service';
 import {ChildrenOutletContexts, RouterOutlet} from '@angular/router';
-import {triggerAnimation} from './animations';
-import {AbstractPage} from "../commons/component/abstractPage";
-import {AppUrl} from "./app.url";
+import {triggerAnimation} from './core/animations/route-animations';
+import {AppUrl} from "./core/constants/app.url";
+import {AbstractPage} from "./shared/abstracts/abstractPage";
 
 @Component({
     selector: 'app-root',
