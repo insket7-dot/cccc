@@ -1,6 +1,6 @@
 import {AbstractService, EventManager, RequestHeader, ResultVO, Url} from '@rydeen/angular-framework';
 import {inject} from '@angular/core';
-import {AppEvent} from '../../app/app.event';
+import {AppEvent} from "../../core/constants/app.event";
 
 export abstract class AbstractAppService extends AbstractService {
 

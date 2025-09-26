@@ -2,7 +2,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AppDataSource} from '../data/app-data-source';
-import {EntityTarget, QueryBuilder} from 'typeorm';
+import {EntityTarget, ObjectLiteral, QueryBuilder} from 'typeorm';
 
 // --- 类型定义 ---
 export interface DbOperation {
@@ -17,7 +17,7 @@ export interface DbOperation {
     providedIn: 'root'
 })
 export class DatabaseService {
-    private worker: Worker | null = null;
+    private readonly worker: Worker | null = null;
     private isInitialized = false;
     private operationQueue: DbOperation[] = [];
     private readonly dbReady = new Subject<void>();
@@ -50,7 +50,7 @@ export class DatabaseService {
      * @param alias 查询中实体的别名
      * @returns 一个 TypeORM QueryBuilder 实例
      */
-    public createQueryBuilder<T>(entity: EntityTarget<T>, alias: string): QueryBuilder<T> {
+    public createQueryBuilder<T extends ObjectLiteral>(entity: EntityTarget<T>, alias: string): QueryBuilder<T> {
         return AppDataSource.createQueryBuilder(entity, alias);
     }
 
