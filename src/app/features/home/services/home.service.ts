@@ -1,18 +1,17 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {ResultVO} from '@rydeen/angular-framework';
 import {AbstractAppService} from "../../../shared/abstracts/abstract.app.service";
 import {AppUrl} from "../../../core/constants/app.url";
-import {DatabaseService} from "../../../core/services/database.service";
-import {Menu} from "../../../shared/entities/menu.entity";
+import type {IDatabaseService} from "../../../core/interfaces/database.interface";
+import { DATABASE_SERVICE } from '../../../core/tokens/database.token';
+import {Menu} from "../../../shared/entities";
 import {MenuData} from "../../../shared/types/menu.shared.types";
-import {MenuWorkerService} from "../../menu/services/menu-worker.service";
 
 @Injectable({providedIn: 'root'})
 export class HomeService extends AbstractAppService {
 
     constructor(
-        private readonly databaseService: DatabaseService,
-        private readonly menuWorkerService: MenuWorkerService
+        @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService
     ) {
         super();
     }
@@ -22,7 +21,7 @@ export class HomeService extends AbstractAppService {
     }
 
     /**
-     * 从 API 获取菜单数据, 通过 Worker 添加搜索关键词, 然后将其同步到本地 SQLite 数据库.
+     * 从 API 获取菜单数据, 添加搜索关键词, 然后将其同步到本地 SQLite 数据库.
      * @returns 返回获取到的菜单项数量.
      * @throws 如果 API 请求失败或返回空数据.
      */
@@ -34,9 +33,9 @@ export class HomeService extends AbstractAppService {
         }
         console.log(`[HomeService] 从 API 获取了 ${menuResult.data.length} 个菜单项.`);
 
-        // 2. 将数据发送到 Worker 进行预处理 (添加 keywords)
-        const menusWithKeywords = await this.menuWorkerService.addKeywordsToMenus(menuResult.data);
-        console.log(`[HomeService] Worker 已为 ${menusWithKeywords.length} 个菜单项添加了搜索关键词.`);
+        // 2. 为菜单项添加搜索关键词
+        const menusWithKeywords = this.addKeywordsToMenus(menuResult.data);
+        console.log(`[HomeService] 已为 ${menusWithKeywords.length} 个菜单项添加了搜索关键词.`);
 
         // 3. 先清空旧数据
         const deleteQuery = this.databaseService.createQueryBuilder(Menu, 'menu').delete();
@@ -74,5 +73,55 @@ export class HomeService extends AbstractAppService {
             .where('menu.keywords LIKE :keyword', { keyword: `%${trimmedKeyword}%` });
 
         return await this.databaseService.query<Menu>(query);
+    }
+
+    /**
+     * 为菜单项添加搜索关键词
+     * @param items 原始菜单数据
+     * @returns 带有搜索关键词的菜单数据
+     */
+    private addKeywordsToMenus(items: MenuData[]): Menu[] {
+        return items.map(item => {
+            const keywords = this.generateKeywords(item);
+            return {
+                id: item.id,
+                name: item.name,
+                category: item.category,
+                price: item.price,
+                tags: item.tags,
+                keywords: keywords
+            } as Menu;
+        });
+    }
+
+    /**
+     * 生成搜索关键词
+     * @param item 菜单项
+     * @returns 搜索关键词字符串
+     */
+    private generateKeywords(item: MenuData): string {
+        const keywords: string[] = [];
+        
+        // 添加名称
+        keywords.push(item.name);
+        
+        // 添加分类
+        keywords.push(item.category);
+        
+        // 添加标签
+        if (item.tags && item.tags.length > 0) {
+            keywords.push(...item.tags);
+        }
+        
+        // 添加价格范围关键词
+        if (item.price < 10) {
+            keywords.push('便宜', '实惠');
+        } else if (item.price < 30) {
+            keywords.push('中等', '适中');
+        } else {
+            keywords.push('高端', '豪华');
+        }
+        
+        return keywords.join(' ');
     }
 }

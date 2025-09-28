@@ -1,6 +1,10 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection} from '@angular/core';
+import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, inject, EnvironmentInjector} from '@angular/core';
 import {provideRouter} from '@angular/router';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {DATABASE_SERVICE} from './core/tokens/database.token';
+import {DatabaseService} from './core/services/database.service';
+import {WebDatabaseService} from './core/services/web-database.service';
+import { Capacitor } from '@capacitor/core';
 
 import {routes} from './app.routes';
 import {TranslateLoader, TranslationObject, TranslateModule} from "@ngx-translate/core";
@@ -11,7 +15,7 @@ import {MockInterceptor, provideMock} from "@rydeen/angular-framework";
 import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
 
 /**
- * 自定义翻译加载器 - ngx-translate 17.0.0 版本
+ * 自定义翻译加载器
  */
 export class CustomTranslateLoader implements TranslateLoader {
     constructor(private httpClient: HttpClient,
@@ -52,6 +56,18 @@ export const appConfig: ApplicationConfig = {
             fallbackLang: 'zh-cn'
         }).providers!,
         ...provideMock(),
-        { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
+        // 显式提供两种实现，供 EnvironmentInjector 动态解析
+        WebDatabaseService,
+        DatabaseService,
+        {
+            provide: DATABASE_SERVICE,
+            useFactory: () => {
+                const injector = inject(EnvironmentInjector);
+                return Capacitor.getPlatform() === 'web'
+                    ? injector.get(WebDatabaseService)
+                    : injector.get(DatabaseService);
+            }
+        }
     ]
 };

@@ -38,6 +38,11 @@
                                 "glob": "**/*",
                                 "input": "src/assets",
                                 "output": "/assets"
+                            },
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/jeep-sqlite/dist/jeep-sqlite/assets",
+                                "output": "/assets"
                             }
                         ],
                         "styles": [

@@ -3,6 +3,8 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {AppDataSource} from '../data/app-data-source';
 import {EntityTarget, ObjectLiteral, QueryBuilder} from 'typeorm';
+import {IDatabaseService} from '../interfaces/database.interface';
+import {Capacitor} from "@capacitor/core";
 
 // --- 类型定义 ---
 export interface DbOperation {
@@ -13,27 +15,34 @@ export interface DbOperation {
     reject: (reason?: any) => void;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
-export class DatabaseService {
-    private readonly worker: Worker | null = null;
+@Injectable()
+export class DatabaseService implements IDatabaseService {
+    private worker: Worker | null = null;
     private isInitialized = false;
     private operationQueue: DbOperation[] = [];
     private readonly dbReady = new Subject<void>();
 
     constructor() {
-        if (typeof Worker !== 'undefined') {
-            this.worker = new Worker(new URL('../../../workers/sqlite.worker', import.meta.url), {type: 'module'});
-            this.worker.onmessage = ({data}) => this.handleWorkerMessage(data);
-            this.worker.onerror = (error) => {
-                console.error('[DatabaseService] Worker error:', error);
-                this.isInitialized = false;
-            };
-            this.init();
-        } else {
-            console.error('Web Workers are not supported in this environment.');
+        if (Capacitor.getPlatform() === 'web') {
+            throw new Error('DatabaseService can only be used on native platforms');
         }
+    }
+
+    initialize(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (typeof Worker !== 'undefined') {
+                this.worker = new Worker(new URL('../../../workers/sqlite.worker', import.meta.url), {type: 'module'});
+                this.worker.onmessage = ({data}) => this.handleWorkerMessage(data);
+                this.worker.onerror = (error) => {
+                    console.error('[DatabaseService] Worker error:', error);
+                    this.isInitialized = false;
+                };
+                this.init();
+                resolve();
+            } else {
+                reject('Web Workers are not supported in this environment.');
+            }
+        });
     }
 
     /**
@@ -61,7 +70,7 @@ export class DatabaseService {
      * @param params 如果第一个参数是字符串，则为查询参数
      * @returns Promise<T[]> 查询结果数组
      */
-    public query<T>(sqlOrQb: string | QueryBuilder<any>, params: any[] = []): Promise<T[]> {
+    public query<T>(sqlOrQb: string | QueryBuilder<any>, params?: any[]): Promise<T[]> {
         if (typeof sqlOrQb === 'string') {
             return this.postOperation({type: 'query', sql: sqlOrQb, params});
         } else {
@@ -77,7 +86,7 @@ export class DatabaseService {
      * @param params 如果第一个参数是字符串，则为操作参数
      * @returns Promise<{ changes: number, lastId: number }> 操作结果
      */
-    public execute(sqlOrQb: string | QueryBuilder<any>, params: any[] = []): Promise<{ changes: number, lastId: number }> {
+    public execute(sqlOrQb: string | QueryBuilder<any>, params?: any[]): Promise<{ changes: number, lastId: number }> {
         if (typeof sqlOrQb === 'string') {
             return this.postOperation({type: 'execute', sql: sqlOrQb, params});
         } else {

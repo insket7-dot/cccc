@@ -1,4 +1,4 @@
-import {Component, OnDestroy, signal} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnDestroy, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
@@ -12,28 +12,42 @@ import {ChildrenOutletContexts, RouterOutlet} from '@angular/router';
 import {triggerAnimation} from './core/animations/route-animations';
 import {AppUrl} from "./core/constants/app.url";
 import {AbstractPage} from "./shared/abstracts/abstractPage";
+import {Platform} from "@ionic/angular";
+import {Capacitor} from "@capacitor/core";
+import {DATABASE_SERVICE} from "./core/tokens/database.token";
+import type {IDatabaseService} from "./core/interfaces/database.interface";
 
 @Component({
     selector: 'app-root',
     imports: [CommonModule, RouterOutlet, MatToolbarModule, MatButtonModule, MatSnackBarModule, MatDialogModule, MatProgressSpinnerModule],
     templateUrl: './app.html',
     styleUrl: './app.scss',
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     animations: [triggerAnimation]
 })
 export class App extends AbstractPage implements OnDestroy {
+    public isWeb: boolean = Capacitor.getPlatform() === 'web';
     protected readonly title = signal('cross-platform-app');
     protected readonly lastScan = signal<string | null>(null);
     protected readonly loading = signal<boolean>(false);
 
     private readonly subscriptions: Subscription[] = [];
 
-    constructor(
-        private contexts: ChildrenOutletContexts,
-        private readonly barcodeService: BarcodeService) {
+    constructor(private readonly contexts: ChildrenOutletContexts,
+                private readonly barcodeService: BarcodeService,
+                private readonly platform: Platform,
+                @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService) {
         super();
         this.subscriptions.push(
             this.eventManager.subscribe(AppEvent.SHOW_GLOBAL_LOADING, (show: boolean) => this.loading.set(show))
         );
+        this.initializeApp();
+    }
+
+    initializeApp(): void {
+        this.platform.ready().then(() => {
+            this.databaseService.initialize().catch((error: Error) => {throw error});
+        })
     }
 
     async onScanClicked(): Promise<void> {

@@ -49,6 +49,8 @@
         "@capgo/capacitor-updater": "~7.15.2",
         "@rydeen/angular-framework": "^20.0.0",
         "@rydeen/logger": "^6.0.1",
+        "@ionic/angular": "^8.7.5",
+        "jeep-sqlite": "^2.8.0",
         "reflect-metadata": "^0.2.2",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
