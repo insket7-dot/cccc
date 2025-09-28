@@ -8,7 +8,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatCardModule} from "@angular/material/card";
 import {HomeService} from "./services/home.service";
 import {AbstractPage} from "../../shared/abstracts/abstractPage";
-import {Menu} from "../../shared/entities/menu.entity";
+import {MenuEntity} from "../../shared/entities";
 
 @Component({
     selector: 'app-home',
@@ -29,7 +29,7 @@ export class Home extends AbstractPage {
     protected readonly searchQuery = signal<string>('');
     protected readonly processLog = signal<string | null>(null);
     protected readonly searchLog = signal<string | null>(null);
-    protected readonly searchItems = signal<Menu[]>([]);
+    protected readonly searchItems = signal<MenuEntity[]>([]);
 
     constructor(private readonly homeService: HomeService) {
         super();

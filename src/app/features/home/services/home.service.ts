@@ -4,8 +4,8 @@ import {AbstractAppService} from "../../../shared/abstracts/abstract.app.service
 import {AppUrl} from "../../../core/constants/app.url";
 import type {IDatabaseService} from "../../../core/interfaces/database.interface";
 import { DATABASE_SERVICE } from '../../../core/tokens/database.token';
-import {Menu} from "../../../shared/entities";
 import {MenuData} from "../../../shared/types/menu.shared.types";
+import {MenuEntity} from "../../../shared/entities";
 
 @Injectable({providedIn: 'root'})
 export class HomeService extends AbstractAppService {
@@ -38,13 +38,13 @@ export class HomeService extends AbstractAppService {
         console.log(`[HomeService] 已为 ${menusWithKeywords.length} 个菜单项添加了搜索关键词.`);
 
         // 3. 先清空旧数据
-        const deleteQuery = this.databaseService.createQueryBuilder(Menu, 'menu').delete();
+        const deleteQuery = this.databaseService.createQueryBuilder(MenuEntity, 'menu').delete();
         await this.databaseService.execute(deleteQuery);
 
         // 4. 批量插入经过处理的新数据
         if (menusWithKeywords.length > 0) {
             const insertQuery = this.databaseService
-                .createQueryBuilder(Menu, 'menu')
+                .createQueryBuilder(MenuEntity, 'menu')
                 .insert()
                 .values(menusWithKeywords);
             await this.databaseService.execute(insertQuery);
@@ -59,7 +59,7 @@ export class HomeService extends AbstractAppService {
      * @param keyword 搜索关键词
      * @returns 返回匹配的菜单项数组.
      */
-    async searchMenus(keyword: string): Promise<Menu[]> {
+    async searchMenus(keyword: string): Promise<MenuEntity[]> {
         const trimmedKeyword = (keyword || '').trim();
         if (!trimmedKeyword) {
             // 如果关键词为空, 可以选择返回所有菜单或一个空数组
@@ -68,11 +68,11 @@ export class HomeService extends AbstractAppService {
         }
 
         const query = this.databaseService
-            .createQueryBuilder(Menu, 'menu')
+            .createQueryBuilder(MenuEntity, 'menu')
             .select()
             .where('menu.keywords LIKE :keyword', { keyword: `%${trimmedKeyword}%` });
 
-        return await this.databaseService.query<Menu>(query);
+        return await this.databaseService.query<MenuEntity>(query);
     }
 
     /**
@@ -80,7 +80,7 @@ export class HomeService extends AbstractAppService {
      * @param items 原始菜单数据
      * @returns 带有搜索关键词的菜单数据
      */
-    private addKeywordsToMenus(items: MenuData[]): Menu[] {
+    private addKeywordsToMenus(items: MenuData[]): MenuEntity[] {
         return items.map(item => {
             const keywords = this.generateKeywords(item);
             return {
@@ -90,7 +90,7 @@ export class HomeService extends AbstractAppService {
                 price: item.price,
                 tags: item.tags,
                 keywords: keywords
-            } as Menu;
+            } as MenuEntity;
         });
     }
 
@@ -101,18 +101,18 @@ export class HomeService extends AbstractAppService {
      */
     private generateKeywords(item: MenuData): string {
         const keywords: string[] = [];
-        
+
         // 添加名称
         keywords.push(item.name);
-        
+
         // 添加分类
         keywords.push(item.category);
-        
+
         // 添加标签
         if (item.tags && item.tags.length > 0) {
             keywords.push(...item.tags);
         }
-        
+
         // 添加价格范围关键词
         if (item.price < 10) {
             keywords.push('便宜', '实惠');
@@ -121,7 +121,7 @@ export class HomeService extends AbstractAppService {
         } else {
             keywords.push('高端', '豪华');
         }
-        
+
         return keywords.join(' ');
     }
 }

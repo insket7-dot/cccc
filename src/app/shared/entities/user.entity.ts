@@ -2,7 +2,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity({ name: 'users' }) // 对应数据库中的 'users' 表
-export class User {
+export class UserEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
