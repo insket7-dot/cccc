@@ -38,7 +38,8 @@ export class HomeService extends AbstractAppService {
         console.log(`[HomeService] 已为 ${menusWithKeywords.length} 个菜单项添加了搜索关键词.`);
 
         // 3. 先清空旧数据
-        const deleteQuery = this.databaseService.createQueryBuilder(MenuEntity, 'menu').delete();
+        let entity = MenuEntity
+        const deleteQuery = this.databaseService.createQueryBuilder(entity, 'menu').delete();
         await this.databaseService.execute(deleteQuery);
 
         // 4. 批量插入经过处理的新数据
