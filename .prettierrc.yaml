@@ -1,0 +1,30 @@
+# 使用单引号
+singleQuote: true
+# 行末是否使用分号结尾（默认：true）
+semi: true
+# 代码行宽
+printWidth: 200
+# 行尾逗号（默认：none，可选 none|es5|all）
+trailingComma: none
+# 对象中的空格（默认：true）
+bracketSpacing: true
+# 使用制表符缩进（默认：false）
+useTabs: false
+# 制表符宽度（默认：4）
+tabWidth: 4
+# 在唯一的 Lambda 函数参数周围包含括号（always：总是需要，例：(x)=>x，avoid：允许没有 x=>x）
+arrowParens: avoid
+# 指定每个文件的语言
+overrides:
+  - files: '*.ts'
+    options:
+      parser: typescript
+      tabWidth: 4
+  - files: '*.scss'
+    options:
+      parser: scss
+      tabWidth: 4
+  - files: '*.html'
+    options:
+      parser: html
+      tabWidth: 4

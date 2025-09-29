@@ -1,27 +1,35 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, inject, EnvironmentInjector} from '@angular/core';
-import {provideRouter} from '@angular/router';
-import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
-import {DATABASE_SERVICE} from './core/tokens/database.token';
-import {DatabaseService} from './core/services/database.service';
-import {WebDatabaseService} from './core/services/web-database.service';
+import {
+    ApplicationConfig,
+    provideBrowserGlobalErrorListeners,
+    provideZoneChangeDetection,
+    inject,
+    EnvironmentInjector,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { DATABASE_SERVICE } from './core/tokens/database.token';
+import { DatabaseService } from './core/services/database.service';
+import { WebDatabaseService } from './core/services/web-database.service';
 import { Capacitor } from '@capacitor/core';
-
-import {routes} from './app.routes';
-import {TranslateLoader, TranslationObject, TranslateModule} from "@ngx-translate/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable, switchMap, of} from "rxjs";
-import {environment} from "../environments/environment";
-import {MockInterceptor, provideMock} from "@rydeen/angular-framework";
-import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
+import { AppEvent } from '@app/core/constants/app.event';
+import { APP_EVENT } from '@app/core/tokens/app.event.token';
+import { routes } from './app.routes';
+import { TranslateLoader, TranslationObject, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, switchMap, of } from 'rxjs';
+import { environment } from '../environments/environment';
+import { MockInterceptor, provideMock } from '@rydeen/angular-framework';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 /**
  * 自定义翻译加载器
  */
 export class CustomTranslateLoader implements TranslateLoader {
-    constructor(private httpClient: HttpClient,
-                public prefix: string = '/assets/i18n/',
-                public suffix: string = '.json') {
-    }
+    constructor(
+        private httpClient: HttpClient,
+        public prefix: string = '/assets/i18n/',
+        public suffix: string = '.json',
+    ) {}
 
     public getTranslation(lang: string): Observable<TranslationObject> {
         // 统一使用小写语言码，匹配文件名（如 zh-cn.json、en-us.json）
@@ -29,7 +37,7 @@ export class CustomTranslateLoader implements TranslateLoader {
         const base = this.prefix.endsWith('/') ? this.prefix : `${this.prefix}/`;
         return this.httpClient
             .get<TranslationObject>(`${base}${normalized}${this.suffix}`)
-            .pipe(switchMap(translations => of(translations)));
+            .pipe(switchMap((translations) => of(translations)));
     }
 }
 
@@ -46,14 +54,14 @@ export const appConfig: ApplicationConfig = {
         provideRouter(routes),
         provideBrowserGlobalErrorListeners(),
         provideAnimationsAsync(),
-        provideZoneChangeDetection({eventCoalescing: true}),
+        provideZoneChangeDetection({ eventCoalescing: true }),
         ...TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
                 useFactory: createTranslateLoader,
-                deps: [HttpClient]
+                deps: [HttpClient],
             },
-            fallbackLang: 'zh-cn'
+            fallbackLang: 'zh-cn',
         }).providers!,
         ...provideMock(),
         { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
@@ -67,7 +75,8 @@ export const appConfig: ApplicationConfig = {
                 return Capacitor.getPlatform() === 'web'
                     ? injector.get(WebDatabaseService)
                     : injector.get(DatabaseService);
-            }
-        }
-    ]
+            },
+        },
+        { provide: APP_EVENT, useValue: AppEvent },
+    ],
 };

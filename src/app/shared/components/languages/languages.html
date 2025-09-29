@@ -1,0 +1,7 @@
+<mat-button-toggle-group [(value)]="currentLanguage" (change)="onLanguagesChange($event.value)">
+    @for (item of languagesList; track item.id) {
+        <mat-button-toggle [value]="item.id">{{item.short}}</mat-button-toggle>
+    }
+</mat-button-toggle-group>
+
+<div>{{'app.common.title' | translate}}</div>

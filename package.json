@@ -48,6 +48,7 @@
         "@capacitor/status-bar": "~7.0.0",
         "@capgo/capacitor-updater": "~7.15.2",
         "@rydeen/angular-framework": "^20.0.0",
+        "@rydeen/hotfix": "^7.0.2",
         "@rydeen/logger": "^6.0.1",
         "@ionic/angular": "^8.7.5",
         "jeep-sqlite": "^2.8.0",
@@ -68,12 +69,15 @@
         "@types/jasmine": "~5.1.0",
         "@types/node": "22.13.14",
         "@types/uuid": "^11.0.0",
+        "axios": "^1.12.2",
+        "esdk-obs-nodejs": "^3.25.6",
         "jasmine-core": "~5.9.0",
         "karma": "~6.4.0",
         "karma-chrome-launcher": "~3.2.0",
         "karma-coverage": "~2.2.0",
         "karma-jasmine": "~5.1.0",
         "karma-jasmine-html-reporter": "~2.1.0",
+        "prettier": "^3.6.2",
         "typescript": "~5.9.2"
     }
 }

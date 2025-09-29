@@ -1,10 +1,20 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
+
     repositories {
-        google()
-        mavenCentral()
+        // 1. 华为云镜像（对 Google 库同步较好）
+        maven { url 'https://repo.huaweicloud.com/repository/maven/' }
+        // 2. 腾讯云镜像（补充阿里云未覆盖的资源）
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        // 3. 阿里云镜像（保留作为基础）
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google/' }
+        // 4. 作为最后兜底：Google 官方仓库（国内可能慢，但确保能找到）
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
+        maven { url 'https://plugins.gradle.org/m2/' } // Gradle 插件官方仓库
+        //        google()
+        //        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.7.2'
@@ -19,8 +29,13 @@ apply from: "variables.gradle"
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
+        maven { url 'https://repo.huaweicloud.com/repository/maven/' }
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/nexus/content/repositories/google/' }
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
+        //        google()
+        //        mavenCentral()
     }
 }
 

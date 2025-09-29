@@ -1,31 +1,47 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnDestroy, signal} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {AppEvent} from './core/constants/app.event';
-import {Subscription} from 'rxjs';
-import {BarcodeService} from './core/services/barcode.service';
-import {ChildrenOutletContexts, RouterOutlet} from '@angular/router';
-import {triggerAnimation} from './core/animations/route-animations';
-import {AppUrl} from "./core/constants/app.url";
-import {AbstractPage} from "./shared/abstracts/abstractPage";
-import {Platform} from "@ionic/angular";
-import {Capacitor} from "@capacitor/core";
-import {DATABASE_SERVICE} from "./core/tokens/database.token";
-import type {IDatabaseService} from "./core/interfaces/database.interface";
+import {
+    Component,
+    CUSTOM_ELEMENTS_SCHEMA,
+    Inject,
+    OnDestroy,
+    OnInit,
+    signal,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppEvent } from './core/constants/app.event';
+import { Subscription } from 'rxjs';
+import { BarcodeService } from './core/services/barcode.service';
+import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
+import { triggerAnimation } from './core/animations/route-animations';
+import { AppUrl } from './core/constants/app.url';
+import { AbstractPage } from './shared/abstracts/abstractPage';
+import { Platform } from '@ionic/angular';
+import { Capacitor } from '@capacitor/core';
+import { DATABASE_SERVICE } from './core/tokens/database.token';
+import type { IDatabaseService } from './core/interfaces/database.interface';
+import { Headers, LocalStorage } from '@rydeen/angular-framework';
 
 @Component({
     selector: 'app-root',
-    imports: [CommonModule, RouterOutlet, MatToolbarModule, MatButtonModule, MatSnackBarModule, MatDialogModule, MatProgressSpinnerModule],
+    imports: [
+        CommonModule,
+        RouterOutlet,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSnackBarModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+    ],
     templateUrl: './app.html',
     styleUrl: './app.scss',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    animations: [triggerAnimation]
+    animations: [triggerAnimation],
 })
-export class App extends AbstractPage implements OnDestroy {
+export class App extends AbstractPage implements OnInit, OnDestroy {
     public isWeb: boolean = Capacitor.getPlatform() === 'web';
     protected readonly title = signal('cross-platform-app');
     protected readonly lastScan = signal<string | null>(null);
@@ -33,21 +49,40 @@ export class App extends AbstractPage implements OnDestroy {
 
     private readonly subscriptions: Subscription[] = [];
 
-    constructor(private readonly contexts: ChildrenOutletContexts,
-                private readonly barcodeService: BarcodeService,
-                private readonly platform: Platform,
-                @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService) {
+    constructor(
+        private readonly contexts: ChildrenOutletContexts,
+        private readonly barcodeService: BarcodeService,
+        private readonly platform: Platform,
+        @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
+    ) {
         super();
         this.subscriptions.push(
-            this.eventManager.subscribe(AppEvent.SHOW_GLOBAL_LOADING, (show: boolean) => this.loading.set(show))
+            this.eventManager.subscribe(AppEvent.SHOW_GLOBAL_LOADING, (show: boolean) =>
+                this.loading.set(show),
+            ),
         );
         this.initializeApp();
     }
 
+    ngOnInit() {
+        void this.initTranslate();
+    }
+
+    private async initTranslate() {
+        console.info('initTranslate', 'executed');
+        let language = await LocalStorage.getItem<string | null>(Headers.X_RD_REQUEST_LANGUAGE);
+        if (language === null) {
+            let browserLanguage = this.translate.getBrowserLang();
+            console.log(browserLanguage);
+        }
+    }
+
     initializeApp(): void {
         this.platform.ready().then(() => {
-            this.databaseService.initialize().catch((error: Error) => {throw error});
-        })
+            this.databaseService.initialize().catch((error: Error) => {
+                throw error;
+            });
+        });
     }
 
     async onScanClicked(): Promise<void> {
@@ -61,7 +96,7 @@ export class App extends AbstractPage implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscriptions.forEach(s => s.unsubscribe());
+        this.subscriptions.forEach((s) => s.unsubscribe());
     }
 
     getRouteAnimationData() {
