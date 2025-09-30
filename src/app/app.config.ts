@@ -17,7 +17,7 @@ import { routes } from './app.routes';
 import { TranslateLoader, TranslationObject, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, of } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from '@/environments/environment';
 import { MockInterceptor, provideMock } from '@rydeen/angular-framework';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 

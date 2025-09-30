@@ -6,9 +6,9 @@ import {
     query,
     style,
     transition,
-    trigger
+    trigger,
 } from '@angular/animations';
-import {animationPages} from "../../app.routes";
+import { animationPages } from '@app/app.routes';
 
 /**
  * 执行动画
@@ -23,16 +23,20 @@ const execAnimation = (enterTransform: any, leaveTransform: any) => {
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                width: '100%'
-            })
+                width: '100%',
+            }),
         ]),
         query(':enter', [style({ transform: enterTransform })], { optional: true }),
         query(':leave', animateChild(), { optional: true }),
         group([
-            query(':leave', [animate('300ms ease-out', style({ transform: leaveTransform }))], { optional: true }),
-            query(':enter', [animate('300ms ease-out', style({ transform: 'translateX(0)' }))], { optional: true })
+            query(':leave', [animate('300ms ease-out', style({ transform: leaveTransform }))], {
+                optional: true,
+            }),
+            query(':enter', [animate('300ms ease-out', style({ transform: 'translateX(0)' }))], {
+                optional: true,
+            }),
         ]),
-        query(':enter', animateChild())
+        query(':enter', animateChild()),
     ];
 };
 
@@ -41,11 +45,17 @@ const execAnimation = (enterTransform: any, leaveTransform: any) => {
  */
 export const getDefinitions = (): AnimationMetadata[] => {
     const definitions: AnimationMetadata[] = [];
-    animationPages.forEach(page => {
+    animationPages.forEach((page) => {
         const [enter, leave] = page.split(',');
         definitions.push(
-            transition(`${enter} => ${leave}`, execAnimation('translateX(100%)', 'translateX(-100%)')),
-            transition(`${leave} => ${enter}`, execAnimation('translateX(-100%)', 'translateX(100%)'))
+            transition(
+                `${enter} => ${leave}`,
+                execAnimation('translateX(100%)', 'translateX(-100%)'),
+            ),
+            transition(
+                `${leave} => ${enter}`,
+                execAnimation('translateX(-100%)', 'translateX(100%)'),
+            ),
         );
     });
     return definitions;
