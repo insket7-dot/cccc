@@ -3,10 +3,7 @@ import { EventNameEnum } from '@rydeen/angular-framework';
 /** 全局应用事件 */
 export class AppEvent extends EventNameEnum {
     /** 控制全局加载遮罩显隐 */
-    static readonly SHOW_GLOBAL_LOADING = new AppEvent(
-        'SHOW_GLOBAL_LOADING',
-        'app.showGlobalLoading',
-    );
+    static SHOW_GLOBAL_LOADING = new AppEvent('SHOW_GLOBAL_LOADING', 'app.showGlobalLoading');
 
     /** 语言切换 */
     static readonly EVENT_LANGUAGES = new AppEvent('EVENT_LANGUAGES', 'event_languages');

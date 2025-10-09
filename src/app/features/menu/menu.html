@@ -1,23 +1,23 @@
 <div class="menu-grid">
-  @if (items().length) {
-    @for (item of items(); track item.id) {
-      <mat-card class="app-card">
-        <mat-card-header>
-          <mat-card-title>[{{ item.id }}] {{ item.name }}</mat-card-title>
-          <mat-card-subtitle>¥{{ item.price }} ｜ {{ item.category }}</mat-card-subtitle>
-        </mat-card-header>
-        @if (item.tags?.length) {
-          <mat-card-content>
-            <mat-chip-listbox aria-label="tags">
-              @for (tag of item.tags; track tag) {
-                <mat-chip>{{ tag }}</mat-chip>
-              }
-            </mat-chip-listbox>
-          </mat-card-content>
+    @if (items().length) {
+        @for (item of items(); track item.id) {
+            <mat-card class="app-card">
+                <mat-card-header>
+                    <mat-card-title>[{{ item.id }}] {{ item.name }}</mat-card-title>
+                    <mat-card-subtitle>¥{{ item.price }} ｜ {{ item.category }}</mat-card-subtitle>
+                </mat-card-header>
+                @if (item.tags?.length) {
+                    <mat-card-content>
+                        <mat-chip-listbox aria-label="tags">
+                            @for (tag of item.tags; track tag) {
+                                <mat-chip>{{ tag }}</mat-chip>
+                            }
+                        </mat-chip-listbox>
+                    </mat-card-content>
+                }
+            </mat-card>
         }
-      </mat-card>
+    } @else {
+        <div style="padding: 24px">{{ 'app.menu.noData' | translate }}</div>
     }
-  } @else {
-    <div style="padding:24px">暂无本地菜单数据，请先在首页处理并缓存。</div>
-  }
 </div>

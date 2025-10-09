@@ -1,73 +1,76 @@
 .home-container {
-  padding: 24px;
+    padding: 24px;
+}
+
+.users-link {
+    margin-left: 12px;
 }
 
 .actions {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .action-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .result {
-  min-width: 120px;
+    min-width: 120px;
 }
 
 /* 统一输入框与按钮高度（以 Material 字段高度为准）*/
 .match-height {
-  height: 56px; /* 对应 M3 outline 默认高度 */
-  display: inline-flex;
-  align-items: center;
+    height: 56px; /* 对应 M3 outline 默认高度 */
+    display: inline-flex;
+    align-items: center;
 }
 
 /* 让按钮视觉上与输入框等高、等圆角 */
 button.match-height.mat-mdc-stroked-button {
-  padding: 0 20px;
-  border-radius: 12px;
+    padding: 0 20px;
+    border-radius: 12px;
 }
 
 /* 保证表单字段容器与按钮在同一基线对齐 */
 .match-height.mat-mdc-form-field {
-  display: inline-flex;
+    display: inline-flex;
 }
 
 /* 结果列表可见性与高度修正，避免被裁切 */
 .results {
-  padding-top: 8px;
+    padding-top: 8px;
 }
 
 /* 卡片栅格布局 */
 .results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
-  padding-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    padding-top: 8px;
 }
 
 .menu-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--mat-sys-surface-container-low);
-  /* 作为兜底，若上方变量不可用则使用浅主题色混合 */
-  background: color-mix(in srgb, var(--mat-sys-primary, #3f51b5) 6%, #ffffff);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  height: 168px; /* 统一卡片高度，适配一行标题/副标题+标签 */
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--mat-sys-surface-container-low);
+    /* 作为兜底，若上方变量不可用则使用浅主题色混合 */
+    background: color-mix(in srgb, var(--mat-sys-primary, #3f51b5) 6%, #ffffff);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    height: 168px; /* 统一卡片高度，适配一行标题/副标题+标签 */
+    overflow: hidden;
 }
 
 .menu-card mat-card-title {
-  white-space: normal;
+    white-space: normal;
 }
 
 .menu-card mat-card-content {
-  padding-top: 8px;
-  margin-top: auto; /* 将标签区域推到卡片底部，保证布局一致 */
-  overflow: hidden;
+    padding-top: 8px;
+    margin-top: auto; /* 将标签区域推到卡片底部，保证布局一致 */
+    overflow: hidden;
 }
-

@@ -1,0 +1,160 @@
+<div class="users-container">
+    <div class="toolbar">
+        <button mat-raised-button color="primary" [attr.data-id]="UsersUi.add" (click)="onClick($event)">
+            <mat-icon>person_add</mat-icon>
+            {{ 'app.users.add' | translate }}
+        </button>
+        <button
+            mat-stroked-button
+            color="warn"
+            [attr.data-id]="UsersUi.batchDelete"
+            (click)="onClick($event)"
+            [disabled]="!selection.selected.length"
+        >
+            <mat-icon>delete_sweep</mat-icon>
+            {{ 'app.users.deleteSelected' | translate }}
+        </button>
+        <button mat-stroked-button [attr.data-id]="UsersUi.resetFilters" (click)="onClick($event)">
+            {{ 'app.users.resetFilters' | translate }}
+        </button>
+    </div>
+
+    <div class="filters">
+        <mat-form-field appearance="outline">
+            <mat-label>{{ 'app.users.filters.keyword' | translate }}</mat-label>
+            <input
+                matInput
+                [(ngModel)]="keyword"
+                [attr.data-id]="UsersUi.keyword"
+                (change)="onChange($event)"
+                title="{{ 'app.users.filters.keywordPlaceholder' | translate }}"
+                (keyup.enter)="onClick($event)"
+                placeholder="{{ 'app.users.filters.keywordPlaceholder' | translate }}"
+            />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>{{ 'app.users.filters.gender' | translate }}</mat-label>
+            <mat-select [(ngModel)]="gender" [attr.data-id]="UsersUi.gender" (selectionChange)="onChange($event)" title="{{ 'app.users.filters.gender' | translate }}">
+                <mat-option [value]="undefined">{{
+                    'app.users.filters.genderAll' | translate
+                }}</mat-option>
+                <mat-option value="male">{{ 'app.users.form.gender.male' | translate }}</mat-option>
+                <mat-option value="female">{{
+                    'app.users.form.gender.female' | translate
+                }}</mat-option>
+                <mat-option value="other">{{
+                    'app.users.form.gender.other' | translate
+                }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>{{ 'app.users.filters.birthdayStart' | translate }}</mat-label>
+            <input
+                matInput
+                placeholder="{{ 'app.users.filters.startDatePlaceholder' | translate }}"
+                title="{{ 'app.users.filters.startDateTitle' | translate }}"
+                [matDatepicker]="pickerStart"
+                [attr.data-id]="UsersUi.birthdayStart" (dateChange)="onChange($event)"
+            />
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart startView="multi-year"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>{{ 'app.users.filters.birthdayEnd' | translate }}</mat-label>
+            <input
+                matInput
+                placeholder="{{ 'app.users.filters.endDatePlaceholder' | translate }}"
+                title="{{ 'app.users.filters.endDateTitle' | translate }}"
+                [matDatepicker]="pickerEnd"
+                [attr.data-id]="UsersUi.birthdayEnd" (dateChange)="onChange($event)"
+            />
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd startView="multi-year"></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <table mat-table [dataSource]="data()" class="mat-elevation-z2">
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox
+                    [attr.data-id]="UsersUi.masterToggle"
+                    (change)="onChange($event)"
+                    [checked]="isAllSelected()"
+                    [indeterminate]="selection.selected.length && !isAllSelected()"
+                ></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    [attr.data-id]="UsersUi.rowToggle"
+                    [attr.data-user-id]="row.id"
+                    (change)="onChange($event)"
+                    [checked]="selection.isSelected(row)"
+                ></mat-checkbox>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.id' | translate }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.name' | translate }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.gender' | translate }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.gender || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="birthday">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.birthday' | translate }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.birthday | dateFormat }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.email' | translate }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.email || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.phone' | translate }}</th>
+            <td mat-cell *matCellDef="let row">{{ row.phone || '-' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef>
+                {{ 'app.users.table.created_at' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.created_at | dateTimeFormat:'yyyy-MM-dd HH:mm:ss' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>{{ 'app.users.table.actions' | translate }}</th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button color="primary" [attr.data-id]="UsersUi.edit" [attr.data-user-id]="row.id" (click)="onClick($event)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" [attr.data-id]="UsersUi.delete" [attr.data-user-id]="row.id" (click)="onClick($event)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+        [length]="length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="pageSizeOptions"
+        [attr.data-id]="UsersUi.page"
+        (page)="onChange($event)"
+    ></mat-paginator>
+</div>

@@ -1,0 +1,35 @@
+.data-table-container {
+  width: 100%;
+  overflow: auto;
+}
+.data-table-container mat-table {
+  width: 100%;
+  min-width: 600px;
+}
+.data-table-container mat-header-cell {
+  font-weight: 600;
+  color: var(--mat-app-text-primary);
+}
+.data-table-container mat-cell {
+  padding: 8px 16px;
+}
+.data-table-container .actions-cell {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.data-table-container mat-paginator {
+  border-top: 1px solid var(--mat-app-divider);
+}
+
+@media (max-width: 768px) {
+  .data-table-container mat-table {
+    min-width: 400px;
+  }
+  .data-table-container mat-cell {
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+}
+
+/*# sourceMappingURL=data-table.css.map */

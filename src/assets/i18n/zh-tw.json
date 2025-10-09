@@ -1,24 +1,134 @@
 {
     "app": {
         "common": {
-            "title": "時小鮮",
-            "request.failure": "請求失敗",
-            "request.waiting": "請求中，請稍候…",
-            "request.type.error": "請求位址類型錯誤，資料介面請求僅支援DATA類型。",
-            "network.error": "服務請求失敗，請檢查網路是否可用。",
             "back.button": "返回",
-            "close": "關閉",
             "cancel": "取消",
+            "close": "關閉",
             "confirm": "確定",
+            "confirmMessage": "確定要執行此操作嗎？",
+            "confirmTitle": "請確認",
+            "dateFormat": "yyyy/MM/dd",
+            "dateTimeFormat": "yyyy/MM/dd HH:mm:ss",
+            "delete": "刪除",
+            "error": "錯誤",
+            "info": "提示",
+            "loading": "加載中...",
+            "network.error": "服務請求失敗，請檢查網路是否可用。",
+            "noData": "暫無數據",
+            "request.failure": "請求失敗",
+            "request.type.error": "請求位址類型錯誤，資料介面請求僅支援DATA類型。",
+            "request.waiting": "請求中，請稍候…",
             "save": "保存",
-            "used": "已用完",
-            "unused": "未用完",
             "search": "搜索",
-            "toast.success": "成功",
-            "toast.info": "提示",
-            "toast.warn": "警告",
+            "success": "成功",
+            "title": "跨平台應用",
             "toast.error": "錯誤",
-            "toast.exit": "再次返回退出本應用"
+            "toast.exit": "再次返回退出本應用",
+            "toast.info": "提示",
+            "toast.success": "成功",
+            "toast.warn": "警告",
+            "unused": "未用完",
+            "used": "已用完",
+            "warning": "警告"
+        },
+        "home": {
+            "actions": {
+                "searchButton": "搜索菜品",
+                "searchKeyword": "搜索關鍵字",
+                "searchPlaceholder": "請輸入商品/標籤",
+                "syncMenu": "Worker：拉取最新菜單"
+            },
+            "description": "這是獨立的首頁組件。",
+            "messages": {
+                "searchComplete": "查詢完成，關鍵字\"{{keyword}}\"，匹配 {{count}} 項",
+                "searchFailed": "菜單搜索失敗: {{error}}",
+                "syncFailed": "菜單同步失敗: {{error}}",
+                "syncSuccess": "菜單同步成功，共 {{count}} 項數據已存入 SQLite.",
+                "syncing": "正在同步菜單數據到本地數據庫..."
+            },
+            "title": "首頁"
+        },
+        "language": {
+            "en-us": "English",
+            "select": "選擇語言",
+            "zh-cn": "简体中文",
+            "zh-tw": "繁體中文"
+        },
+        "material": {
+            "datepicker": {
+                "close": "關閉日曆",
+                "open": "打開日曆"
+            },
+            "select": {
+                "placeholder": "請選擇"
+            }
+        },
+        "menu": {
+            "noData": "暫無本地菜單數據，請先在首頁處理並緩存。",
+            "title": "菜單項"
+        },
+        "navigation": {
+            "home": "首頁",
+            "menu": "菜單項",
+            "scan": "開始掃碼",
+            "users": "用戶管理"
+        },
+        "system": {
+            "database": {
+                "initSuccess": "數據庫初始化成功",
+                "loadFailed": "加載失敗",
+                "notInitialized": "數據庫未初始化",
+                "ready": "數據庫已就緒"
+            }
+        },
+        "users": {
+            "add": "新增用戶",
+            "delete": "刪除用戶",
+            "deleteSelected": "刪除選中用戶",
+            "dialog": {
+                "add": "新增用戶",
+                "batchDeleteMessage": "確認刪除 {{count}} 個選中用戶？",
+                "batchDeleteTitle": "刪除選中用戶",
+                "deleteMessage": "確認刪除用戶 {{name}}？",
+                "deleteTitle": "刪除用戶",
+                "edit": "編輯用戶"
+            },
+            "edit": "編輯用戶",
+            "filters": {
+                "birthdayEnd": "生日止",
+                "birthdayStart": "生日起",
+                "endDatePlaceholder": "選擇結束日期",
+                "endDateTitle": "結束日期",
+                "gender": "性別",
+                "genderAll": "全部",
+                "keyword": "關鍵字（ID/姓名/郵箱/電話）",
+                "keywordPlaceholder": "輸入後回車查詢",
+                "startDatePlaceholder": "選擇開始日期",
+                "startDateTitle": "開始日期"
+            },
+            "form": {
+                "birthday": "生日",
+                "email": "郵箱",
+                "gender": "性別",
+                "gender.female": "女",
+                "gender.male": "男",
+                "gender.other": "其他",
+                "gender.placeholder": "未選擇",
+                "name": "姓名",
+                "phone": "手機"
+            },
+            "resetFilters": "重置篩選",
+            "table": {
+                "actions": "操作",
+                "birthday": "生日",
+                "created_at": "創建時間",
+                "email": "郵箱",
+                "gender": "性別",
+                "id": "ID",
+                "name": "姓名",
+                "phone": "手機"
+            },
+            "title": "用戶管理"
         }
     }
 }

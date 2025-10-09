@@ -1,0 +1,98 @@
+<!-- 顶部工具栏 -->
+@if (config.showToolbar) {
+  <mat-toolbar color="primary">
+    @if (config.showSidenav) {
+      <button 
+        mat-icon-button 
+        (click)="onSidenavToggle()"
+        class="sidenav-toggle">
+        <mat-icon>menu</mat-icon>
+      </button>
+    }
+    
+    <span class="toolbar-title">{{ config.toolbarTitle }}</span>
+    
+    <span class="toolbar-spacer"></span>
+    
+    <!-- 导航按钮 -->
+    @for (item of config.navigationItems; track item.route.value()) {
+      <button
+        type="button"
+        mat-button
+        [color]="item.active ? 'accent' : undefined"
+        (click)="onNavigationClick(item.route)">
+        @if (item.icon) {
+          <mat-icon>{{ item.icon }}</mat-icon>
+        }
+        {{ item.label | translate }}
+      </button>
+    }
+    
+    <!-- 扫码按钮 -->
+    @if (config.showScanButton) {
+      <button 
+        type="button" 
+        mat-flat-button 
+        color="accent" 
+        (click)="onScanClick()">
+        <mat-icon>qr_code_scanner</mat-icon>
+        {{ 'app.navigation.scan' | translate }}
+      </button>
+    }
+    
+    <!-- 语言选择器 -->
+    @if (config.showLanguageSelector) {
+      <app-language-selector></app-language-selector>
+    }
+  </mat-toolbar>
+}
+
+<!-- 侧边导航 -->
+@if (config.showSidenav) {
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav 
+      #sidenav 
+      mode="side" 
+      [opened]="sidenavOpen"
+      class="sidenav">
+      <mat-nav-list>
+        @for (item of config.navigationItems; track item.route.value()) {
+          <a mat-list-item 
+             [routerLink]="item.route.value()"
+             [class.active]="item.active"
+             (click)="onNavigationClick(item.route)">
+            @if (item.icon) {
+              <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            }
+            <span matListItemTitle>{{ item.label | translate }}</span>
+          </a>
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    
+    <mat-sidenav-content class="sidenav-content">
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+}
+
+<!-- 主内容区域 -->
+@if (!config.showSidenav) {
+  <div class="main-content">
+    <ng-content></ng-content>
+  </div>
+}
+
+<!-- 全局加载遮罩 -->
+@if (loading) {
+  <div class="global-overlay">
+    <div class="overlay-card">
+      <mat-progress-spinner
+        mode="indeterminate"
+        diameter="36"
+        color="primary">
+      </mat-progress-spinner>
+      <span>{{ 'app.common.request.waiting' | translate }}</span>
+    </div>
+  </div>
+}

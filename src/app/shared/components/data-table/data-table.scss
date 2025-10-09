@@ -1,0 +1,42 @@
+.data-table-container {
+  width: 100%;
+  overflow: auto;
+
+  mat-table {
+    width: 100%;
+    min-width: 600px;
+  }
+
+  mat-header-cell {
+    font-weight: 600;
+    color: var(--mat-app-text-primary);
+  }
+
+  mat-cell {
+    padding: 8px 16px;
+  }
+
+  .actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  mat-paginator {
+    border-top: 1px solid var(--mat-app-divider);
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .data-table-container {
+    mat-table {
+      min-width: 400px;
+    }
+    
+    mat-cell {
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+  }
+}

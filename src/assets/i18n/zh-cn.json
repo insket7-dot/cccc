@@ -1,24 +1,134 @@
 {
     "app": {
         "common": {
-            "title": "跨平台应用",
-            "request.failure": "请求失败",
-            "request.waiting": "请求中，请稍候……",
-            "request.type.error": "请求地址类型错误，数据接口请求仅支持DATA类型。",
-            "network.error": "服务请求失败，请检查网络是否可用。",
             "back.button": "返回",
-            "close": "关闭",
             "cancel": "取消",
+            "close": "关闭",
             "confirm": "确定",
+            "confirmMessage": "确认要执行此操作？",
+            "confirmTitle": "请确认",
+            "dateFormat": "yyyy-MM-dd",
+            "dateTimeFormat": "yyyy-MM-dd HH:mm:ss",
+            "delete": "删除",
+            "error": "错误",
+            "info": "提示",
+            "loading": "加载中...",
+            "network.error": "服务请求失败，请检查网络是否可用。",
+            "noData": "暂无数据",
+            "request.failure": "请求失败",
+            "request.type.error": "请求地址类型错误，数据接口请求仅支持DATA类型。",
+            "request.waiting": "请求中，请稍候……",
             "save": "保存",
-            "used": "已用完",
-            "unused": "未用完",
             "search": "搜索",
-            "toast.success": "成功",
-            "toast.info": "提示",
-            "toast.warn": "警告",
+            "success": "成功",
+            "title": "跨平台应用",
             "toast.error": "错误",
-            "toast.exit": "再次返回退出本应用"
+            "toast.exit": "再次返回退出本应用",
+            "toast.info": "提示",
+            "toast.success": "成功",
+            "toast.warn": "警告",
+            "unused": "未用完",
+            "used": "已用完",
+            "warning": "警告"
+        },
+        "home": {
+            "actions": {
+                "searchButton": "搜索菜品",
+                "searchKeyword": "搜索关键字",
+                "searchPlaceholder": "请输入商品/标签",
+                "syncMenu": "Worker：拉取最新菜单"
+            },
+            "description": "这是独立的首页组件。",
+            "messages": {
+                "searchComplete": "查询完成，关键字\"{{keyword}}\"，匹配 {{count}} 项",
+                "searchFailed": "菜单搜索失败: {{error}}",
+                "syncFailed": "菜单同步失败: {{error}}",
+                "syncSuccess": "菜单同步成功，共 {{count}} 项数据已存入 SQLite.",
+                "syncing": "正在同步菜单数据到本地数据库..."
+            },
+            "title": "首页"
+        },
+        "language": {
+            "en-us": "English",
+            "select": "选择语言",
+            "zh-cn": "简体中文",
+            "zh-tw": "繁體中文"
+        },
+        "material": {
+            "datepicker": {
+                "close": "关闭日历",
+                "open": "打开日历"
+            },
+            "select": {
+                "placeholder": "请选择"
+            }
+        },
+        "menu": {
+            "noData": "暂无本地菜单数据，请先在首页处理并缓存。",
+            "title": "菜单项"
+        },
+        "navigation": {
+            "home": "首页",
+            "menu": "菜单项",
+            "scan": "开始扫码",
+            "users": "用户管理"
+        },
+        "system": {
+            "database": {
+                "initSuccess": "数据库初始化成功",
+                "loadFailed": "加载失败",
+                "notInitialized": "数据库未初始化",
+                "ready": "数据库已就绪"
+            }
+        },
+        "users": {
+            "add": "新增用户",
+            "delete": "删除用户",
+            "deleteSelected": "删除选中用户",
+            "dialog": {
+                "add": "新增用户",
+                "batchDeleteMessage": "确认删除 {{count}} 个选中用户？",
+                "batchDeleteTitle": "删除选中用户",
+                "deleteMessage": "确认删除用户 {{name}}？",
+                "deleteTitle": "删除用户",
+                "edit": "编辑用户"
+            },
+            "edit": "编辑用户",
+            "filters": {
+                "birthdayEnd": "生日止",
+                "birthdayStart": "生日起",
+                "endDatePlaceholder": "选择结束日期",
+                "endDateTitle": "结束日期",
+                "gender": "性别",
+                "genderAll": "全部",
+                "keyword": "关键字（ID/姓名/邮箱/电话）",
+                "keywordPlaceholder": "输入后回车查询",
+                "startDatePlaceholder": "选择开始日期",
+                "startDateTitle": "开始日期"
+            },
+            "form": {
+                "birthday": "生日",
+                "email": "邮箱",
+                "gender": "性别",
+                "gender.female": "女",
+                "gender.male": "男",
+                "gender.other": "其他",
+                "gender.placeholder": "未选择",
+                "name": "姓名",
+                "phone": "手机"
+            },
+            "resetFilters": "重置筛选",
+            "table": {
+                "actions": "操作",
+                "birthday": "生日",
+                "created_at": "创建时间",
+                "email": "邮箱",
+                "gender": "性别",
+                "id": "ID",
+                "name": "姓名",
+                "phone": "手机"
+            },
+            "title": "用户管理"
         }
     }
 }

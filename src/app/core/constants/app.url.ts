@@ -1,4 +1,4 @@
-import {Method, Url} from "@rydeen/angular-framework";
+import { Method, Url } from '@rydeen/angular-framework';
 
 /**
  * 前端页面地址枚举类
@@ -11,7 +11,8 @@ export class AppUrl {
 
     public static readonly PAGE_MENU: Url = new Url('PAGE_MENU', 'menu', Method.NAVIGATOR);
 
+    public static readonly PAGE_USERS: Url = new Url('PAGE_USERS', 'users', Method.NAVIGATOR);
+
     /** Mock 菜单：全量菜单 */
     public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
-
 }

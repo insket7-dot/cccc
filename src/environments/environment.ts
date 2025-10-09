@@ -52,5 +52,5 @@ export const environment = {
     /** 云日志服务版本 */
     logApiVersion: '',
     /** 调试日志等级 */
-    logDebug: false
+    logDebug: false,
 };

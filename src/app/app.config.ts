@@ -4,22 +4,51 @@ import {
     provideZoneChangeDetection,
     inject,
     EnvironmentInjector,
+    provideAppInitializer,
+    LOCALE_ID,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { MigrationService } from './core/services/migration.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DATABASE_SERVICE } from './core/tokens/database.token';
 import { DatabaseService } from './core/services/database.service';
 import { WebDatabaseService } from './core/services/web-database.service';
 import { Capacitor } from '@capacitor/core';
-import { AppEvent } from '@app/core/constants/app.event';
-import { APP_EVENT } from '@app/core/tokens/app.event.token';
+import { registerLocaleData } from '@angular/common';
+import localeZh from '@angular/common/locales/zh-Hans';
+import localeEn from '@angular/common/locales/en';
+import localeZhTw from '@angular/common/locales/zh-Hant';
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+
+export const CUSTOM_DATE_FORMATS = {
+    parse: {
+        dateInput: 'YYYY-MM-DD',
+    },
+    display: {
+        dateInput: 'YYYY-MM-DD',
+        monthYearLabel: 'YYYY年MM月',
+        dateA11yLabel: 'YYYY年MM月DD日',
+        monthYearA11yLabel: 'YYYY年MM月',
+    },
+};
+
 import { routes } from './app.routes';
 import { TranslateLoader, TranslationObject, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, of } from 'rxjs';
-import { environment } from '@/environments/environment';
+import { environment } from '../environments/environment';
 import { MockInterceptor, provideMock } from '@rydeen/angular-framework';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { LanguageService } from './core/services/language.service';
+
+// 注册本地化数据
+registerLocaleData(localeZh, 'zh-cn');
+registerLocaleData(localeEn, 'en-us');
+registerLocaleData(localeZhTw, 'zh-tw');
 
 /**
  * 自定义翻译加载器
@@ -68,6 +97,8 @@ export const appConfig: ApplicationConfig = {
         // 显式提供两种实现，供 EnvironmentInjector 动态解析
         WebDatabaseService,
         DatabaseService,
+        MigrationService,
+        LanguageService,
         {
             provide: DATABASE_SERVICE,
             useFactory: () => {
@@ -77,6 +108,33 @@ export const appConfig: ApplicationConfig = {
                     : injector.get(DatabaseService);
             },
         },
-        { provide: APP_EVENT, useValue: AppEvent },
+        // Angular Material 国际化配置
+        {
+            provide: LOCALE_ID,
+            useFactory: () => {
+                const languageService = inject(LanguageService);
+                return languageService.getCurrentLanguage();
+            },
+        },
+        {
+            provide: MAT_DATE_LOCALE,
+            useFactory: () => {
+                const languageService = inject(LanguageService);
+                return languageService.getCurrentLanguage();
+            },
+        },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: CUSTOM_DATE_FORMATS,
+        },
+        {
+            provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+            useValue: { useUtc: true },
+        },
     ],
 };

@@ -1,5 +1,5 @@
 // toast.service.ts
-import { Component, Inject, Injectable } from '@angular/core';
+import { Component, inject, Inject, Injectable } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -14,11 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-    constructor(
-        private snackBar: MatSnackBar,
-        private dialog: MatDialog,
-        private translate: TranslateService,
-    ) {}
+    private readonly snackBar = inject(MatSnackBar);
+    readonly dialog = inject(MatDialog);
+    constructor(private translate: TranslateService) {}
 
     private resolveMessage(message: string, options?: MessageOptions): string {
         if (!options) return message;

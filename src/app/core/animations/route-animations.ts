@@ -8,7 +8,7 @@ import {
     transition,
     trigger,
 } from '@angular/animations';
-import { animationPages } from '@app/app.routes';
+import { animationPages } from '../../app.routes';
 
 /**
  * 执行动画

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { AbstractPage } from '@app/shared/abstracts/abstractPage';
+import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { LocalStorage, Headers } from '@rydeen/angular-framework';
 import { SUPPORT_LANGUAGES } from '@app/shared/constants/app.languages';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
     templateUrl: './languages.html',
     styleUrl: './languages.scss',
 })
-export class LanguagesComponent extends AbstractPage implements OnInit {
+export class LanguagesComponent extends AbstractAppPage implements OnInit {
     currentLanguage = 'zh-cn';
     languagesList = SUPPORT_LANGUAGES.filter((item) => item.available);
     constructor() {
@@ -31,6 +31,6 @@ export class LanguagesComponent extends AbstractPage implements OnInit {
         this.currentLanguage = value;
         this.translate.use(value);
         void LocalStorage.setItem(Headers.X_RD_REQUEST_LANGUAGE, value);
-        this.eventManager.publish(this.appEvent.EVENT_LANGUAGES, value);
+        // this.eventManager.publish(this.appEvent.EVENT_LANGUAGES, value);
     }
 }

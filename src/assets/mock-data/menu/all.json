@@ -1,40 +1,220 @@
 {
     "success": true,
     "data": [
-        { "id": "B001", "name": "香辣鸡腿堡", "category": "burgers", "price": 22, "tags": ["汉堡", "鸡腿", "香辣"] },
-        { "id": "B002", "name": "老北京鸡肉卷", "category": "burgers", "price": 23, "tags": ["卷", "鸡肉", "招牌"] },
-        { "id": "B003", "name": "劲脆鸡腿堡", "category": "burgers", "price": 24, "tags": ["汉堡", "脆皮", "人气"] },
-        { "id": "B004", "name": "板烧鸡腿堡", "category": "burgers", "price": 25, "tags": ["汉堡", "板烧", "多汁"] },
-        { "id": "B005", "name": "双层牛肉堡", "category": "burgers", "price": 28, "tags": ["汉堡", "牛肉", "双层"] },
+        {
+            "id": "B001",
+            "name": "香辣鸡腿堡",
+            "category": "burgers",
+            "price": 22,
+            "tags": ["汉堡", "鸡腿", "香辣"]
+        },
+        {
+            "id": "B002",
+            "name": "老北京鸡肉卷",
+            "category": "burgers",
+            "price": 23,
+            "tags": ["卷", "鸡肉", "招牌"]
+        },
+        {
+            "id": "B003",
+            "name": "劲脆鸡腿堡",
+            "category": "burgers",
+            "price": 24,
+            "tags": ["汉堡", "脆皮", "人气"]
+        },
+        {
+            "id": "B004",
+            "name": "板烧鸡腿堡",
+            "category": "burgers",
+            "price": 25,
+            "tags": ["汉堡", "板烧", "多汁"]
+        },
+        {
+            "id": "B005",
+            "name": "双层牛肉堡",
+            "category": "burgers",
+            "price": 28,
+            "tags": ["汉堡", "牛肉", "双层"]
+        },
 
-        { "id": "C101", "name": "吮指原味鸡(2块)", "category": "chicken", "price": 21, "tags": ["鸡", "原味", "经典"] },
-        { "id": "C102", "name": "劲爆鸡米花(中)", "category": "chicken", "price": 16, "tags": ["鸡米花", "小食", "人气"] },
-        { "id": "C103", "name": "新奥尔良烤翅(2块)", "category": "chicken", "price": 18, "tags": ["烤翅", "微辣", "招牌"] },
-        { "id": "C104", "name": "香辣鸡翅(2块)", "category": "chicken", "price": 18, "tags": ["鸡翅", "香辣"] },
-        { "id": "C105", "name": "脆皮上校鸡块(6块)", "category": "chicken", "price": 15, "tags": ["鸡块", "脆皮", "分享"] },
+        {
+            "id": "C101",
+            "name": "吮指原味鸡(2块)",
+            "category": "chicken",
+            "price": 21,
+            "tags": ["鸡", "原味", "经典"]
+        },
+        {
+            "id": "C102",
+            "name": "劲爆鸡米花(中)",
+            "category": "chicken",
+            "price": 16,
+            "tags": ["鸡米花", "小食", "人气"]
+        },
+        {
+            "id": "C103",
+            "name": "新奥尔良烤翅(2块)",
+            "category": "chicken",
+            "price": 18,
+            "tags": ["烤翅", "微辣", "招牌"]
+        },
+        {
+            "id": "C104",
+            "name": "香辣鸡翅(2块)",
+            "category": "chicken",
+            "price": 18,
+            "tags": ["鸡翅", "香辣"]
+        },
+        {
+            "id": "C105",
+            "name": "脆皮上校鸡块(6块)",
+            "category": "chicken",
+            "price": 15,
+            "tags": ["鸡块", "脆皮", "分享"]
+        },
 
-        { "id": "S201", "name": "原味薯条(中)", "category": "snacks", "price": 12, "tags": ["薯条", "小食"] },
-        { "id": "S202", "name": "黄金鸡柳(3条)", "category": "snacks", "price": 14, "tags": ["鸡柳", "金黄"] },
-        { "id": "S203", "name": "香甜玉米杯", "category": "snacks", "price": 10, "tags": ["玉米", "清甜"] },
-        { "id": "S204", "name": "醇香土豆泥", "category": "snacks", "price": 9, "tags": ["土豆泥", "细腻"] },
-        { "id": "S205", "name": "热辣椒盐蘑菇", "category": "snacks", "price": 13, "tags": ["蘑菇", "椒盐", "微辣"] },
+        {
+            "id": "S201",
+            "name": "原味薯条(中)",
+            "category": "snacks",
+            "price": 12,
+            "tags": ["薯条", "小食"]
+        },
+        {
+            "id": "S202",
+            "name": "黄金鸡柳(3条)",
+            "category": "snacks",
+            "price": 14,
+            "tags": ["鸡柳", "金黄"]
+        },
+        {
+            "id": "S203",
+            "name": "香甜玉米杯",
+            "category": "snacks",
+            "price": 10,
+            "tags": ["玉米", "清甜"]
+        },
+        {
+            "id": "S204",
+            "name": "醇香土豆泥",
+            "category": "snacks",
+            "price": 9,
+            "tags": ["土豆泥", "细腻"]
+        },
+        {
+            "id": "S205",
+            "name": "热辣椒盐蘑菇",
+            "category": "snacks",
+            "price": 13,
+            "tags": ["蘑菇", "椒盐", "微辣"]
+        },
 
-        { "id": "D301", "name": "百事可乐(中)", "category": "drinks", "price": 8, "tags": ["可乐", "汽水", "冰饮"] },
-        { "id": "D302", "name": "七喜(中)", "category": "drinks", "price": 8, "tags": ["七喜", "汽水"] },
-        { "id": "D303", "name": "柠檬红茶(冰)", "category": "drinks", "price": 9, "tags": ["红茶", "柠檬", "清爽"] },
-        { "id": "D304", "name": "葡式咖啡(热)", "category": "drinks", "price": 12, "tags": ["咖啡", "热饮"] },
-        { "id": "D305", "name": "原味豆浆(热)", "category": "drinks", "price": 7, "tags": ["豆浆", "早餐"] },
+        {
+            "id": "D301",
+            "name": "百事可乐(中)",
+            "category": "drinks",
+            "price": 8,
+            "tags": ["可乐", "汽水", "冰饮"]
+        },
+        {
+            "id": "D302",
+            "name": "七喜(中)",
+            "category": "drinks",
+            "price": 8,
+            "tags": ["七喜", "汽水"]
+        },
+        {
+            "id": "D303",
+            "name": "柠檬红茶(冰)",
+            "category": "drinks",
+            "price": 9,
+            "tags": ["红茶", "柠檬", "清爽"]
+        },
+        {
+            "id": "D304",
+            "name": "葡式咖啡(热)",
+            "category": "drinks",
+            "price": 12,
+            "tags": ["咖啡", "热饮"]
+        },
+        {
+            "id": "D305",
+            "name": "原味豆浆(热)",
+            "category": "drinks",
+            "price": 7,
+            "tags": ["豆浆", "早餐"]
+        },
 
-        { "id": "E401", "name": "圣代(巧克力)", "category": "dessert", "price": 10, "tags": ["甜品", "冰淇淋", "巧克力"] },
-        { "id": "E402", "name": "蛋挞(2只)", "category": "dessert", "price": 12, "tags": ["蛋挞", "甜点", "香酥"] },
-        { "id": "E403", "name": "奥利奥花筒", "category": "dessert", "price": 9, "tags": ["花筒", "奥利奥"] },
-        { "id": "E404", "name": "香草冰淇淋杯", "category": "dessert", "price": 8, "tags": ["冰淇淋", "香草"] },
-        { "id": "E405", "name": "杨枝甘露杯", "category": "dessert", "price": 16, "tags": ["甜品", "清爽", "限定"] },
+        {
+            "id": "E401",
+            "name": "圣代(巧克力)",
+            "category": "dessert",
+            "price": 10,
+            "tags": ["甜品", "冰淇淋", "巧克力"]
+        },
+        {
+            "id": "E402",
+            "name": "蛋挞(2只)",
+            "category": "dessert",
+            "price": 12,
+            "tags": ["蛋挞", "甜点", "香酥"]
+        },
+        {
+            "id": "E403",
+            "name": "奥利奥花筒",
+            "category": "dessert",
+            "price": 9,
+            "tags": ["花筒", "奥利奥"]
+        },
+        {
+            "id": "E404",
+            "name": "香草冰淇淋杯",
+            "category": "dessert",
+            "price": 8,
+            "tags": ["冰淇淋", "香草"]
+        },
+        {
+            "id": "E405",
+            "name": "杨枝甘露杯",
+            "category": "dessert",
+            "price": 16,
+            "tags": ["甜品", "清爽", "限定"]
+        },
 
-        { "id": "T501", "name": "香辣鸡腿堡套餐(可乐+薯条)", "category": "combo", "price": 35, "tags": ["套餐", "汉堡", "薯条", "可乐"] },
-        { "id": "T502", "name": "板烧鸡腿堡套餐(红茶+鸡米花)", "category": "combo", "price": 38, "tags": ["套餐", "板烧", "鸡米花", "茶饮"] },
-        { "id": "T503", "name": "老北京鸡肉卷套餐(玉米杯+可乐)", "category": "combo", "price": 36, "tags": ["套餐", "鸡肉卷", "玉米杯"] },
-        { "id": "T504", "name": "吮指原味鸡双人餐", "category": "combo", "price": 56, "tags": ["双人", "原味鸡", "分享"] },
-        { "id": "T505", "name": "全家欢聚桶", "category": "combo", "price": 88, "tags": ["家庭桶", "多人", "实惠"] }
+        {
+            "id": "T501",
+            "name": "香辣鸡腿堡套餐(可乐+薯条)",
+            "category": "combo",
+            "price": 35,
+            "tags": ["套餐", "汉堡", "薯条", "可乐"]
+        },
+        {
+            "id": "T502",
+            "name": "板烧鸡腿堡套餐(红茶+鸡米花)",
+            "category": "combo",
+            "price": 38,
+            "tags": ["套餐", "板烧", "鸡米花", "茶饮"]
+        },
+        {
+            "id": "T503",
+            "name": "老北京鸡肉卷套餐(玉米杯+可乐)",
+            "category": "combo",
+            "price": 36,
+            "tags": ["套餐", "鸡肉卷", "玉米杯"]
+        },
+        {
+            "id": "T504",
+            "name": "吮指原味鸡双人餐",
+            "category": "combo",
+            "price": 56,
+            "tags": ["双人", "原味鸡", "分享"]
+        },
+        {
+            "id": "T505",
+            "name": "全家欢聚桶",
+            "category": "combo",
+            "price": 88,
+            "tags": ["家庭桶", "多人", "实惠"]
+        }
     ]
 }

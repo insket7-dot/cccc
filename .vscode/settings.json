@@ -1,0 +1,8 @@
+{
+  "i18n-ally.localesPaths": [
+    "src/assets/i18n",
+    "src/app/shared/components/languages",
+    "android/app/src/main/assets/public/assets/i18n"
+  ],
+  "i18n-ally.keystyle": "nested"
+}

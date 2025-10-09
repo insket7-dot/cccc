@@ -6,19 +6,14 @@ import {
     Url,
 } from '@rydeen/angular-framework';
 import { inject } from '@angular/core';
-import { AppEvent } from '@app/core/constants/app.event';
-import { ToastService } from '@app/shared/services/toast.service';
-import { LogContext } from '@app/shared/services/log.context';
+import { AppEvent } from '../../core/constants/app.event';
 
 export abstract class AbstractAppService extends AbstractService {
-    protected eventManager = inject(EventManager);
-    protected toastService = inject(ToastService);
-    protected logger = inject(LogContext);
+    private readonly eventManager = inject(EventManager);
 
     override async request<T>(url: Url, body?: any, header?: RequestHeader): Promise<ResultVO<T>> {
         this.eventManager.publish(AppEvent.SHOW_GLOBAL_LOADING, true);
-        return await super.request<T>(url, body, header, async (value?: T) => {
-            console.log(value);
+        return await super.request<T>(url, body, header, async () => {
             this.eventManager.publish(AppEvent.SHOW_GLOBAL_LOADING, false);
         });
     }

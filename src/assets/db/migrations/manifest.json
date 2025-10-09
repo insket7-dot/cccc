@@ -1,0 +1,6 @@
+{
+    "migrations": [
+        { "version": 1, "name": "init", "file": "V1__init.sql", "type": "sql" },
+        { "version": 2, "name": "create_users", "file": "V2__create_users.sql", "type": "sql" }
+    ]
+}

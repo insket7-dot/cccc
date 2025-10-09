@@ -1,0 +1,55 @@
+<div class="data-table-container">
+  <mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+    <!-- 动态列定义 -->
+    @for (column of columns; track column.key) {
+      <ng-container [matColumnDef]="column.key">
+        @if (column.sortable !== false) {
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ column.label }}
+          </mat-header-cell>
+        } @else {
+          <mat-header-cell *matHeaderCellDef>
+            {{ column.label }}
+          </mat-header-cell>
+        }
+        <mat-cell *matCellDef="let row">
+          @switch (column.type) {
+            @case ('text') {
+              <span>{{ row[column.key] }}</span>
+            }
+            @case ('date') {
+              <span>{{ row[column.key] | date:'yyyy-MM-dd' }}</span>
+            }
+            @case ('status') {
+              <app-status-badge [status]="row[column.key]"></app-status-badge>
+            }
+          }
+        </mat-cell>
+      </ng-container>
+    }
+
+    <!-- 操作列 -->
+    @if (showActions) {
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>{{ 'app.common.actions' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)" [matTooltip]="'app.common.edit' | translate">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDelete(row)" [matTooltip]="'app.common.delete' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+    }
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator 
+    [pageSizeOptions]="pageSizeOptions" 
+    showFirstLastButtons
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>
