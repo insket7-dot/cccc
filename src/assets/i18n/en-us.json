@@ -130,5 +130,14 @@
             },
             "title": "User Management"
         }
+    },
+     "page": {
+        "model1": "NORMAL MODE",
+        "model2": "CHILD MODE",
+        "startBtn": "ORDER START",
+        "text1": "Tap to start your order",
+        "tip": "Select a Dining Location",
+        "way1": "Dine In",
+        "way2": "Take Out"
     }
 }

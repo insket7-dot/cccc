@@ -15,4 +15,10 @@ export class AppUrl {
 
     /** Mock 菜单：全量菜单 */
     public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
+
+    public static readonly RESTAURANT_PAGE: Url = new Url(
+        'RESTAURANT_PAGE',
+        '/store/restaurant/page',
+        Method.GET
+    );
 }

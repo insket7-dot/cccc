@@ -1,0 +1,36 @@
+.language-switch {
+    display: flex;
+    align-items: center;
+    width: 110px; /* 适当加宽以容纳多个选项 */
+    height: 30px;
+    border-radius: 15px;
+    background-color: #fff;
+    border: 1px solid #faa31b;
+    position: relative; /* 确保滑块基于容器定位 */
+    padding: 0;
+}
+
+/* 每个选项平均分配宽度 */
+.switch-option {
+    flex: 1; /* 关键：让所有选项平分容器宽度 */
+    text-align: center;
+    z-index: 1;
+    color: #faa31b;
+    font-size: 14px; /* 多个选项时适当缩小字体 */
+}
+
+.switch-option.selected {
+    color: #fff;
+}
+
+/* 滑块样式：宽度自动适应选项 */
+.switch-btn {
+    height: 28px;
+    border-radius: 14px;
+    background-color: #faa31b;
+    position: absolute;
+    top: 1px;
+    transition: left 0.3s ease; /* 平滑过渡动画 */
+    /* 滑块宽度 = 容器宽度 / 选项数量 - 2px（减去边框间距） */
+    width: calc(100% / var(--option-count) - 2px);
+}

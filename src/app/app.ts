@@ -17,8 +17,9 @@ import {Platform} from '@ionic/angular';
 import {Capacitor} from '@capacitor/core';
 import {DATABASE_SERVICE} from './core/tokens/database.token';
 import type {IDatabaseService} from './core/interfaces/database.interface';
-import {LanguageSelectorComponent} from './shared/components/language-selector/language-selector';
+// import {LanguageSelectorComponent} from './shared/components/language-selector/language-selector';
 import {MigrationService} from './core/services/migration.service';
+import { IdleTimeoutService } from '@/app/core/services/timeout.service';
 
 @Component({
     selector: 'app-root',
@@ -31,7 +32,7 @@ import {MigrationService} from './core/services/migration.service';
         MatDialogModule,
         MatProgressSpinnerModule,
         TranslateModule,
-        LanguageSelectorComponent,
+        // LanguageSelectorComponent,
     ],
     templateUrl: './app.html',
     styleUrl: './app.scss',
@@ -51,11 +52,14 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         private readonly contexts: ChildrenOutletContexts,
         private readonly barcodeService: BarcodeService,
         private platform: Platform,
+           @Inject(IdleTimeoutService) private idleTimeoutService: IdleTimeoutService,
         @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
         private readonly migrationService: MigrationService,
     ) {
         super();
         this.initializeApp();
+
+        //  this.idleTimeoutService.startMonitoring();
     }
 
     ngOnInit(): void {

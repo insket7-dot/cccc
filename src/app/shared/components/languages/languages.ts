@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
+
 import { LocalStorage, Headers } from '@rydeen/angular-framework';
 import { SUPPORT_LANGUAGES } from '@app/shared/constants/app.languages';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,6 +14,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class LanguagesComponent extends AbstractAppPage implements OnInit {
     currentLanguage = 'zh-cn';
+    sliderLeft = '0px';
+
     languagesList = SUPPORT_LANGUAGES.filter((item) => item.available);
     constructor() {
         super();
@@ -24,13 +27,26 @@ export class LanguagesComponent extends AbstractAppPage implements OnInit {
             this.currentLanguage = local;
             this.translate.use(local);
         }
+
+        this.calculateSliderPosition();
+
+         const container:HTMLElement | null = document.querySelector('.language-switch');
+  if (container) {
+    container.style.setProperty('--option-count', this.languagesList.length.toString());
+  }
     }
 
     onLanguagesChange(value: string): void {
-        console.log(value);
         this.currentLanguage = value;
         this.translate.use(value);
         void LocalStorage.setItem(Headers.X_RD_REQUEST_LANGUAGE, value);
         // this.eventManager.publish(this.appEvent.EVENT_LANGUAGES, value);
+        this.calculateSliderPosition();
+    }
+
+    calculateSliderPosition(): void {
+        const index = this.languagesList.findIndex(item => item.id === this.currentLanguage);
+        const itemWidth = 100 / this.languagesList.length;
+        this.sliderLeft = `calc(${index * itemWidth}% + 1px)`;
     }
 }

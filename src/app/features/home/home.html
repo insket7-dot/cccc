@@ -1,66 +1,36 @@
 <div class="home-container">
-    <h2>{{ 'app.home.title' | translate }}</h2>
-    <p>{{ 'app.home.description' | translate }}</p>
-    <div class="actions">
-        <div class="action-row">
-            <button type="button" mat-stroked-button color="primary" [attr.data-id]="HomeUi.syncMenu" (click)="onClick($event)">
-                {{ 'app.home.actions.syncMenu' | translate }}
-            </button>
-            @if (processLog(); as log1) {
-                <span class="result" aria-live="polite">{{ log1 }}</span>
-            }
-        </div>
-        <div class="action-row">
-            <mat-form-field class="match-height" appearance="outline">
-                <mat-label>{{ 'app.home.actions.searchKeyword' | translate }}</mat-label>
-                <input
-                    matInput
-                    placeholder="{{ 'app.home.actions.searchPlaceholder' | translate }}"
-                    title="{{ 'app.home.actions.searchPlaceholder' | translate }}"
-                    [ngModel]="searchQuery()"
-                    (ngModelChange)="searchQuery.set($event)"
-                    [attr.data-id]="HomeUi.searchInput"
-                    (change)="onChange($event)"
-                    (keyup.enter)="onClick($event)"
-                />
-            </mat-form-field>
-            <button
-                type="button"
-                class="match-height"
-                mat-stroked-button
-                color="accent"
-                [attr.data-id]="HomeUi.searchBtn"
-                (click)="onClick($event)"
-            >
-                {{ 'app.home.actions.searchButton' | translate }}
-            </button>
-            @if (searchLog(); as log2) {
-                <span class="result" aria-live="polite">{{ log2 }}</span>
-            }
-        </div>
+     <div class="language-selector">
+    <app-languages></app-languages>
+  </div>
 
-        @if (searchItems().length) {
-            <div class="results-grid">
-                @for (item of searchItems(); track item.id) {
-                    <mat-card class="app-card">
-                        <mat-card-header>
-                            <mat-card-title>[{{ item.id }}] {{ item.name }}</mat-card-title>
-                            <mat-card-subtitle
-                                >¥{{ item.price }} ｜ {{ item.category }}</mat-card-subtitle
-                            >
-                        </mat-card-header>
-                        @if (item.tags?.length) {
-                            <mat-card-content>
-                                <mat-chip-listbox aria-label="tags">
-                                    @for (tag of item.tags; track tag) {
-                                        <mat-chip>{{ tag }}</mat-chip>
-                                    }
-                                </mat-chip-listbox>
-                            </mat-card-content>
-                        }
-                    </mat-card>
-                }
-            </div>
+
+    <div class="logo">
+        <img src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500" alt="Yaki Logo" />
+    </div>
+
+    <div class="tip">
+        {{ 'page.tip' | translate }}
+    </div>
+
+    <div class="take-list">
+        @for (item of wayList(); track item.type) {
+        <div class="take-item">
+            {{ item.name | translate }}
+        </div>
+        }
+    </div>
+
+    <div class="start-btn">
+        {{ 'page.startBtn' | translate }}
+    </div>
+
+    <div class="model-list">
+
+        @for (item of modelList(); track item.type) {
+        <div class="model-item" [class.selected]="curModel === item.type" (click)="toggleModel(item)" >
+            <img [src]="item.icon" alt="" />
+            <div class="model-name">{{ item.name | translate }}</div>
+        </div>
         }
     </div>
 </div>

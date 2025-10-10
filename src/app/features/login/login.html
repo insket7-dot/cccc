@@ -1,0 +1,62 @@
+<div class="login-container">
+    <div class="top-bg">
+        <img
+            src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"
+            alt="yaki Logo"
+            class="logo"
+        />
+    </div>
+
+    <!-- 表单 -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
+        <span> {{ 'page.storeCode' | translate }}</span>
+        <mat-form-field class="field">
+            <!-- <mat-label>Store code</mat-label> -->
+            <input matInput formControlName="storeCode" placeholder="Type Store code" />
+            <mat-hint></mat-hint>
+            <mat-error *ngIf="loginForm.get('storeCode')?.hasError('required')">
+                {{ 'page.storeCodeRequired' | translate }}
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('storeCode')?.hasError('minlength')">
+                Store code must be at least 3 characters
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Auth Code -->
+        <span>{{ 'page.authCode' | translate }}</span>
+
+        <mat-form-field>
+            <!-- <mat-label>Auth code</mat-label> -->
+            <input
+                matInput
+                formControlName="authCode"
+                placeholder="Type Auth code"
+                type="password"
+            />
+            <!-- <mat-icon matSuffix>vpn_key</mat-icon> -->
+            <mat-hint></mat-hint>
+            <mat-error *ngIf="loginForm.get('authCode')?.hasError('required')">
+                {{ 'page.authCodeRequired' | translate }}
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('authCode')?.hasError('minlength')">
+                Auth code must be at least 5 characters
+            </mat-error>
+        </mat-form-field>
+
+        <!-- 环境选择 -->
+        <!-- <div class="environment-selection">
+      <mat-radio-group formControlName="environment">
+        <mat-radio-button value="production">Production Environment</mat-radio-button>
+        <mat-radio-button value="test">Test Environment</mat-radio-button>
+      </mat-radio-group>
+    </div> -->
+
+        <!-- 确认按钮 -->
+        <button class="button submit-btn" type="submit" [disabled]="!loginForm.valid">
+            {{ 'app.common.confirm' | translate }}
+        </button>
+    </form>
+
+    <!-- 版本和设备编码 -->
+    <div class="version-info">版本号：1234567890，设备编码：1</div>
+</div>

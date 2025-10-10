@@ -130,5 +130,21 @@
             },
             "title": "用户管理"
         }
-    }
+
+    },
+    "page": {
+            "model1": "普通模式",
+            "model2": "儿童模式",
+            "startBtn": "开始点餐",
+            "text1": "点击开始点餐",
+            "tip": "选择点餐方式",
+            "way1": "堂食",
+            "way2": "外带",
+            "tip2": "提示",
+            "tip3": "由于长时间无操作，系统将在 {{time}} 秒内返回主页",
+            "storeCode": "门店编码",
+            "storeCodeRequired": "门店编码不能为空",
+            "authCode": "授权码",
+            "authCodeRequired": "授权码不能为空"
+        }
 }

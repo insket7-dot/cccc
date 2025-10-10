@@ -6,7 +6,7 @@ export const environment = {
     /** 是否启用mock数据 */
     mock: false,
     /** 后台服务接口地址 */
-    dynamicUrl: 'http://10.100.0.107',
+    dynamicUrl: 'https://yunxiaochu.rydeen.com.cn/',
     /** 资源包版本号 */
     assetsVersion: '20240911',
     /** App版本号 */
