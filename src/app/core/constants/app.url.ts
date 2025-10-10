@@ -13,12 +13,16 @@ export class AppUrl {
 
     public static readonly PAGE_USERS: Url = new Url('PAGE_USERS', 'users', Method.NAVIGATOR);
 
+    public static readonly PAGE_SCREEN: Url = new Url('PAGE_SCREEN', 'screen', Method.NAVIGATOR);
+
+    public static readonly PAGE_LOGIN: Url = new Url('PAGE_LOGIN', 'login', Method.NAVIGATOR);
+
     /** Mock 菜单：全量菜单 */
     public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
 
     public static readonly RESTAURANT_PAGE: Url = new Url(
         'RESTAURANT_PAGE',
         '/store/restaurant/page',
-        Method.GET
+        Method.GET,
     );
 }

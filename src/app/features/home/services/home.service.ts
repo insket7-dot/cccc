@@ -1,11 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import { ResultVO } from '@rydeen/angular-framework';
-import { AbstractAppService } from '../../../shared/abstracts/abstract.app.service';
-import { AppUrl } from '../../../core/constants/app.url';
-import type { IDatabaseService } from '../../../core/interfaces/database.interface';
-import { DATABASE_SERVICE } from '../../../core/tokens/database.token';
-import {MenuModel as MenuData, MenuFields, MenuTable, MenuModel} from '../../../shared/types/menu.shared.types';
-import { QueryBuilder, LIKE } from '../../../core/builders/query-builder';
+import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
+import { AppUrl } from '@app/core/constants/app.url';
+import type { IDatabaseService } from '@app/core/interfaces/database.interface';
+import { DATABASE_SERVICE } from '@app/core/tokens/database.token';
+import {
+    MenuModel as MenuData,
+    MenuFields,
+    MenuTable,
+    MenuModel,
+} from '@app/shared/types/menu.shared.types';
+import { QueryBuilder, LIKE } from '@app/core/builders/query-builder';
 
 @Injectable({ providedIn: 'root' })
 export class HomeService extends AbstractAppService {
@@ -57,7 +62,7 @@ export class HomeService extends AbstractAppService {
         console.log(`[HomeService] ${menusWithKeywords.length} 个菜单项已同步到 SQLite.`);
         return {
             success: true,
-            data: menusWithKeywords
+            data: menusWithKeywords,
         } as ResultVO<MenuModel[]>;
     }
 
@@ -67,6 +72,7 @@ export class HomeService extends AbstractAppService {
      * @returns 返回匹配的菜单项数组.
      */
     async searchMenus(keyword: string): Promise<MenuData[]> {
+        debugger;
         const trimmedKeyword = (keyword || '').trim();
         if (!trimmedKeyword) {
             // 如果关键词为空, 可以选择返回所有菜单或一个空数组

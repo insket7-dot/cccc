@@ -7,17 +7,17 @@ import { Routes } from '@angular/router';
 export const animationPages = ['screen,index,menu'];
 
 export const routes: Routes = [
-   { path: '', pathMatch: 'full', redirectTo: '/screen' },
+    { path: '', pathMatch: 'full', redirectTo: '/screen' },
     {
         path: 'home',
-        loadComponent: () => import('./features/home/home').then(m => m.Home),
-        data: {animation: 'index'},
+        loadComponent: () => import('./features/home/home').then((m) => m.Home),
+        data: { animation: 'index' },
         pathMatch: 'full',
     },
     {
         path: 'menu',
-        loadComponent: () => import('./features/menu/menu').then(m => m.Menu),
-        data: {animation: 'menu'}
+        loadComponent: () => import('./features/menu/menu').then((m) => m.Menu),
+        data: { animation: 'menu' },
     },
     {
         path: 'screen',

@@ -19,9 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 export type UiEventType = 'click' | 'change' | 'submit' | 'custom';
 export interface UiEvent {
     type: UiEventType;
-    key: string;               // 来自 data-id
-    payload?: unknown;         // change/submit 的值或表单对象
-    originalEvent: Event;      // 原始事件对象
+    key: string; // 来自 data-id
+    payload?: unknown; // change/submit 的值或表单对象
+    originalEvent: Event; // 原始事件对象
 }
 export type UiEventHandler = (ev: UiEvent) => Promise<void> | void;
 
@@ -47,17 +47,17 @@ export abstract class AbstractAppPage extends AbstractComponent {
 
     /** 在模板统一绑定：(click)="onClick($event)" */
     public onClick(event: Event): void {
-        this.handleUiEvent('click', event).catch(error => console.error(error));
+        this.handleUiEvent('click', event).catch((error) => console.error(error));
     }
 
     /** 在模板统一绑定：(change)="onChange($event)" */
     public onChange(event: unknown): void {
-        this.handleUiEvent('change', event).catch(error => console.error(error));
+        this.handleUiEvent('change', event).catch((error) => console.error(error));
     }
 
     /** 在模板统一绑定：(ngSubmit)="onSubmit($event)" 或 (submit)="onSubmit($event)" */
     public onSubmit(event: unknown): void {
-        this.handleUiEvent('submit', event).catch(error => console.error(error));
+        this.handleUiEvent('submit', event).catch((error) => console.error(error));
     }
 
     /** 页面代码中注册/卸载处理器（建议在 ngOnInit 中注册） */
@@ -72,18 +72,26 @@ export abstract class AbstractAppPage extends AbstractComponent {
     /** 提供可覆写的前置/后置钩子 */
     // 返回 false 可拦截后续分发（如权限、节流、防抖等）
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected async preDispatch(_ev: UiEvent): Promise<boolean> { return true; }
+    protected async preDispatch(_ev: UiEvent): Promise<boolean> {
+        return true;
+    }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected async postDispatch(_ev: UiEvent): Promise<void> { /* no-op */ }
+    protected async postDispatch(_ev: UiEvent): Promise<void> {
+        /* no-op */
+    }
 
     private async handleUiEvent(type: UiEventType, event: unknown): Promise<void> {
         const key = this.findElementKey(event as Event);
-        if (!key) { return; }
+        if (!key) {
+            return;
+        }
 
         const payload = this.extractPayload(type, event as Event);
         const uiEvent: UiEvent = { type, key, payload, originalEvent: event as Event };
 
-        if (!(await this.preDispatch(uiEvent))) { return; }
+        if (!(await this.preDispatch(uiEvent))) {
+            return;
+        }
         try {
             const handler = this.uiEventHandlers.get(key);
             if (handler) {
@@ -155,9 +163,13 @@ export abstract class AbstractAppPage extends AbstractComponent {
     private lookupDataId(el: Element): string | undefined {
         let node: Element | null = el;
         while (node) {
-            const ds = (node as HTMLElement).dataset as Record<string, string | undefined> | undefined;
+            const ds = (node as HTMLElement).dataset as
+                | Record<string, string | undefined>
+                | undefined;
             const maybe = ds ? ds['id'] : undefined;
-            if (maybe) { return maybe; }
+            if (maybe) {
+                return maybe;
+            }
             node = node.parentElement;
         }
         return undefined;
@@ -177,32 +189,44 @@ export abstract class AbstractAppPage extends AbstractComponent {
             targetObj?._elementRef?.nativeElement ||
             targetObj?.elementRef?.nativeElement ||
             targetObj?._hostElement?.nativeElement;
-        const el: any = current || rawTarget || nativeFromTargetRef || nativeFromSource || (document?.activeElement as Element | null) || undefined;
+        const el: any =
+            current ||
+            rawTarget ||
+            nativeFromTargetRef ||
+            nativeFromSource ||
+            (document?.activeElement as Element | null) ||
+            undefined;
         switch (type) {
             case 'click': {
-                const ds = el ? (el.dataset as Record<string, string | undefined> | undefined) : undefined;
+                const ds = el
+                    ? (el.dataset as Record<string, string | undefined> | undefined)
+                    : undefined;
                 const userId = ds ? ds['userId'] : undefined;
                 const name = (el && (el as any).name) ?? undefined;
                 return { userId, name };
             }
             case 'change': {
-                const ds = el ? (el.dataset as Record<string, string | undefined> | undefined) : undefined;
+                const ds = el
+                    ? (el.dataset as Record<string, string | undefined> | undefined)
+                    : undefined;
                 // 支持多种 Angular Material 事件与原生事件
                 const fromTargetValue = el && 'value' in el ? el.value : undefined;
                 const fromEventValue = (event as any)?.value;
                 const value = fromEventValue ?? fromTargetValue;
                 const name = (el && el.name) ?? undefined;
-                const checked = (el && el.checked) ?? ((event as any)?.checked ?? undefined);
+                const checked = (el && el.checked) ?? (event as any)?.checked ?? undefined;
                 const userId = ds ? ds['userId'] : undefined;
                 const pageEvent = (event as any)?.pageIndex !== undefined ? event : undefined; // MatPaginator PageEvent
                 return { value, name, checked, userId, pageEvent };
             }
             case 'submit': {
                 const form = event.target as HTMLFormElement;
-                if (form && typeof (FormData) !== 'undefined') {
+                if (form && typeof FormData !== 'undefined') {
                     const data = new FormData(form);
                     const obj: Record<string, any> = {};
-                    data.forEach((v, k) => { obj[k] = v; });
+                    data.forEach((v, k) => {
+                        obj[k] = v;
+                    });
                     return obj;
                 }
                 return undefined;

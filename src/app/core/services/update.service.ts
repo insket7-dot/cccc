@@ -13,7 +13,7 @@ import { Capacitor } from '@capacitor/core';
 import { EventManager, LocalStorage } from '@rydeen/angular-framework';
 import { AppEvent } from '@app/core/constants/app.event';
 import { CacheKey } from '@app/shared/constants/cache.key';
-import { LogContext } from '@app/core/services/log.context';
+import { LogService } from '@app/core/services/log.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class UpdateService {
     private hotfix: HotfixManage | undefined;
 
     constructor(
-        private logger: LogContext,
+        private logger: LogService,
         private eventManager: EventManager,
         private translate: TranslateService,
     ) {}
@@ -191,15 +191,20 @@ export class UpdateService {
      * @returns {Promise<void>}
      * @private
      */
-    private async downloadPatch(versionMetadata: VersionMetadata): Promise<void> {
+    private async downloadPatch(
+        versionMetadata: VersionMetadata,
+    ): Promise<{ success: boolean; data: PatchInfo | null; message?: string }> {
         try {
             console.info(`[版本升级]开始下载补丁：${JSON.stringify(versionMetadata)}`);
             const patchInfo = await this.download(versionMetadata);
             console.info(`[版本升级]下载补丁成功：${JSON.stringify(patchInfo)}`);
             if (patchInfo.status === BundleStatus.ERROR) {
                 // await this.toastService.error(patchInfo.message!);
-                return;
+                // return patchInfo.message!;
+                return { success: false, data: patchInfo };
             }
+
+            return { success: true, data: patchInfo };
             // await this.toastService.confirm(
             //     'app.settings.check.update.download.success',
             //     {},
@@ -216,6 +221,7 @@ export class UpdateService {
             // );
         } catch (e: any) {
             console.error(e);
+            return { success: false, message: e.message, data: null };
         }
     }
 

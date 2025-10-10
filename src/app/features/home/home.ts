@@ -1,5 +1,4 @@
-import { Component, signal, OnInit,inject } from '@angular/core';
-// import { MatButton } from '@angular/material/button';
+import { Component, signal, OnInit, inject } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
@@ -8,17 +7,16 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HomeService } from './services/home.service';
-import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
-import {MenuData, MenuModel} from '../../shared/types/menu.shared.types';
+import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
+import { MenuData, MenuModel } from '@app/shared/types/menu.shared.types';
 import { HomeUi } from './types/home.types';
-import {ResultVO} from "@rydeen/angular-framework";
+import { ResultVO } from '@rydeen/angular-framework';
 import { MenuItemInterFace } from './constants/home.constants';
-import { LanguagesComponent } from '@app/shared/components/languages/languages';
+import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
 
 @Component({
     selector: 'app-home',
     imports: [
-        // MatButton,
         MatFormFieldModule,
         MatInputModule,
         FormsModule,
@@ -26,7 +24,7 @@ import { LanguagesComponent } from '@app/shared/components/languages/languages';
         MatChipsModule,
         MatCardModule,
         TranslateModule,
-        LanguagesComponent
+        LanguageSelectorComponent,
     ],
     templateUrl: './home.html',
     styleUrl: './home.scss',
@@ -39,7 +37,7 @@ export class Home extends AbstractAppPage implements OnInit {
     protected readonly searchItems = signal<MenuData[]>([]);
 
     private readonly translateService = inject(TranslateService);
-     wayList = signal<MenuItemInterFace[]>([
+    wayList = signal<MenuItemInterFace[]>([
         {
             type: '1',
             name: 'page.way1',
