@@ -21,6 +21,7 @@ import type {IDatabaseService} from './core/interfaces/database.interface';
 import {MigrationService} from './core/services/migration.service';
 import { IdleTimeoutService } from '@/app/core/services/timeout.service';
 
+
 @Component({
     selector: 'app-root',
     imports: [
@@ -59,7 +60,7 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         super();
         this.initializeApp();
 
-        //  this.idleTimeoutService.startMonitoring();
+         this.idleTimeoutService.startMonitoring();
     }
 
     ngOnInit(): void {

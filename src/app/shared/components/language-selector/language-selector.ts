@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,7 +11,12 @@ import { Subject, takeUntil } from 'rxjs';
     standalone: true,
     imports: [CommonModule, MatSelectModule, MatFormFieldModule, TranslateModule],
     template: `
-        <mat-form-field appearance="outline" class="language-selector">
+        <mat-form-field
+            appearance="outline"
+            class="language-selector"
+            [style.width]="width"
+            [style.height]="height"
+        >
             <mat-label>{{ 'app.language.select' | translate }}</mat-label>
             <mat-select
                 [value]="currentLanguage"
@@ -19,9 +24,9 @@ import { Subject, takeUntil } from 'rxjs';
                 class="language-select"
             >
                 @for (language of availableLanguages; track language.code) {
-                    <mat-option [value]="language.code">
-                        {{ language.nativeName }}
-                    </mat-option>
+                <mat-option [value]="language.code">
+                    {{ language.nativeName }}
+                </mat-option>
                 }
             </mat-select>
         </mat-form-field>
@@ -29,9 +34,9 @@ import { Subject, takeUntil } from 'rxjs';
     styles: [
         `
             .language-selector {
-                margin-top: 40px;
-                min-width: 120px;
-                margin-left: 16px;
+                margin-top: 20px;
+                width: 120px;
+                // margin-left: 16px;
             }
             .language-select {
                 font-size: 14px;
@@ -44,6 +49,9 @@ export class LanguageSelectorComponent implements OnInit, OnDestroy {
     currentLanguage: string = 'zh-cn';
 
     private destroy$ = new Subject<void>();
+
+    @Input() width?: string;
+    @Input() height?: string;
 
     constructor(@Inject(LanguageService) private languageService: LanguageService) {}
 

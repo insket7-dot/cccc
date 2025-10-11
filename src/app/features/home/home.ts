@@ -1,4 +1,4 @@
-import { Component, signal, OnInit,inject } from '@angular/core';
+import { Component, signal, OnInit, inject } from '@angular/core';
 // import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,11 +9,13 @@ import { MatCardModule } from '@angular/material/card';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HomeService } from './services/home.service';
 import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
-import {MenuData, MenuModel} from '../../shared/types/menu.shared.types';
+import { MenuData, MenuModel } from '../../shared/types/menu.shared.types';
 import { HomeUi } from './types/home.types';
-import {ResultVO} from "@rydeen/angular-framework";
+import { ResultVO } from '@rydeen/angular-framework';
 import { MenuItemInterFace } from './constants/home.constants';
-import { LanguagesComponent } from '@app/shared/components/languages/languages';
+import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
+
+import { ModelStateService } from '@app/core/services/model-state.service';
 
 @Component({
     selector: 'app-home',
@@ -26,7 +28,7 @@ import { LanguagesComponent } from '@app/shared/components/languages/languages';
         MatChipsModule,
         MatCardModule,
         TranslateModule,
-        LanguagesComponent
+        LanguageSelectorComponent,
     ],
     templateUrl: './home.html',
     styleUrl: './home.scss',
@@ -39,7 +41,8 @@ export class Home extends AbstractAppPage implements OnInit {
     protected readonly searchItems = signal<MenuData[]>([]);
 
     private readonly translateService = inject(TranslateService);
-     wayList = signal<MenuItemInterFace[]>([
+    private readonly modelStateService = inject(ModelStateService);
+    wayList = signal<MenuItemInterFace[]>([
         {
             type: '1',
             name: 'page.way1',
@@ -52,19 +55,21 @@ export class Home extends AbstractAppPage implements OnInit {
 
     modelList = signal<MenuItemInterFace[]>([
         {
-            type: 'normal',
+            type: 'Normal',
             name: 'page.model1',
             icon: '1',
         },
         {
-            type: 'child',
+            type: 'Accessibility',
             name: 'page.model2',
             icon: '1',
         },
     ]);
 
     isEnglish = false;
-    curModel = 'normal';
+    get curModel() {
+        return this.modelStateService.curModel();
+    }
 
     constructor(private readonly homeService: HomeService) {
         super();
@@ -119,6 +124,10 @@ export class Home extends AbstractAppPage implements OnInit {
     }
 
     toggleModel(model: any) {
-        this.curModel = model.type;
+        this.modelStateService.setCurModel(model.type);
+    }
+
+    startOrder() {
+        this.router.navigate(['/menu']);
     }
 }

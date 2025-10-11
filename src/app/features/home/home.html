@@ -1,6 +1,7 @@
 <div class="home-container">
      <div class="language-selector">
-    <app-languages></app-languages>
+                    <app-language-selector></app-language-selector>
+
   </div>
 
 
@@ -20,7 +21,7 @@
         }
     </div>
 
-    <div class="start-btn">
+    <div class="start-btn" (click)="startOrder()" >
         {{ 'page.startBtn' | translate }}
     </div>
 

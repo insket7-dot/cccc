@@ -1,23 +1,44 @@
 <div class="menu-grid">
-    @if (items().length) {
-        @for (item of items(); track item.id) {
-            <mat-card class="app-card">
-                <mat-card-header>
-                    <mat-card-title>[{{ item.id }}] {{ item.name }}</mat-card-title>
-                    <mat-card-subtitle>¥{{ item.price }} ｜ {{ item.category }}</mat-card-subtitle>
-                </mat-card-header>
-                @if (item.tags?.length) {
-                    <mat-card-content>
-                        <mat-chip-listbox aria-label="tags">
-                            @for (tag of item.tags; track tag) {
-                                <mat-chip>{{ tag }}</mat-chip>
-                            }
-                        </mat-chip-listbox>
-                    </mat-card-content>
-                }
-            </mat-card>
-        }
-    } @else {
-        <div style="padding: 24px">{{ 'app.menu.noData' | translate }}</div>
-    }
+ <div class="child" *ngIf="curModel === 'Accessibility'">
+    <img src="https://q1.itc.cn/q_70/images03/20240806/13bbc3e8cc544b16ab0eba260cc2e78e.jpeg" alt="">
+</div>
+
+<div class="beff">
+    <div class="left">
+        <div class="left_top">
+            <img src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500" alt="logo">
+
+            <div class="laug">
+                <app-language-selector  [width]="'80px'"
+                    [height]="'30px'"></app-language-selector>
+            </div>
+        </div>
+
+        <div class="left_center">
+            123123
+        </div>
+
+        <div class="left_bottom" *ngIf="curModel !== 'Accessibility'" (click)="toggleModel('Accessibility')">
+                Accessibility Mode
+        </div>
+    </div>
+    <div class="right">
+
+        <div class="right_block">
+            <p class="title">—— BEFF ——</p>
+
+            <div class="dish">
+                <div class="dish_left">
+                    img
+                </div>
+                <div class="dish_right">
+                    <div class="dish_name">12123123asfasdasdafasfa123123123123123sfd</div>
+                    <div class="dish_desc">asdasdafgwerfdwqerfqefqwr123123123123fqwqw12312i3e412in</div>
+                    <div class="price"><span>$18.22</span> <span> +</span> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
