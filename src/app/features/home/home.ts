@@ -1,5 +1,4 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
-// import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
@@ -8,8 +7,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HomeService } from './services/home.service';
-import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
-import { MenuData, MenuModel } from '../../shared/types/menu.shared.types';
+import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
+import { MenuData, MenuModel } from '@app/shared/types/menu.shared.types';
 import { HomeUi } from './types/home.types';
 import { ResultVO } from '@rydeen/angular-framework';
 import { MenuItemInterFace } from './constants/home.constants';
@@ -20,7 +19,6 @@ import { ModelStateService } from '@app/core/services/model-state.service';
 @Component({
     selector: 'app-home',
     imports: [
-        // MatButton,
         MatFormFieldModule,
         MatInputModule,
         FormsModule,

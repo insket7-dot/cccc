@@ -6,7 +6,7 @@ import type {
     DatabaseResult,
     BatchInsertResult,
     BatchInsertConfig,
-    BuildableQuery
+    BuildableQuery,
 } from '../interfaces/database.interface';
 import { Capacitor } from '@capacitor/core';
 import {
@@ -24,8 +24,7 @@ export class WebDatabaseService implements IDatabaseService {
     private db: SQLiteDBConnection | null = null;
     private readonly dbName: string = 'app_db';
 
-    constructor() {
-    }
+    constructor() {}
 
     getPlatform(): string {
         return Capacitor.getPlatform();
@@ -54,12 +53,14 @@ export class WebDatabaseService implements IDatabaseService {
     }
 
     async initialize(): Promise<void> {
-        if(this.sqlite != null) {
+        if (this.sqlite != null) {
             try {
                 // 检查 jeep-sqlite 元素是否存在
                 const jeepSqliteEl = document.querySelector('jeep-sqlite');
                 if (!jeepSqliteEl) {
-                    throw new Error('jeep-sqlite element not found in DOM. Please ensure the element is present in index.html');
+                    throw new Error(
+                        'jeep-sqlite element not found in DOM. Please ensure the element is present in index.html',
+                    );
                 }
                 console.log('jeep-sqlite element found in DOM');
 
@@ -96,14 +97,26 @@ export class WebDatabaseService implements IDatabaseService {
                 } catch (retrieveError) {
                     console.log('Failed to retrieve connection, creating new one:', retrieveError);
                     // 如果检索失败，创建新连接
-                    this.db = await this.sqlite.createConnection(this.dbName, false, "no-encryption", 1, false);
+                    this.db = await this.sqlite.createConnection(
+                        this.dbName,
+                        false,
+                        'no-encryption',
+                        1,
+                        false,
+                    );
                     await this.db.open();
                     console.log('Created and opened new database connection');
                 }
             } else {
                 // 数据库不存在，创建并打开
                 console.log('Creating new database connection...');
-                this.db = await this.sqlite.createConnection(this.dbName, false, "no-encryption", 1, false);
+                this.db = await this.sqlite.createConnection(
+                    this.dbName,
+                    false,
+                    'no-encryption',
+                    1,
+                    false,
+                );
                 await this.db.open();
                 console.log('Created and opened new database connection');
             }
@@ -137,7 +150,7 @@ export class WebDatabaseService implements IDatabaseService {
         return {
             changes: res.changes?.changes || 0,
             lastId: res.changes?.lastId || -1,
-            executionTime: 0 // TODO: 实现执行时间计算
+            executionTime: 0, // TODO: 实现执行时间计算
         };
     }
 
@@ -149,7 +162,7 @@ export class WebDatabaseService implements IDatabaseService {
         return {
             changes: res.changes?.changes || 0,
             lastId: res.changes?.lastId || -1,
-            executionTime: 0 // TODO: 实现执行时间计算
+            executionTime: 0, // TODO: 实现执行时间计算
         };
     }
 
@@ -161,13 +174,13 @@ export class WebDatabaseService implements IDatabaseService {
         return {
             changes: res.changes?.changes || 0,
             lastId: res.changes?.lastId || -1,
-            executionTime: 0 // TODO: 实现执行时间计算
+            executionTime: 0, // TODO: 实现执行时间计算
         };
     }
 
     public async batchInsert(
         query: BuildableQuery,
-        config?: BatchInsertConfig
+        config?: BatchInsertConfig,
     ): Promise<BatchInsertResult> {
         const compiled: CompiledQuery = query.compile();
         await this.ensureDatabaseOpen();
@@ -183,7 +196,7 @@ export class WebDatabaseService implements IDatabaseService {
         return {
             totalInserted: res.changes?.changes || 0,
             batches: 1,
-            executionTime: 0 // TODO: 实现执行时间计算
+            executionTime: 0, // TODO: 实现执行时间计算
         };
     }
 
@@ -229,18 +242,20 @@ export class WebDatabaseService implements IDatabaseService {
         await this.ensureDatabaseOpen();
         const res = await this.db!.query(
             "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
-            [tableName]
+            [tableName],
         );
         return (res.values && res.values.length > 0) || false;
     }
 
-    public async getTableColumns(tableName: string): Promise<Array<{name: string, type: string, nullable: boolean}>> {
+    public async getTableColumns(
+        tableName: string,
+    ): Promise<Array<{ name: string; type: string; nullable: boolean }>> {
         await this.ensureDatabaseOpen();
         const res = await this.db!.query(`PRAGMA table_info(${tableName})`);
         return (res.values || []).map((row: any) => ({
             name: row.name,
             type: row.type,
-            nullable: !row.notnull
+            nullable: !row.notnull,
         }));
     }
 
@@ -248,12 +263,13 @@ export class WebDatabaseService implements IDatabaseService {
 
     public async executeRaw(sql: string, params?: any[]): Promise<DatabaseResult> {
         await this.ensureDatabaseOpen();
-        const res = params && params.length ? await this.db!.run(sql, params) : await this.db!.execute(sql);
+        const res =
+            params && params.length ? await this.db!.run(sql, params) : await this.db!.execute(sql);
         await this.saveToStoreSafely();
         return {
             changes: res.changes?.changes || 0,
             lastId: res.changes?.lastId || -1,
-            executionTime: 0 // TODO: 实现执行时间计算
+            executionTime: 0, // TODO: 实现执行时间计算
         };
     }
 

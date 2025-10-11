@@ -5,7 +5,7 @@ import { environment } from '@/environments/environment';
 @Injectable({
     providedIn: 'root',
 })
-export class LogContext {
+export class LogService {
     private readonly _logger: LoggerManage;
 
     constructor() {

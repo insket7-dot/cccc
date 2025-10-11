@@ -48,6 +48,7 @@
         "@capacitor-rydeen/preferences": "^7.0.2",
         "@capacitor-rydeen/tools": "^8.0.6",
         "@capacitor/android": "^7.4.3",
+        "@capacitor/app": "^7.1.0",
         "@capacitor/core": "^7.4.3",
         "@capacitor/keyboard": "~7.0.0",
         "@capacitor/status-bar": "~7.0.0",
@@ -63,6 +64,7 @@
         "rxjs": "~7.8.0",
         "sql.js": "1.11.0",
         "tslib": "^2.3.0",
+        "uuid": "^13.0.0",
         "zone.js": "~0.15.0"
     },
     "devDependencies": {

@@ -6,6 +6,8 @@ export interface LanguageOption {
     code: string;
     name: string;
     nativeName: string;
+    shortName: string;
+    available: boolean;
 }
 
 @Injectable({
@@ -16,9 +18,21 @@ export class LanguageService {
     private readonly DEFAULT_LANGUAGE = 'zh-cn';
 
     private readonly availableLanguages: LanguageOption[] = [
-        { code: 'zh-cn', name: '简体中文', nativeName: '简体中文' },
-        { code: 'en-us', name: 'English', nativeName: 'English' },
-        { code: 'zh-tw', name: '繁體中文', nativeName: '繁體中文' },
+        {
+            code: 'zh-cn',
+            name: '简体中文',
+            nativeName: '简体中文',
+            shortName: '简',
+            available: true,
+        },
+        { code: 'en-us', name: 'English', nativeName: 'English', shortName: 'En', available: true },
+        {
+            code: 'zh-tw',
+            name: '繁體中文',
+            nativeName: '繁體中文',
+            shortName: '繁',
+            available: true,
+        },
     ];
 
     private currentLanguageSubject = new BehaviorSubject<string>(this.DEFAULT_LANGUAGE);
@@ -35,7 +49,7 @@ export class LanguageService {
     }
 
     public getAvailableLanguages(): LanguageOption[] {
-        return [...this.availableLanguages];
+        return this.availableLanguages.filter((lang) => lang.available);
     }
 
     public getCurrentLanguage(): string {
