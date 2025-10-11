@@ -1,7 +1,7 @@
 <div class="login-container">
     <div class="top-bg">
         <img
-            src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"
+            src="/assets/image/logo.png"
             alt="yaki Logo"
             class="logo"
         />
@@ -9,7 +9,7 @@
 
     <!-- 表单 -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
-        <span> {{ 'page.storeCode' | translate }}</span>
+        <span class="title"> {{ 'page.storeCode' | translate }}</span>
         <mat-form-field class="field">
             <!-- <mat-label>Store code</mat-label> -->
             <input matInput formControlName="storeCode" placeholder="Type Store code" />
@@ -23,7 +23,7 @@
         </mat-form-field>
 
         <!-- Auth Code -->
-        <span>{{ 'page.authCode' | translate }}</span>
+        <span class="title">{{ 'page.authCode' | translate }}</span>
 
         <mat-form-field>
             <!-- <mat-label>Auth code</mat-label> -->
