@@ -5,15 +5,14 @@
 }
 
 .language-selector {
-position: absolute;
-right: 10px;
-top: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 
-
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 210px;
+    height: 80px;
     position: absolute;
     top: 15%;
     left: 50%;
@@ -29,31 +28,60 @@ top: 10px;
     color: #fff;
     font-size: 22px;
     position: absolute;
-    top: 35%;
+    top: 32%;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
 }
 .take-list {
-    width: 360px;
+    width: 380px;
     font-size: 28px;
     position: absolute;
-    top: 45%;
+    top: 44%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: space-around;
     // background: #fff;
-    height: 140px;
+    height: 160px;
 
     .take-item {
         width: 160px;
         height: 100%;
         background-color: #fff;
         text-align: center;
-        border-radius: 10px;
+        border-radius: 18px;
         line-height: 140px;
+        // display: flex;
+        // flex-direction: column;
+        position: relative;
+        border: 2px solid #f7b919;
+
+        .take-icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        .take_type {
+            width: 100%;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            display: inline-block;
+            vertical-align: bottom;
+            line-height: normal;
+        }
+
+        .active {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: -14px;
+            top: -24px;
+        }
     }
 }
 
@@ -74,7 +102,7 @@ top: 10px;
 
 .model-list {
     width: 220px;
-    height: 100px;
+    height: 110px;
     position: absolute;
     top: 85%;
     left: 50%;
@@ -86,18 +114,16 @@ top: 10px;
     box-sizing: border-box;
     .model-item {
         width: 110px;
-        height: 95px;
+        height: 102px;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
         font-size: 16px;
         color: #fff;
-    border-radius: 10px;
+        border-radius: 10px;
 
-
-
-        &.selected{
+        &.selected {
             background-color: #f37e01;
         }
     }

@@ -42,12 +42,14 @@ export class Home extends AbstractAppPage implements OnInit {
     private readonly modelStateService = inject(ModelStateService);
     wayList = signal<MenuItemInterFace[]>([
         {
-            type: '1',
+            type: 'DineIn',
             name: 'page.way1',
+            icon: '/assets/image/dinein.png',
         },
         {
-            type: '2',
+            type: 'TakeOut',
             name: 'page.way2',
+            icon: '/assets/image/takeout.png',
         },
     ]);
 
@@ -55,18 +57,21 @@ export class Home extends AbstractAppPage implements OnInit {
         {
             type: 'Normal',
             name: 'page.model1',
-            icon: '1',
+            icon: '/assets/image/icon_mr2.png',
         },
         {
             type: 'Accessibility',
             name: 'page.model2',
-            icon: '1',
+            icon: '/assets/image/Acc.png',
         },
     ]);
 
     isEnglish = false;
     get curModel() {
         return this.modelStateService.curModel();
+    }
+    get curWay() {
+        return this.modelStateService.curWay();
     }
 
     constructor(private readonly homeService: HomeService) {
@@ -121,11 +126,20 @@ export class Home extends AbstractAppPage implements OnInit {
         }
     }
 
+    toggleWay(way: any) {
+        this.modelStateService.setCurWay(way.type);
+    }
+
     toggleModel(model: any) {
         this.modelStateService.setCurModel(model.type);
     }
 
     startOrder() {
-        this.router.navigate(['/menu']);
+        if (!this.curWay) {
+            this.error(this.translate.instant('page.selectWay'));
+            return;
+        } else {
+            this.router.navigate(['/menu']);
+        }
     }
 }

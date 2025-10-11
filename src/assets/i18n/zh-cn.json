@@ -145,6 +145,8 @@
             "storeCode": "门店编码",
             "storeCodeRequired": "门店编码不能为空",
             "authCode": "授权码",
-            "authCodeRequired": "授权码不能为空"
+            "authCodeRequired": "授权码不能为空",
+            "exitAccessibilityModel": "退出无障碍模式",
+            "selectWay": "请选择点餐方式"
         }
 }

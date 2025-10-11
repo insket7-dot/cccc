@@ -8,11 +8,12 @@ import { MenuData } from '../../shared/types/menu.shared.types';
 import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
 import { ModelStateService } from '@app/core/services/model-state.service';
 import { LanguageSelectorComponent } from "@app/shared/components/language-selector/language-selector"
+import { ShoppingCartComponent } from "./components/shopping-cart/shopping-cart.component"
 
 @Component({
     selector: 'app-menu',
     standalone: true,
-    imports: [CommonModule, MatCardModule, MatChipsModule, TranslateModule,LanguageSelectorComponent],
+    imports: [CommonModule, MatCardModule, MatChipsModule, TranslateModule,LanguageSelectorComponent,ShoppingCartComponent],
     templateUrl: './menu.html',
     styleUrl: './menu.scss',
 })

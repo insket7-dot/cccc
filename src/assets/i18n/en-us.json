@@ -134,9 +134,9 @@
     "page": {
         "model1": "Normal Mode",
         "model2": "Accessibility Mode",
-        "startBtn": "Start Ordering",
-        "text1": "Click to Start Ordering",
-        "tip": "Select Ordering Method",
+        "startBtn": "ORDER START ",
+        "text1": "Tap to start you order",
+        "tip": "Select a Dining Location",
         "way1": "Dine In",
         "way2": "Take Out",
         "tip2": "Reminder",
@@ -144,6 +144,7 @@
         "storeCode": "Store Code",
         "storeCodeRequired": "Store Code cannot be empty",
         "authCode": "Authorization Code",
-        "authCodeRequired": "Authorization Code cannot be empty"
+        "authCodeRequired": "Authorization Code cannot be empty",
+        "selectWay": "Please select a dining method"
     }
 }
