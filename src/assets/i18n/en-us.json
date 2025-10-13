@@ -145,6 +145,8 @@
         "storeCodeRequired": "Store Code cannot be empty",
         "authCode": "Authorization Code",
         "authCodeRequired": "Authorization Code cannot be empty",
-        "selectWay": "Please select a dining method"
+        "selectWay": "Please select a dining method",
+        "password": "Password",
+        "passwordRequired": "Password cannot be empty"
     }
 }
