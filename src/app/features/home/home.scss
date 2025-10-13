@@ -1,7 +1,7 @@
 .home-container {
     width: 100vw;
     height: 100vh;
-    background-color: #f48610;
+    background-color: var(--app-primary-color);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -96,7 +96,7 @@
     width: 360px;
     height: 70px;
     line-height: 70px;
-    color: #f37e01;
+    color: var(--app-primary-color);
     border-radius: 50px;
     font-size: 22px;
     // position: absolute;
@@ -131,7 +131,7 @@
         border-radius: 10px;
 
         &.selected {
-            background-color: #f37e01;
+            background-color: var(--app-primary-color);
         }
     }
 }

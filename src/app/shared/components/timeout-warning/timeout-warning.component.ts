@@ -49,7 +49,7 @@ import { TranslateModule } from '@ngx-translate/core'; // 引入 TranslateModule
 
                 .bg {
                     width: 100%;
-                    height: 50%;
+                    height: 40%;
                 }
 
                 .title {

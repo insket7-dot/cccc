@@ -69,17 +69,17 @@
     cursor: pointer;
     transition: all 0.3s ease;
 
-    background: linear-gradient(26deg, #FAB502, #F37E01);
+    background: var(--app-primary-color);
     color: white; /* 文字颜色为白色，与橙色背景对比 */
 }
 
 .button:hover:not(:disabled) {
-    background-color: #e06a00; /* 比#f37e01深一点的橙色 */
+    background-color: #e06a00;
     transform: translateY(-0.02rem); /* 轻微上浮效果 */
 }
 
 .button:disabled {
-    background-color: #cccccc;
+    background-color: var(--app-primary-color);
     color: #666666;
     cursor: not-allowed;
     transform: none; /* 取消上浮效果 */

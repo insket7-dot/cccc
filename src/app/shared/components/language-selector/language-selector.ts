@@ -86,7 +86,7 @@ import { Subject, takeUntil } from 'rxjs';
                 flex: 1;
                 text-align: left;
                 font-size: 14px;
-                color:#F48610;
+                color:var(--app-primary-color);
                  width: 100%;
                             overflow: hidden;
                             text-overflow: ellipsis;
