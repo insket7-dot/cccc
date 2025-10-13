@@ -1,15 +1,10 @@
 <div class="login-container">
     <div class="top-bg">
-        <img
-            src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"
-            alt="yaki Logo"
-            class="logo"
-        />
+        <img src="/assets/image/logo.png" alt="yaki Logo" class="logo" />
     </div>
 
-    <!-- 表单 -->
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
-        <span> {{ 'page.storeCode' | translate }}</span>
+    <form [formGroup]="loginForm" *ngIf="currentState === deviceState.BIND_DEVICE" (ngSubmit)="onSubmitHandler()" class="login-form">
+        <span class="title"> {{ 'page.storeCode' | translate }}</span>
         <mat-form-field class="field">
             <!-- <mat-label>Store code</mat-label> -->
             <input matInput formControlName="storeCode" placeholder="Type Store code" />
@@ -18,12 +13,12 @@
                 {{ 'page.storeCodeRequired' | translate }}
             </mat-error>
             <mat-error *ngIf="loginForm.get('storeCode')?.hasError('minlength')">
-                Store code must be at least 3 characters
+                Store code must be at least 5 characters
             </mat-error>
         </mat-form-field>
 
         <!-- Auth Code -->
-        <span>{{ 'page.authCode' | translate }}</span>
+        <span class="title">{{ 'page.authCode' | translate }}</span>
 
         <mat-form-field>
             <!-- <mat-label>Auth code</mat-label> -->
@@ -50,12 +45,35 @@
         <mat-radio-button value="test">Test Environment</mat-radio-button>
       </mat-radio-group>
     </div> -->
-
-        <!-- 确认按钮 -->
-        <button class="button submit-btn" type="submit" [disabled]="!loginForm.valid">
-            {{ 'app.common.confirm' | translate }}
-        </button>
     </form>
+
+    <form [formGroup]="loginForm" *ngIf="currentState === deviceState.LOGIN" (ngSubmit)="onSubmitHandler()" class="login-form">
+        <span class="title"> {{ 'page.password' | translate }}</span>
+        <mat-form-field class="field">
+            <input matInput formControlName="password" placeholder="password" />
+            <mat-hint></mat-hint>
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                {{ 'page.passwordRequired' | translate }}
+            </mat-error>
+        </mat-form-field>
+    </form>
+
+
+    <div class="admin" *ngIf="currentState === deviceState.RESET">
+        <button class="button submit-btn">
+            {{ 'page.resetConfig' | translate }}
+        </button>
+        <button class="button submit-btn">
+            {{ 'page.resetSystem' | translate }}
+        </button>
+        <button class="button submit-btn">
+            {{ 'page.loginOut' | translate }}
+        </button>
+    </div>
+
+    <button *ngIf="currentState !== deviceState.RESET" class="button submit-btn" type="submit" [disabled]="!loginForm.valid">
+        {{ 'app.common.confirm' | translate }}
+    </button>
 
     <!-- 版本和设备编码 -->
     <div class="version-info">版本号：1234567890，设备编码：1</div>

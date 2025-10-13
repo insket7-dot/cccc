@@ -131,13 +131,22 @@
             "title": "User Management"
         }
     },
-     "page": {
-        "model1": "NORMAL MODE",
-        "model2": "CHILD MODE",
-        "startBtn": "ORDER START",
-        "text1": "Tap to start your order",
+    "page": {
+        "model1": "Normal Mode",
+        "model2": "Accessibility Mode",
+        "startBtn": "ORDER START ",
+        "text1": "Tap to start you order",
         "tip": "Select a Dining Location",
         "way1": "Dine In",
-        "way2": "Take Out"
+        "way2": "Take Out",
+        "tip2": "Reminder",
+        "tip3": "Due to inactivity for a long time, the system will return to the homepage in {{time}} seconds",
+        "storeCode": "Store Code",
+        "storeCodeRequired": "Store Code cannot be empty",
+        "authCode": "Authorization Code",
+        "authCodeRequired": "Authorization Code cannot be empty",
+        "selectWay": "Please select a dining method",
+        "password": "Password",
+        "passwordRequired": "Password cannot be empty"
     }
 }

@@ -1,0 +1,46 @@
+.shopping-cart {
+    width: 90%;
+    height: 50px;
+    background-color: var(--app-primary-color);
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .cart {
+        .shop {
+            width: 70px;
+            position: absolute;
+            top: -39px;
+            left: -13px;
+        }
+    }
+
+    .price{
+        display: flex;
+        color: #fff;
+        align-items: center;
+        .unit{
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .text{
+            font-size: 26px;
+
+        }
+    }
+
+    .continue {
+        width: 130px;
+        text-align: center;
+        line-height: 50px;
+        background-color: #f7b919;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+}

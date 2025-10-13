@@ -7,3 +7,5 @@ export type MenuRow = NullifyOptionals<MenuModel>;
 export interface MenuDB {
     menus: MenuRow;
 }
+
+

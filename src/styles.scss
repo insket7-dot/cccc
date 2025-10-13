@@ -64,3 +64,15 @@ body {
     padding-top: 8px;
     overflow: hidden;
 }
+
+
+
+$app-primary-color: #F27E01;
+
+:root {
+  --app-primary-color: #F27E01;
+}
+
+
+
+// html{font-size:calc(100 / 375) * 14vw;}

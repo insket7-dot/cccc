@@ -134,7 +134,7 @@
     },
     "page": {
             "model1": "普通模式",
-            "model2": "儿童模式",
+            "model2": "无障碍模式",
             "startBtn": "开始点餐",
             "text1": "点击开始点餐",
             "tip": "选择点餐方式",
@@ -145,6 +145,13 @@
             "storeCode": "门店编码",
             "storeCodeRequired": "门店编码不能为空",
             "authCode": "授权码",
-            "authCodeRequired": "授权码不能为空"
+            "authCodeRequired": "授权码不能为空",
+            "exitAccessibilityModel": "退出无障碍模式",
+            "selectWay": "请选择点餐方式",
+            "password": "密码",
+            "passwordRequired": "密码不能为空",
+            "resetConfig": "重置设置",
+            "resetSystem": "重置点餐系统",
+            "loginOut": "退出点餐系统"
         }
 }

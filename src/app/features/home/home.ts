@@ -14,6 +14,8 @@ import { ResultVO } from '@rydeen/angular-framework';
 import { MenuItemInterFace } from './constants/home.constants';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
 
+import { ModelStateService } from '@app/core/services/model-state.service';
+
 @Component({
     selector: 'app-home',
     imports: [
@@ -37,32 +39,40 @@ export class Home extends AbstractAppPage implements OnInit {
     protected readonly searchItems = signal<MenuData[]>([]);
 
     private readonly translateService = inject(TranslateService);
+    private readonly modelStateService = inject(ModelStateService);
     wayList = signal<MenuItemInterFace[]>([
         {
-            type: '1',
+            type: 'DineIn',
             name: 'page.way1',
+            icon: '/assets/image/dinein.png',
         },
         {
-            type: '2',
+            type: 'TakeOut',
             name: 'page.way2',
+            icon: '/assets/image/takeout.png',
         },
     ]);
 
     modelList = signal<MenuItemInterFace[]>([
         {
-            type: 'normal',
+            type: 'Normal',
             name: 'page.model1',
-            icon: '1',
+            icon: '/assets/image/icon_mr2.png',
         },
         {
-            type: 'child',
+            type: 'Accessibility',
             name: 'page.model2',
-            icon: '1',
+            icon: '/assets/image/Acc.png',
         },
     ]);
 
     isEnglish = false;
-    curModel = 'normal';
+    get curModel() {
+        return this.modelStateService.curModel();
+    }
+    get curWay() {
+        return this.modelStateService.curWay();
+    }
 
     constructor(private readonly homeService: HomeService) {
         super();
@@ -116,7 +126,20 @@ export class Home extends AbstractAppPage implements OnInit {
         }
     }
 
+    toggleWay(way: any) {
+        this.modelStateService.setCurWay(way.type);
+    }
+
     toggleModel(model: any) {
-        this.curModel = model.type;
+        this.modelStateService.setCurModel(model.type);
+    }
+
+    startOrder() {
+        if (!this.curWay) {
+            this.error(this.translate.instant('page.selectWay'));
+            return;
+        } else {
+            this.router.navigate(['/menu']);
+        }
     }
 }
