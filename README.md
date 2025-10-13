@@ -112,27 +112,27 @@
 ## 1. 基础环境
 
 - Node ≥ 20（推荐 22）
-- npm ≥ 10
+- pnpm ≥ 10
 - Angular CLI 20.3.x
 - Android（可选）：Android Studio / SDK（用于运行 Capacitor Android 项目）
 
 快速检查：
 ```bash
-node -v && npm -v && ng version
+node -v && pnpm -v && ng version
 ```
 
 ## 2. 快速开始
 
 安装依赖与启动：
 ```bash
-npm i
-npm run start:dev      # http://localhost:8888
+pnpm i
+ng serve --configuration=dev --host 0.0.0.0 --port 56771      # http://localhost:56771
 ```
 
 构建与同步到 Android：
 ```bash
-npm run build:dev      # ng build -c development
-npm run sync           # npx cap sync（已配置 webDir）
+ng build -c development
+npx cap sync           # 已配置 webDir
 ```
 
 其它环境：
@@ -1942,11 +1942,11 @@ export class DataTableComponent<T> {
 ## 10. 常用脚本
 
 ```bash
-npm run start:dev   # 开发
-npm run build:dev   # 构建开发包
-npm run build:prod  # 构建生产包
-npm run sync        # 同步 Capacitor 平台
-npm run watch       # watch 构建
+ng serve --configuration=dev --host 0.0.0.0 --port 56771   # 开发
+ng build -c development                                   # 构建开发包
+ng build -c production                                    # 构建生产包
+npx cap sync                                              # 同步 Capacitor 平台
+ng build --watch --configuration development              # watch 构建
 ```
 
 ## 11. 重要约定与最佳实践

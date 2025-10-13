@@ -7,10 +7,10 @@
         "start:mock": "ng serve --configuration=mock",
         "start:dev": "ng serve --configuration=dev --host 0.0.0.0 --port 56771",
         "prettier": "npx prettier --write ./src",
-        "build:dev": "ng build -c development && npm run sync",
+        "build:dev": "ng build -c dev && npm run sync",
         "build:prod": "ng build -c production && npm run sync",
         "sync": "npx cap sync",
-        "watch": "ng build --watch --configuration development",
+        "watch": "ng build --watch --configuration dev",
         "test": "ng test",
         "lint": "ng lint"
     },

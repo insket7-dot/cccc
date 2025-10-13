@@ -1,11 +1,11 @@
-import type {CapacitorConfig} from '@capacitor/cli';
+import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
     appId: 'com.example.crossplatformapp',
     appName: 'cross-platform-app',
     webDir: 'dist/cross-platform-app/browser',
     server: {
-        androidScheme: 'https'
+        androidScheme: 'https',
     },
     android: {
         minWebViewVersion: 77,
@@ -13,7 +13,7 @@ const config: CapacitorConfig = {
     },
     plugins: {
         CapacitorHttp: {
-            enabled: true
+            enabled: true,
         },
         CapacitorSQLite: {
             iosDatabaseLocation: 'Library/CapacitorDatabase',
@@ -21,16 +21,16 @@ const config: CapacitorConfig = {
             iosKeychainPrefix: 'angular-sqlite-app-starter',
             iosBiometric: {
                 biometricAuth: false,
-                biometricTitle : "Biometric login for capacitor sqlite"
+                biometricTitle: 'Biometric login for capacitor sqlite',
             },
             androidIsEncryption: true,
             androidBiometric: {
-                biometricAuth : false,
-                biometricTitle : "Biometric login for capacitor sqlite",
-                biometricSubTitle : "Log in using your biometric"
-            }
-        }
-    }
+                biometricAuth: false,
+                biometricTitle: 'Biometric login for capacitor sqlite',
+                biometricSubTitle: 'Log in using your biometric',
+            },
+        },
+    },
 };
 
 export default config;
