@@ -1,0 +1,11 @@
+{
+    "success": true,
+    "code": 200,
+    "msg": "",
+    "data": {
+        "name": "Tw",
+        "code": "tw001",
+        "dateFormat": "yyyy-MM-dd HH:mm:ss",
+        "languageKey": "zh-cn"
+    }
+}

@@ -1,0 +1,494 @@
+{
+    "success": true,
+    "data": {
+        "appKey": "304",
+        "brandCode": "YS",
+        "callback": true,
+        "categoriesVos": [
+            {
+                "categoryId": "2004",
+                "categoryIntroduction": "",
+                "categoryNameCn": "手握卷饼系列",
+                "categoryNameEn": "",
+                "checkedImgUrl": "",
+                "childCategoriesVos": [],
+                "id": 12502,
+                "parentId": 0,
+                "required": false,
+                "showFlag": 1,
+                "sort": "35",
+                "uncheckImgUrl": ""
+            },
+            {
+                "categoryId": "2005",
+                "categoryIntroduction": "",
+                "categoryNameCn": "千层卷饼系列",
+                "categoryNameEn": "",
+                "checkedImgUrl": "",
+                "childCategoriesVos": [],
+                "id": 12501,
+                "parentId": 0,
+                "required": false,
+                "showFlag": 1,
+                "sort": "38",
+                "uncheckImgUrl": ""
+            },
+            {
+                "categoryId": "3",
+                "categoryIntroduction": "",
+                "categoryNameCn": "套餐",
+                "categoryNameEn": "",
+                "checkedImgUrl": "",
+                "childCategoriesVos": [],
+                "id": 12503,
+                "parentId": 0,
+                "required": false,
+                "showFlag": 1,
+                "sort": "45",
+                "uncheckImgUrl": ""
+            },
+            {
+                "categoryId": "2098",
+                "categoryIntroduction": "",
+                "categoryNameCn": "火锅食材",
+                "categoryNameEn": "",
+                "checkedImgUrl": "",
+                "childCategoriesVos": [],
+                "end_date": "",
+                "end_time": "11:00",
+                "id": 12711,
+                "parentId": 0,
+                "required": false,
+                "showFlag": 1,
+                "sort": "53",
+                "start_date": "",
+                "start_time": "06:00",
+                "uncheckImgUrl": ""
+            },
+            {
+                "categoryId": "2097",
+                "categoryIntroduction": "",
+                "categoryNameCn": "新小食分类1",
+                "categoryNameEn": "",
+                "checkedImgUrl": "",
+                "childCategoriesVos": [],
+                "end_date": "",
+                "end_time": "",
+                "id": 12500,
+                "parentId": 0,
+                "required": false,
+                "showFlag": 1,
+                "sort": "63",
+                "start_date": "",
+                "start_time": "",
+                "uncheckImgUrl": ""
+            }
+        ],
+        "channelId": "19",
+        "menuResponseVo": [
+            {
+                "categoryId": "2004",
+                "id": 12502,
+                "menuVoList": [
+                    {
+                        "crossedOutPrice": 15.9,
+                        "dataFrom": "2",
+                        "dayOfWeek": "1111111",
+                        "descriptionCn": "我是个性化的描述",
+                        "end_date": "",
+                        "grillList": [],
+                        "id": 2169,
+                        "imageUrl": "https://test-public-hophing.tos-cn-beijing.volces.com/base/platform/portal/menu/pic/19/1/YS/8ffb3920-aa83-45d4-be8e-ed9aafcef391/0.3元饮料袋.jpg?v=1747123292901",
+                        "isShow": "1",
+                        "jdCategoryInfo": {
+                            "backCategoryId": 31184,
+                            "backCategoryName": "现制茶饮料",
+                            "propertyInfoList": [
+                                {
+                                    "propertyId": 115262,
+                                    "propertyName": "主料",
+                                    "values": [
+                                        {
+                                            "propertyName": "茶"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "propertyId": 115312,
+                                    "propertyName": "描述",
+                                    "values": [
+                                        {
+                                            "propertyName": "好喝"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "propertyId": 117753,
+                                    "propertyName": "茶底",
+                                    "values": [
+                                        {
+                                            "propertyName": "红茶"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "propertyId": 1579933,
+                                    "propertyName": "份量",
+                                    "values": [
+                                        {
+                                            "propertyId": 292775,
+                                            "propertyName": "一人份"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "manageCategory": "",
+                        "materialList": [],
+                        "maxQty": 999,
+                        "mealType": "3",
+                        "minQty": 1,
+                        "mutexList": [],
+                        "packagingFee": 1.0,
+                        "packagingType": "JD大盒",
+                        "packagingTypeCode": "JD001",
+                        "price": 15.9,
+                        "productId": "P200000001144",
+                        "productNameCn": "JD可选套餐",
+                        "productNameEn": "",
+                        "productNameShort": "",
+                        "productType": "2",
+                        "production_time": "0",
+                        "resourceList": [],
+                        "sellTimeList": [
+                            {
+                                "friday": "00:00-23:59",
+                                "monday": "00:00-23:59",
+                                "saturday": "00:00-23:59",
+                                "sunday": "00:00-23:59",
+                                "thursday": "00:00-23:59",
+                                "tuesday": "00:00-23:59",
+                                "wednesday": "00:00-23:59"
+                            }
+                        ],
+                        "setMealList": [
+                            {
+                                "fixed": "0",
+                                "isShow": "1",
+                                "itemList": [
+                                    {
+                                        "addPrice": 1.0,
+                                        "defaultFlag": "0",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 0.01,
+                                        "price": 0.01,
+                                        "productId": "P100000004125",
+                                        "productName": "JD冰红茶",
+                                        "productNameEn": "JD  -2222",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001810",
+                                        "skuNameCn": "小",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    },
+                                    {
+                                        "addPrice": 1.5,
+                                        "defaultFlag": "0",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 13.9,
+                                        "price": 13.9,
+                                        "productId": "P100000004126",
+                                        "productName": "JD咖啡测试",
+                                        "productNameEn": "",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001812",
+                                        "skuNameCn": "中",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    },
+                                    {
+                                        "addPrice": 0.0,
+                                        "defaultFlag": "1",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 9.9,
+                                        "price": 9.9,
+                                        "productId": "P100000004126",
+                                        "productName": "JD咖啡测试",
+                                        "productNameEn": "",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001811",
+                                        "skuNameCn": "小",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    },
+                                    {
+                                        "addPrice": 0.0,
+                                        "defaultFlag": "0",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 2.0,
+                                        "price": 2.0,
+                                        "productId": "P100000005177",
+                                        "productName": "JD单品",
+                                        "productNameEn": "",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001895",
+                                        "skuNameCn": "个",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    }
+                                ],
+                                "optionalMinQuantity": 1,
+                                "optionalQuantity": 1,
+                                "round": 1,
+                                "roundNameCn": "套餐明细"
+                            }
+                        ],
+                        "single_no_delivery": "0",
+                        "sliderUrlList": [],
+                        "sort": 6,
+                        "specList": [
+                            {
+                                "defaultFlag": "1",
+                                "price": 15.9,
+                                "propertyClassList": [],
+                                "skuId": "P200000001144",
+                                "skuNameCn": "JD可选套餐",
+                                "skuNameEn": "",
+                                "stockStatus": "0",
+                                "upLowStatus": "0"
+                            }
+                        ],
+                        "start_date": "",
+                        "stockStatus": "0",
+                        "upLowStatus": "0"
+                    }
+                ],
+                "parentId": 0
+            },
+            {
+                "categoryId": "2097",
+                "id": 12500,
+                "menuVoList": [
+                    {
+                        "crossedOutPrice": 15.9,
+                        "dataFrom": "2",
+                        "dayOfWeek": "1111111",
+                        "descriptionCn": "我是个性化的描述",
+                        "end_date": "",
+                        "grillList": [],
+                        "id": 2169,
+                        "imageUrl": "https://test-public-hophing.tos-cn-beijing.volces.com/base/platform/portal/menu/pic/19/1/YS/8ffb3920-aa83-45d4-be8e-ed9aafcef391/0.3元饮料袋.jpg?v=1747123292901",
+                        "isShow": "1",
+                        "jdCategoryInfo": {
+                            "backCategoryId": 31184,
+                            "backCategoryName": "现制茶饮料",
+                            "propertyInfoList": [
+                                {
+                                    "propertyId": 115262,
+                                    "propertyName": "主料",
+                                    "values": [
+                                        {
+                                            "propertyName": "茶"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "propertyId": 115312,
+                                    "propertyName": "描述",
+                                    "values": [
+                                        {
+                                            "propertyName": "好喝"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "propertyId": 117753,
+                                    "propertyName": "茶底",
+                                    "values": [
+                                        {
+                                            "propertyName": "红茶"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "propertyId": 1579933,
+                                    "propertyName": "份量",
+                                    "values": [
+                                        {
+                                            "propertyId": 292775,
+                                            "propertyName": "一人份"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "manageCategory": "",
+                        "materialList": [],
+                        "maxQty": 999,
+                        "mealType": "3",
+                        "minQty": 1,
+                        "mutexList": [],
+                        "packagingFee": 1.0,
+                        "packagingType": "JD大盒",
+                        "packagingTypeCode": "JD001",
+                        "price": 15.9,
+                        "productId": "P200000001144",
+                        "productNameCn": "JD可选套餐",
+                        "productNameEn": "",
+                        "productNameShort": "",
+                        "productType": "2",
+                        "production_time": "0",
+                        "resourceList": [],
+                        "sellTimeList": [
+                            {
+                                "friday": "00:00-23:59",
+                                "monday": "00:00-23:59",
+                                "saturday": "00:00-23:59",
+                                "sunday": "00:00-23:59",
+                                "thursday": "00:00-23:59",
+                                "tuesday": "00:00-23:59",
+                                "wednesday": "00:00-23:59"
+                            }
+                        ],
+                        "setMealList": [
+                            {
+                                "fixed": "0",
+                                "isShow": "1",
+                                "itemList": [
+                                    {
+                                        "addPrice": 1.0,
+                                        "defaultFlag": "0",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 0.01,
+                                        "price": 0.01,
+                                        "productId": "P100000004125",
+                                        "productName": "JD冰红茶",
+                                        "productNameEn": "JD  -2222",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001810",
+                                        "skuNameCn": "小",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    },
+                                    {
+                                        "addPrice": 1.5,
+                                        "defaultFlag": "0",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 13.9,
+                                        "price": 13.9,
+                                        "productId": "P100000004126",
+                                        "productName": "JD咖啡测试",
+                                        "productNameEn": "",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001812",
+                                        "skuNameCn": "中",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    },
+                                    {
+                                        "addPrice": 0.0,
+                                        "defaultFlag": "1",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 9.9,
+                                        "price": 9.9,
+                                        "productId": "P100000004126",
+                                        "productName": "JD咖啡测试",
+                                        "productNameEn": "",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001811",
+                                        "skuNameCn": "小",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    },
+                                    {
+                                        "addPrice": 0.0,
+                                        "defaultFlag": "0",
+                                        "defaultQuantity": 1,
+                                        "end_date": "",
+                                        "freeFlag": "null",
+                                        "lQuantity": 1,
+                                        "lowerStatus": "0",
+                                        "originalPrice": 2.0,
+                                        "price": 2.0,
+                                        "productId": "P100000005177",
+                                        "productName": "JD单品",
+                                        "productNameEn": "",
+                                        "sellTimeList": [{}],
+                                        "skuId": "K100000001895",
+                                        "skuNameCn": "个",
+                                        "skuNameEn": "",
+                                        "start_date": "",
+                                        "stockStatus": "0"
+                                    }
+                                ],
+                                "optionalMinQuantity": 1,
+                                "optionalQuantity": 1,
+                                "round": 1,
+                                "roundNameCn": "套餐明细"
+                            }
+                        ],
+                        "single_no_delivery": "0",
+                        "sliderUrlList": [],
+                        "sort": 65,
+                        "specList": [
+                            {
+                                "defaultFlag": "1",
+                                "price": 15.9,
+                                "propertyClassList": [],
+                                "skuId": "P200000001144",
+                                "skuNameCn": "JD可选套餐",
+                                "skuNameEn": "",
+                                "stockStatus": "0",
+                                "upLowStatus": "0"
+                            }
+                        ],
+                        "start_date": "",
+                        "stockStatus": "0",
+                        "upLowStatus": "0"
+                    }
+                ],
+                "parentId": 0
+            }
+        ],
+        "requestId": "9a62e37f-804c-48e5-941e-9c7e77c723d1",
+        "storeCode": "YS010001",
+        "timestamp": 1759977981787
+    },
+    "msg": "",
+    "code": 200
+}

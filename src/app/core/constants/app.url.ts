@@ -19,6 +19,13 @@ export class AppUrl {
 
     /** Mock 菜单：全量菜单 */
     public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
+    public static readonly MENU_ALL_TW: Url = new Url(
+        'MENU_ALL_TW',
+        '/api/menu/tw-all',
+        Method.GET,
+    );
+    /** Mock 门店信息 */
+    public static readonly STORE_INFO: Url = new Url('STORE_INFO', '/api/store/info', Method.GET);
 
     public static readonly RESTAURANT_PAGE: Url = new Url(
         'RESTAURANT_PAGE',

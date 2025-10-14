@@ -22,7 +22,6 @@ export const MenuFields = {
 } as const;
 export type MenuFieldKey = keyof typeof MenuFields;
 
-
 export interface MenuData {
     id: string;
     name: string;
@@ -30,4 +29,135 @@ export interface MenuData {
     price: number;
     tags?: string[];
     keywords?: string[];
+}
+
+/**
+ * @desc 菜单子项
+ */
+export interface menuListItem {
+    crossedOutPrice: number;
+    dataFrom: string;
+    dayOfWeek: string;
+    descriptionCn: string;
+    end_date: string;
+    grillList: any[];
+    id: number;
+    imageUrl: string;
+    isShow: string;
+    jdCategoryInfo: {
+        backCategoryId: number;
+        backCategoryName: string;
+        propertyInfoList: Array<{
+            propertyId: number;
+            propertyName: string;
+            values: Array<{
+                propertyId?: number;
+                propertyName: string;
+            }>;
+        }>;
+    };
+    manageCategory: string;
+    materialList: any[];
+    maxQty: number;
+    mealType: string;
+    minQty: number;
+    mutexList: any[];
+    packagingFee: number;
+    packagingType: string;
+    packagingTypeCode: string;
+    price: number;
+    productId: string;
+    productNameCn: string;
+    productNameEn: string;
+    productNameShort: string;
+    productType: string;
+    production_time: string;
+    resourceList: any[];
+    sellTimeList: Array<{
+        friday: string;
+        monday: string;
+        saturday: string;
+        sunday: string;
+        thursday: string;
+        tuesday: string;
+        wednesday: string;
+    }>;
+    setMealList: Array<{
+        fixed: string;
+        isShow: string;
+        itemList: Array<{
+            addPrice: number;
+            defaultFlag: string;
+            defaultQuantity: number;
+            end_date: string;
+            freeFlag: string;
+            lQuantity: number;
+            lowerStatus: string;
+            originalPrice: number;
+            price: number;
+            productId: string;
+            productName: string;
+            productNameEn: string;
+            sellTimeList: Array<Record<string, any>>;
+            skuId: string;
+            skuNameCn: string;
+            skuNameEn: string;
+            start_date: string;
+            stockStatus: string;
+        }>;
+        optionalMinQuantity: number;
+        optionalQuantity: number;
+        round: number;
+        roundNameCn: string;
+    }>;
+    single_no_delivery: string;
+    sliderUrlList: any[];
+    sort: number;
+    specList: Array<{
+        defaultFlag: string;
+        price: number;
+        propertyClassList: any[];
+        skuId: string;
+        skuNameCn: string;
+        skuNameEn: string;
+        stockStatus: string;
+        upLowStatus: string;
+    }>;
+    start_date: string;
+    stockStatus: string;
+    upLowStatus: string;
+}
+
+/**
+ * @desc 菜单分类子项
+ */
+export interface MenuCategoryItem {
+    categoryId: string;
+    categoryIntroduction: string;
+    categoryNameCn: string;
+    categoryNameEn: string;
+    checkedImgUrl: string;
+    childCategoriesVos: Array<MenuCategoryItem> | [] | null; // 空数组或 Category 数组
+    id: number;
+    parentId: number;
+    required: boolean;
+    showFlag: number;
+    sort: string;
+    uncheckImgUrl: string;
+}
+
+export interface MenuResponseVo {
+    categoryId: string;
+    id: number;
+    menuVoList: menuListItem[] | [];
+    parentId: number;
+}
+
+export interface Menu {
+    appKey: string;
+    brandCode: string;
+    callback: boolean;
+    categoriesVos: MenuCategoryItem[] | [] | null;
+    channelId: string;
+    menuResponseVo: Array<MenuResponseVo>;
 }
