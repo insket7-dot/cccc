@@ -1,0 +1,8 @@
+{
+  "/yakiSer": {
+    "target": "https://staging.yakiapp.io/",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/yakiSer": "" }
+  }
+}

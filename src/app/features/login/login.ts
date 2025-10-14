@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoginService } from './services/login.service';
+import { Component, OnInit, OnDestroy,inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,6 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { deviceState } from './constants/login.constants';
+import { CacheKey } from '@app/shared/constants/cache.key';
+import { ModelStateService } from '@app/core/services/model-state.service';
+
 
 @Component({
     selector: 'app-login',
@@ -26,6 +31,8 @@ import { deviceState } from './constants/login.constants';
     ],
 })
 export class Login extends AbstractAppPage implements OnInit {
+        private readonly modelStateService = inject(ModelStateService);
+
     loginForm: FormGroup;
     selectedEnvironment: 'production' | 'test' = 'test';
 
@@ -33,7 +40,7 @@ export class Login extends AbstractAppPage implements OnInit {
 
     currentState: deviceState = deviceState.BIND_DEVICE;
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: FormBuilder, private LoginService: LoginService) {
         super();
         this.loginForm = this.formBuilder.group({
             storeCode: ['', []],
@@ -43,6 +50,9 @@ export class Login extends AbstractAppPage implements OnInit {
     }
 
     ngOnInit() {
+        const queryParams = this.route.snapshot.queryParams;
+        this.currentState = queryParams['state'] as deviceState;
+
         if (this.currentState === deviceState.BIND_DEVICE) {
             this.loginForm.get('storeCode')?.setValidators([Validators.required]);
             this.loginForm.get('authCode')?.setValidators([Validators.required]);
@@ -52,12 +62,18 @@ export class Login extends AbstractAppPage implements OnInit {
         }
     }
 
-    onSubmitHandler() {
+    async onSubmitHandler() {
         if (this.loginForm.valid) {
-            console.log('表单提交数据：', this.loginForm.value);
-            console.log('选择的环境：', this.selectedEnvironment);
+            if (this.currentState === deviceState.BIND_DEVICE) {
+                const result: any = await this.LoginService.bingDevice({
+                    storeCode: this.loginForm.value.storeCode.trim(),
+                    authCode: this.loginForm.value.authCode.trim(),
+                });
+                await localStorage.setItem(CacheKey.DEVICE_ID, result.data);
+                 this.modelStateService.setDeviceId(result.data);
+                this.router.navigate(['/screen'], {});
+            }
         } else {
-            // 标记所有表单控件为已触摸，显示校验错误
             Object.values(this.loginForm.controls).forEach((control) => {
                 control.markAsTouched();
             });

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '@/app/core/guards/device.guard';
 
 /**
  * 页面路由动画列表
@@ -23,6 +24,7 @@ export const routes: Routes = [
         path: 'screen',
         loadComponent: () => import('./features/screen/screen').then((m) => m.Screen),
         data: { animation: 'screen' },
+        canActivate: [AuthGuard]
     },
     {
         path: 'login',

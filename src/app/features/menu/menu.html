@@ -1,62 +1,77 @@
 <div class="menu-grid">
- <div class="child" *ngIf="curModel === 'Accessibility'">
-    <img src="/assets/image/banner.png" alt="">
+    <div class="child" *ngIf="curModel === 'Accessibility'">
+        <img src="/assets/image/banner.png" alt="" />
 
-    <div class="exit_model" (click)="toggleModel('Normal')" >
-        <img src="/assets/image/exit.png" alt="">
-        <span>{{"page.exitAccessibilityModel" | translate}}</span>
-    </div>
-</div>
-
-<div class="beff">
-    <div class="left">
-        <div class="left_top">
-            <img src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500" alt="logo">
-
-            <div class="laug">
-                <app-language-selector  [width]="'80px'"
-                    [height]="'30px'"></app-language-selector>
-            </div>
-        </div>
-
-        <div class="left_center">
-           <div class="left_up">
-            <img src="/assets/image/icon_up1.png" alt="">
-           </div>
-
-           <div class="left_cate">
-            
-           </div>
-           <div class="left_down">
-            <img src="/assets/image/icon_down.png" alt="">
-
-           </div>
-        </div>
-
-        <div class="left_bottom" *ngIf="curModel !== 'Accessibility'" (click)="toggleModel('Accessibility')">
-            <img src="/assets/image/Acc.png" alt="">
-                <span>{{"page.model2" | translate}}</span>
+        <div class="exit_model" (click)="toggleModel('Normal')">
+            <img src="/assets/image/exit.png" alt="" />
+            <span>{{ 'page.exitAccessibilityModel' | translate }}</span>
         </div>
     </div>
-    <div class="right">
 
-        <div class="right_block">
-            <p class="title">—— BEFF ——</p>
+    <div class="beff">
+        <div class="left">
+            <div class="left_top">
+                <img
+                    src="https://img2.baidu.com/it/u=793173674,3413416703&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500"
+                    alt="logo"
+                />
 
-            <div class="dish">
-                <div class="dish_left">
-                    img
-                </div>
-                <div class="dish_right">
-                    <div class="dish_name">12123123asfasdasdafasfa123123123123123sfd</div>
-                    <div class="dish_desc">asdasdafgwerfdwqerfqefqwr123123123123fqwqw12312i3e412in</div>
-                    <div class="price"><span>$18.22</span> <div> <span>-</span> <span>2</span>  <span>+</span></div> </div>
+                <div class="laug">
+                    <app-language-selector
+                        [width]="'80px'"
+                        [height]="'30px'"
+                    ></app-language-selector>
                 </div>
             </div>
+
+            <div class="left_center">
+                <div class="left_up">
+                    <img src="/assets/image/icon_up1.png" alt="" />
+                </div>
+
+                <div class="left_cate"></div>
+                <div class="left_down">
+                    <img src="/assets/image/icon_down.png" alt="" />
+                </div>
+            </div>
+
+            <div
+                class="left_bottom"
+                *ngIf="curModel !== 'Accessibility'"
+                (click)="toggleModel('Accessibility')"
+            >
+                <img src="/assets/image/Acc.png" alt="" />
+                <span>{{ 'page.model2' | translate }}</span>
+            </div>
+        </div>
+        <div class="right">
+            <div class="right_block">
+                <p class="title">—— BEFF ——</p>
+
+                <div class="dish">
+                    <div class="dish_left">img</div>
+                    <div class="dish_right">
+                        <div class="dish_name">12123123asfasdasdafasfa123123123123123sfd</div>
+                        <div class="dish_desc">
+                            asdasdafgwerfdwqerfqefqwr123123123123fqwqw12312i3e412in
+                        </div>
+                        <div class="price">
+                            <span>$18.22</span>
+                            <div>
+                                <span class="add">
+                                    <img src="/assets/image/minus.png" alt="" />
+                                </span>
+                                <span>2</span>
+                                <span class="add">
+                                    <img src="/assets/image/add.png" alt="" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
     <app-shopping-cart></app-shopping-cart>
-
 </div>

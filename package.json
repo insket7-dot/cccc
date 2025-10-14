@@ -5,7 +5,7 @@
     "scripts": {
         "start:prod": "ng serve --configuration=production",
         "start:mock": "ng serve --configuration=mock",
-        "start:dev": "ng serve --configuration=dev --host 0.0.0.0 --port 56771",
+        "start:dev": "ng serve --configuration=dev  --proxy-config proxy.conf.json --host 0.0.0.0 --port 56771",
         "prettier": "npx prettier --write ./src",
         "build:dev": "ng build -c dev && npm run sync",
         "build:prod": "ng build -c production && npm run sync",

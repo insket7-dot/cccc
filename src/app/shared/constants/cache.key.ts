@@ -32,6 +32,7 @@ export const CacheKey = {
   /**日期格式*/
   DATE_FORMAT:'dateFormat',
   /**是否需要修改密码 */
-  NEED_CHANGE_PASSWORD:'needChangePassword'
+  NEED_CHANGE_PASSWORD:'needChangePassword',
+
 
 };

@@ -25,4 +25,9 @@ export class AppUrl {
         '/store/restaurant/page',
         Method.GET,
     );
+    public static readonly BINDDEVICE: Url = new Url(
+        'BIND_DEVICE',
+        '/yakiSer/o2o/yaki-out/device/bind',
+        Method.POST,
+    );
 }

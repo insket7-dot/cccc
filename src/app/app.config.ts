@@ -92,7 +92,7 @@ export const appConfig: ApplicationConfig = {
             },
             fallbackLang: 'zh-cn',
         }).providers!,
-        ...provideMock(), // 本地mock 拦截器
+        // ...provideMock(), // 本地mock 拦截器
         { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
         // 显式提供两种实现，供 EnvironmentInjector 动态解析
         WebDatabaseService,

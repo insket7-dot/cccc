@@ -71,7 +71,7 @@
         </button>
     </div>
 
-    <button *ngIf="currentState !== deviceState.RESET" class="button submit-btn" type="submit" [disabled]="!loginForm.valid">
+    <button *ngIf="currentState !== deviceState.RESET" class="button submit-btn" type="submit" [disabled]="!loginForm.valid" (click)="onSubmitHandler()"  >
         {{ 'app.common.confirm' | translate }}
     </button>
 
