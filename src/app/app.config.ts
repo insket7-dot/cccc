@@ -4,7 +4,6 @@ import {
     provideZoneChangeDetection,
     inject,
     EnvironmentInjector,
-    provideAppInitializer,
     LOCALE_ID,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -41,7 +40,7 @@ import { routes } from './app.routes';
 import { TranslateLoader, TranslationObject, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, of } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from '@/environments/environment';
 import { MockInterceptor, provideMock } from '@rydeen/angular-framework';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LanguageService } from './core/services/language.service';
@@ -93,7 +92,7 @@ export const appConfig: ApplicationConfig = {
             },
             fallbackLang: 'zh-cn',
         }).providers!,
-        // ...provideMock(),
+        ...provideMock(), // 本地mock 拦截器
         { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
         // 显式提供两种实现，供 EnvironmentInjector 动态解析
         WebDatabaseService,
