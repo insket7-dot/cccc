@@ -28,7 +28,7 @@ export const environment = {
     /** 补丁存放路径 */
     patchPathKey: '/',
     /** 国际化资源文件存放路径 */
-    i18nPathKey: 'sxx/i18n/prod',
+    i18nPathKey: 'assets/i18n',
     /** 日志驱动类型 */
     logDriverType: DriverType.ALI_SLS,
     /** 客户端标识 */
