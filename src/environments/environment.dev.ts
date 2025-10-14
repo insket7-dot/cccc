@@ -8,25 +8,25 @@ export const environment = {
     /** 后台服务接口地址 */
     dynamicUrl: 'https://staging.yakiapp.io/',
     /** 资源包版本号 */
-    assetsVersion: '20240911',
+    assetsVersion: '20251013',
     /** App版本号 */
-    appVersion: '3.0.3',
+    appVersion: '1.0.0',
     /** 最大可用版本号 */
     maxVersionCode: '32',
     /** 最小可用版本Code */
-    minVersionName: '3.0.3',
+    minVersionName: '1.0.0',
     /** 最小可用版本号 */
     minVersionCode: '1',
     /** 版本更新检查接口 */
-    checkPatchUrl: 'http://10.100.0.107:8888/version/live-updates',
+    checkPatchUrl: '',
     /** 运行版本上报接口 */
-    versionReportUrl: 'http://10.100.0.107:8888/version/report',
+    versionReportUrl: '',
     /** 发布补丁接口 */
-    patchServerUrl: 'http://10.100.0.107:8888/version/upload-patch',
+    patchServerUrl: '',
     /** 文件桶基础地址 */
-    bucketBaseUrl: 'https://sxx-bucket.rydeen.com.cn/',
+    bucketBaseUrl: '',
     /** 补丁存放路径 */
-    patchPathKey: 'sxx/patch_dev',
+    patchPathKey: '',
     /** 国际化资源文件存放路径 */
     i18nPathKey: 'assets/i18n',
     /** 日志驱动类型 */
