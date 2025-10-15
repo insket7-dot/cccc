@@ -14,6 +14,9 @@ import {
 } from '@capacitor-rydeen/mqtt';
 import { PluginListenerHandle } from '@capacitor/core';
 import { Subject } from 'rxjs';
+import { v4 } from 'uuid';
+import { LocalStorage } from '@rydeen/angular-framework';
+import { CacheKey } from '@app/shared/constants/cache.key';
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +38,36 @@ export class MqttService implements OnDestroy {
     private subscriptionResultSubject = new Subject<MqttSubscriptionResult>();
 
     constructor() {}
+
+    /**
+     * @desc 初始化链接
+     */
+    async initialize() {
+        // 本地设备 ID
+        const deviceId: string = (await LocalStorage.getItem(CacheKey.DEVICE_ID)) || '';
+        const config: MqttConfig = {
+            server: {
+                host: '8.211.36.94',
+                port: 1883,
+                username: 'admin',
+                password: 'Root.qwe123',
+                clientId: `${deviceId}-${v4()}`,
+                networkPath: 'PUBLIC',
+                groupId: 'GID_o2o_group',
+                vpcHost: '10.20.0.145',
+                vpcPort: 1883,
+            },
+            sessionExpiryInterval: 60,
+            keepAliveInterval: 60,
+            reconnectInterval: 5000,
+            maxReconnectAttempts: 5,
+            heartbeatEnabled: true,
+            monitorEnabled: true,
+            monitorCheckInterval: 5000,
+            autoReconnect: true,
+        };
+        await this.connect(config);
+    }
 
     /**
      * 连接 MQTT 服务器

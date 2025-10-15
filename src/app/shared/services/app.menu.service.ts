@@ -9,7 +9,6 @@ import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { AppUrl } from '@app/core/constants/app.url';
-import { StoreInfo } from '@app/shared/types/store.shared.types';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +16,6 @@ import { StoreInfo } from '@app/shared/types/store.shared.types';
 export class AppMenuService extends AbstractAppService {
     private menuMap = signal<Map<string, menuListItem[]>>(new Map());
     private categoryList = signal<MenuCategoryItem[]>([]);
-    private storeInfo = signal<StoreInfo | null>(null);
     private currentCategory = signal<string>('');
 
     constructor() {
@@ -27,25 +25,25 @@ export class AppMenuService extends AbstractAppService {
         this.setupPersistence();
     }
 
-    readonly storeInfoValue = computed(() => this.storeInfo());
     readonly menuMapValue = computed(() => this.menuMap());
     readonly categoryListValue = computed(() => this.categoryList());
     readonly currentCategoryValue = computed(() => this.getCurrentCategory());
     readonly currentMenuValue = computed(() => this.getCurrentMenu());
 
+    /**
+     * @desc 更新分类ID
+     */
     setCurrentCategory(id: string) {
         this.currentCategory.set(id);
     }
 
     async init() {
-        await Promise.allSettled([this.getRemoteMenu(), this.getRemoteStoreInfo()]);
-    }
-
-    async getRemoteStoreInfo() {
-        const res = await this.request<StoreInfo>(AppUrl.STORE_INFO);
-        if (res.success) {
-            this.storeInfo.set(res.data);
+        // 优先读取缓存
+        const hasMenu = await LocalStorage.isExist(CacheKey.MENU_LIST);
+        if (hasMenu) {
+            void this.readPersistence();
         }
+        this.getRemoteMenu().catch((error) => console.error(error));
     }
 
     private getCurrentCategory(): string {
@@ -78,7 +76,10 @@ export class AppMenuService extends AbstractAppService {
         this.menuMap.set(menuMap);
     }
 
-    private async getRemoteMenu() {
+    /**
+     * @desc 远程更新菜单
+     */
+    async getRemoteMenu() {
         let res = await this.request<Menu>(AppUrl.MENU_ALL_TW);
         console.log(res);
         if (res.success) {
@@ -87,16 +88,10 @@ export class AppMenuService extends AbstractAppService {
         }
     }
 
+    /**
+     * @desc 本地固化
+     */
     private setupPersistence() {
-        effect(() => {
-            const info = this.storeInfo();
-            if (info) {
-                LocalStorage.setItem(CacheKey.STORE_INFO, JSON.stringify(info)).catch((err) =>
-                    console.error('存储店铺信息失败:', err),
-                );
-            }
-        });
-
         effect(() => {
             const categories = this.categoryList();
             LocalStorage.setItem(CacheKey.MENU_CATEGORY, JSON.stringify(categories)).catch((err) =>
@@ -114,5 +109,24 @@ export class AppMenuService extends AbstractAppService {
                 (err) => console.error('存储菜单失败:', err),
             );
         });
+    }
+
+    /**
+     * @desc 读取本地缓存
+     */
+    private async readPersistence() {
+        try {
+            const [categories, menuMap] = (await Promise.all([
+                LocalStorage.getItem(CacheKey.MENU_CATEGORY),
+                LocalStorage.getItem(CacheKey.MENU_LIST),
+            ])) as [string | null, string | null];
+            if (categories) this.categoryList.set(JSON.parse(categories) as MenuCategoryItem[]);
+            if (menuMap) {
+                const data: MenuResponseVo[] = JSON.parse(menuMap);
+                this.updateMenuMap(data);
+            }
+        } catch (error) {
+            console.error('从缓存加载失败:', error);
+        }
     }
 }

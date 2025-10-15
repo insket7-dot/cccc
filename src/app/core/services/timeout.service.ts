@@ -111,6 +111,6 @@ export class IdleTimeoutService {
     private navigateToScreenPage() {
         this.stopCountdown();
         this.dialogRef?.close();
-        this.router.navigate(['/screen']);
+        this.router.navigate(['/screen']).catch((error) => console.error(error));
     }
 }
