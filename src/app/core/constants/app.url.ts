@@ -37,4 +37,9 @@ export class AppUrl {
         '/yakiSer/o2o/yaki-out/device/bind',
         Method.POST,
     );
+    public static readonly GET_RESOURCE: Url = new Url(
+        'GET_RESOURCE',
+        '/yakiSer/o2o/yaki-out/resource/get',
+        Method.POST,
+    );
 }

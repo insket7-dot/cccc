@@ -27,6 +27,8 @@ import type { IDatabaseService } from './core/interfaces/database.interface';
 // import {LanguageSelectorComponent} from './shared/components/language-selector/language-selector';
 import { MigrationService } from './core/services/migration.service';
 import { IdleTimeoutService } from '@/app/core/services/timeout.service';
+import { AppStoreService } from '@/app/shared/services/app.store.service';
+
 
 @Component({
     selector: 'app-root',
@@ -62,9 +64,11 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         @Inject(IdleTimeoutService) private idleTimeoutService: IdleTimeoutService,
         @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
         private readonly migrationService: MigrationService,
+        private appStoreService:AppStoreService
     ) {
         super();
         this.initializeApp();
+        this.appStoreService.init();
 
         this.idleTimeoutService.startMonitoring();
     }
