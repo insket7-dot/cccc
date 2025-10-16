@@ -79,6 +79,8 @@ export class MqttService implements OnDestroy {
             await Mqtt.connect(config);
             this._isConnected = true;
             this.config = config;
+            // 订阅
+            void this.subscribe({ topic: 'o2o_third' });
             void this.setupListeners();
             console.log('MQTT 连接成功');
         } catch (err) {
