@@ -145,8 +145,12 @@
         "storeCodeRequired": "Store Code cannot be empty",
         "authCode": "Authorization Code",
         "authCodeRequired": "Authorization Code cannot be empty",
+        "exitAccessibilityModel": "Exit Accessibility Mode",
         "selectWay": "Please select a dining method",
         "password": "Password",
-        "passwordRequired": "Password cannot be empty"
+        "passwordRequired": "Password cannot be empty",
+        "resetConfig": "Reset settings",
+        "resetSystem": "Reset the ordering system",
+        "loginOut": "Exit the ordering system"
     }
 }

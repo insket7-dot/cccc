@@ -140,10 +140,17 @@
         "way1": "堂食",
         "way2": "外帶",
         "tip2": "提示",
-        "tip3": "由於長時間無操作，系統將在 {{time}} 秒內返回首頁",
+        "tip3": "由於長時間無操作，系統將在 {{time}} 秒內返回主頁",
         "storeCode": "門店編碼",
         "storeCodeRequired": "門店編碼不能為空",
         "authCode": "授權碼",
-        "authCodeRequired": "授權碼不能為空"
+        "authCodeRequired": "授權碼不能為空",
+        "exitAccessibilityModel": "退出無障礙模式",
+        "selectWay": "請選擇點餐方式",
+        "password": "密碼",
+        "passwordRequired": "密碼不能為空",
+        "resetConfig": "重置設定",
+        "resetSystem": "重置點餐系統",
+        "loginOut": "退出點餐系統"
     }
 }

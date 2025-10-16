@@ -67,7 +67,7 @@ export class Home extends AbstractAppPage implements OnInit {
     ]);
 
     isEnglish = false;
-     private clickCount = 0;
+    private clickCount = 0;
     get curModel() {
         return this.modelStateService.curModel();
     }
@@ -144,12 +144,12 @@ export class Home extends AbstractAppPage implements OnInit {
         }
     }
 
-     onLogoClick() {
-    this.clickCount++;
-    // 点击6次后重置计数并导航到登录页
-    if (this.clickCount >= 6) {
-      this.clickCount = 0;
-      this.router.navigate(['/login'],{ queryParams: {state:"RESET"} });
+    onLogoClick() {
+        this.clickCount++;
+        // 点击6次后重置计数并导航到登录页
+        if (this.clickCount >= 6) {
+            this.clickCount = 0;
+            this.router.navigate(['/login'], { queryParams: { state: 'RESET' } });
+        }
     }
-  }
 }

@@ -69,9 +69,11 @@ export class Login extends AbstractAppPage implements OnInit {
                     storeCode: this.loginForm.value.storeCode.trim(),
                     authCode: this.loginForm.value.authCode.trim(),
                 });
-                await localStorage.setItem(CacheKey.DEVICE_ID, result.data);
-                 this.modelStateService.setDeviceId(result.data);
-                this.router.navigate(['/screen'], {});
+                if(result.data) {
+                    await localStorage.setItem(CacheKey.DEVICE_ID, result.data);
+                     this.modelStateService.setDeviceId(result.data);
+                    this.router.navigate(['/screen'], {});
+                }
             }
         } else {
             Object.values(this.loginForm.controls).forEach((control) => {

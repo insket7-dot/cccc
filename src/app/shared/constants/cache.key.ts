@@ -14,4 +14,6 @@ export const CacheKey = {
     DEVICE_ID: 'deviceId',
     /** 最后一次统计时间 */
     LAST_STATISTICS_TIME: 'lastStatisticsTime',
+    /** 轮播图图片 */
+    CAROUSEL_IMAGES: 'carouselImages',
 };
