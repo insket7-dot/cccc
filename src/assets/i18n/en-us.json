@@ -153,7 +153,14 @@
         "resetSystem": "Reset the ordering system",
         "loginOut": "Exit the ordering system",
         "continue":"Whether to place an order",
-        "orderDetails":"Order Details"
+        "orderDetails":"Order Details",
+        "continueText":"Continue",
+        "addtip":"Add Tip",
+        "percentage":"percentage",
+        "fixed":"fixed"
+
+
+
 
     }
 }

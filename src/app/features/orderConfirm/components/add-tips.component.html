@@ -1,0 +1,54 @@
+<div class="add-tips">
+    <div class="top">
+        <h3>{{'page.addtip' | translate}}</h3>
+        <span (click)="cancel()">{{"app.common.cancel"| translate}}</span>
+    </div>
+
+    <div class="type">
+        @for (item of tipTypeList; track item.value) {
+        <span [class.active]="item.value === tipType" (click)="changeType(item.value)">{{
+            item.name | translate
+        }}</span>
+
+        }
+    </div>
+
+    <div class="fee">
+        @if(tipType === 'percentage') {
+        <div class="percentage">
+            <div class="percentage_list">
+                @for (item of percentages; track item) {
+                <span
+                    class="percentage_item"
+                    [class.active]="item === selectedPercentage"
+                    (click)="selectedPercentage = item"
+                    >{{ item }}%</span
+                >
+                }
+            </div>
+
+            <p>Custom Tip</p>
+            <mat-form-field class="example-full-width">
+                <input type="tel" matInput [(ngModel)]="selectedPercentage" placeholder="" />
+                <span matSuffix>% &nbsp;</span>
+            </mat-form-field>
+        </div>
+        } @if(tipType === 'fixed') {
+        <div class="percentage">
+            <p>Custom Tip</p>
+            <mat-form-field class="example-full-width">
+                <input type="tel" matInput [(ngModel)]="fixedAmount" placeholder="" />
+                <span matSuffix>$ &nbsp;</span>
+            </mat-form-field>
+        </div>
+        }
+    </div>
+
+    <div class="bottom">
+        <p class="total">Total Tip</p>
+
+        <div class="confirm">
+            Confirm
+        </div>
+    </div>
+</div>
