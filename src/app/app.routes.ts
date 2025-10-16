@@ -31,4 +31,9 @@ export const routes: Routes = [
         loadComponent: () => import('./features/login/login').then((m) => m.Login),
         data: { animation: 'screen' },
     },
+    {
+        path: 'orderConfirm',
+        loadComponent: () => import('./features/orderConfirm/orderConfirm').then((m) => m.OrderConfirm),
+        data: { animation: 'screen' },
+    },
 ];

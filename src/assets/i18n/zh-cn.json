@@ -152,6 +152,8 @@
             "passwordRequired": "密码不能为空",
             "resetConfig": "重置设置",
             "resetSystem": "重置点餐系统",
-            "loginOut": "退出点餐系统"
+            "loginOut": "退出点餐系统",
+            "continue":"是否下单",
+            "orderDetails":"订单详情"
         }
 }
