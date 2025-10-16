@@ -42,4 +42,9 @@ export class AppUrl {
         '/yakiSer/o2o/yaki-out/resource/get',
         Method.POST,
     );
+    public static readonly HEART_BEAT: Url = new Url(
+        'HEART_BEAT',
+        '/yakiSer/o2o/yaki-out/device/heartBeat',
+        Method.GET
+    );
 }

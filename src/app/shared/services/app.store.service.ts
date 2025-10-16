@@ -3,7 +3,8 @@ import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { AppUrl } from '@app/core/constants/app.url';
-import { StoreInfo } from '@app/shared/types/store.shared.types'; // 导入新增的 CarouselImage 类型
+import { StoreInfo } from '@app/shared/types/store.shared.types';
+import { DateUtils } from '@app/shared/utils/date-utils';
 
 interface CarouselImage {
     image: string;
@@ -18,7 +19,7 @@ export class AppStoreService extends AbstractAppService {
     private carouselImages = signal<CarouselImage[]>([]);
     private storeInfo = signal<StoreInfo | null>(null);
 
-    constructor() {
+    constructor(private dateUtils: DateUtils) {
         super();
         this.setupCarouselPersistence();
         this.setupStorePersistence();
@@ -45,7 +46,7 @@ export class AppStoreService extends AbstractAppService {
         const res = await this.request<any>(AppUrl.GET_RESOURCE, {
             pageCode: 'page001',
             operationAreaCode: 'oper001',
-            nowDate: new Date().toISOString(),
+            nowDate: this.dateUtils.formatDateTime(new Date()),
         });
         if (res.success && res.data?.length) {
             const newImages = JSON.parse(res.data[0].pics) as CarouselImage[];

@@ -42,6 +42,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
         private appStoreService: AppStoreService
     ) {
         super();
+        this.appStoreService.init();
 
         effect(() => {
             const images = this.appStoreService.carouselImagesValue();
