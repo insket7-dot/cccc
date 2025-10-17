@@ -24,7 +24,7 @@ import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
         TranslateModule,
     ],
 })
-export class ShoppingCartComponent extends AbstractAppPage {
+export class ShoppingCartComponent extends AbstractAppPage  {
     constructor(private bottomSheet: MatBottomSheet) {
         super();
     }
