@@ -44,16 +44,17 @@ export class MqttService implements OnDestroy {
      */
     async initialize() {
         // 本地设备 ID
-        const deviceId: string = (await LocalStorage.getItem(CacheKey.DEVICE_ID)) || '';
+        const deviceId: string = (await LocalStorage.getItem(CacheKey.DEVICE_ID)) || 'no_device_id';
         const config: MqttConfig = {
             server: {
                 host: '8.211.36.94',
                 port: 1883,
                 username: 'admin',
                 password: 'Root.qwe123',
-                clientId: `${deviceId}-${v4()}`,
+                // clientId: `${deviceId}-${v4()}`,
+                clientId: `${deviceId}`,
                 networkPath: 'PUBLIC',
-                groupId: 'GID_o2o_group',
+                groupId: 'o2o_kiosk_group',
                 vpcHost: '10.20.0.145',
                 vpcPort: 1883,
             },
@@ -79,8 +80,9 @@ export class MqttService implements OnDestroy {
             await Mqtt.connect(config);
             this._isConnected = true;
             this.config = config;
+
             // 订阅
-            void this.subscribe({ topic: 'o2o_third' });
+            void this.subscribe({ topic: 'o2o_kiosk' });
             void this.setupListeners();
             console.log('MQTT 连接成功');
         } catch (err) {
@@ -106,6 +108,7 @@ export class MqttService implements OnDestroy {
         if (!this._isConnected) {
             throw new Error('MQTT 未连接');
         }
+        console.log('订阅主题', config.topic);
         await Mqtt.subscribe(config);
     }
 
@@ -146,6 +149,10 @@ export class MqttService implements OnDestroy {
     async isConnected(): Promise<boolean> {
         try {
             const result = await Mqtt.isConnected();
+            console.log('MQTT 链接状态', result.isConnected);
+            if (!this._isConnected) {
+                void this.reconnect();
+            }
             this._isConnected = result.isConnected;
             return this._isConnected;
         } catch (err) {
@@ -155,11 +162,46 @@ export class MqttService implements OnDestroy {
     }
 
     /**
+     * 解析MQTT消息payload
+     */
+    private parseMqttPayload(data: string): any {
+        console.log('MQTT消息payload', data);
+        const dataType = typeof data;
+        // const payload = JSON.parse(data) as number[] | Uint8Array;
+        // try {
+        //     let payloadString: string;
+        //
+        //     if (payload instanceof Uint8Array) {
+        //         // 如果是Uint8Array
+        //         payloadString = new TextDecoder('utf-8').decode(payload);
+        //     } else if (Array.isArray(payload)) {
+        //         // 如果是数字数组
+        //         const uint8Array = new Uint8Array(payload);
+        //         payloadString = new TextDecoder('utf-8').decode(uint8Array);
+        //     } else {
+        //         throw new Error('不支持的payload格式');
+        //     }
+        //
+        //     return JSON.parse(payloadString);
+        // } catch (error) {
+        //     console.error('MQTT消息解析失败:', error);
+        //     throw error;
+        // }
+    }
+
+    /**
      * 设置所有监听器
      */
     private async setupListeners() {
         // 消息监听
         const msgListener = await Mqtt.addListener('mqttMessage', (msg) => {
+            // const msgValue = {
+            //     ...msg,
+            //     payload: msg.payload ? this.parseMqttPayload(msg.payload) : null,
+            // };
+            // console.log('收到 MQTT 消息', JSON.stringify(msgValue));
+            // this.messageSubject.next(msgValue);
+            console.log('收到 MQTT 消息', JSON.stringify(msg));
             this.messageSubject.next(msg);
         });
 
