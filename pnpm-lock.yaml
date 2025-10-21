@@ -45,8 +45,8 @@ importers:
         specifier: ^7.3.0
         version: 7.3.0(@capacitor/core@7.4.3)
       '@capacitor-rydeen/mqtt':
-        specifier: ^7.0.7
-        version: 7.0.7(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))(electron@19.1.9)
+        specifier: ^7.0.8
+        version: 7.0.8(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))(electron@19.1.9)
       '@capacitor-rydeen/preferences':
         specifier: ^7.0.2
         version: 7.0.2(@capacitor/core@7.4.3)
@@ -711,8 +711,8 @@ packages:
     peerDependencies:
       '@capacitor/core': '>=7.0.0'
 
-  '@capacitor-rydeen/mqtt@7.0.7':
-    resolution: {integrity: sha512-TS/ZRhiilpMkdCzALeucWlgdpsiwJC5tNsipaLyeLebGb03z2j+79z4hVy3B/PPvvfTkeaWpDul55stWFzgoTA==}
+  '@capacitor-rydeen/mqtt@7.0.8':
+    resolution: {integrity: sha512-ecIG0U9zm/uBV582g1ksoXrtkpgVCl8XilTE5fTiznZUYslTtWUvJiU7Wx6YqupCR9ZOwvhFlfo9ZGS5Lj8nIw==}
     peerDependencies:
       '@capacitor/android': '*'
       '@capacitor/core': '*'
@@ -6126,7 +6126,7 @@ snapshots:
     dependencies:
       '@capacitor/core': 7.4.3
 
-  '@capacitor-rydeen/mqtt@7.0.7(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))(electron@19.1.9)':
+  '@capacitor-rydeen/mqtt@7.0.8(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))(electron@19.1.9)':
     dependencies:
       '@capacitor/android': 7.4.3(@capacitor/core@7.4.3)
       '@capacitor/core': 7.4.3

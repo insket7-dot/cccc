@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { LocalStorage } from '@rydeen/angular-framework';
 
 export interface LanguageOption {
     code: string;
@@ -39,13 +40,14 @@ export class LanguageService {
     public currentLanguage$ = this.currentLanguageSubject.asObservable();
 
     constructor(private translate: TranslateService) {
-        this.initializeLanguage();
+        this.initializeLanguage().catch((error) => console.error(error));
     }
 
-    private initializeLanguage(): void {
+    private async initializeLanguage() {
         // 从本地存储获取保存的语言，如果没有则使用默认语言
-        const savedLanguage = localStorage.getItem(this.STORAGE_KEY) || this.DEFAULT_LANGUAGE;
-        this.setLanguage(savedLanguage);
+        const savedLanguage: string =
+            (await LocalStorage.getItem(this.STORAGE_KEY)) || this.DEFAULT_LANGUAGE;
+        this.setLanguage(savedLanguage).catch((error) => console.error(error));
     }
 
     public getAvailableLanguages(): LanguageOption[] {
@@ -56,11 +58,11 @@ export class LanguageService {
         return this.currentLanguageSubject.value;
     }
 
-    public setLanguage(languageCode: string): void {
+    public async setLanguage(languageCode: string) {
         if (this.availableLanguages.some((lang) => lang.code === languageCode)) {
             this.translate.use(languageCode);
             this.currentLanguageSubject.next(languageCode);
-            localStorage.setItem(this.STORAGE_KEY, languageCode);
+            await LocalStorage.setItem(this.STORAGE_KEY, languageCode);
         }
     }
 

@@ -9,6 +9,8 @@ import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { AppUrl } from '@app/core/constants/app.url';
+import { MqttService } from '@app/core/services/mqtt.service';
+import { AppMqttEnums } from '@app/shared/constants/app.enums';
 
 @Injectable({
     providedIn: 'root',
@@ -18,8 +20,19 @@ export class AppMenuService extends AbstractAppService {
     private categoryList = signal<MenuCategoryItem[]>([]);
     private currentCategory = signal<string>('');
 
-    constructor() {
+    constructor(private mqttService: MqttService) {
         super();
+
+        this.mqttService.getMessageObservable().subscribe((message) => {
+            console.log('menu MQTT 收到消息:', JSON.stringify(message));
+            switch (message['type']) {
+                case AppMqttEnums.MENU_PUBLISH:
+                case AppMqttEnums.MENU_LOW_UP:
+                case AppMqttEnums.MENU_SELL_0UT:
+                    this.getRemoteMenu().catch((err) => console.error('获取菜单失败:', err));
+                    break;
+            }
+        });
 
         // 自动持久化
         this.setupPersistence();

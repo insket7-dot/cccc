@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
-
+import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { ScreenService } from './services/screen.service';
-import { ResultVO } from '@rydeen/angular-framework';
-import { DateUtils } from '@app/shared/utils/date-utils';
 import { AppStoreService } from '@/app/shared/services/app.store.service';
+import { MqttService } from '@app/core/services/mqtt.service';
+import { CarouselImage } from '@app/shared/types/store.shared.types';
+import { PrintOrderService } from '@app/shared/services/print-order.service';
 
 @Component({
     selector: 'app-screen',
@@ -18,9 +16,8 @@ import { AppStoreService } from '@/app/shared/services/app.store.service';
             <div class="logo-container">
                 <div class="carousel">
                     @for (img of images; track $index) {
-
                         <img
-\                            [src]="img.image"
+                            [src]="img.image"
                             [alt]="'image'"
                             class="yaki-logo"
                             [class.active]="$index === currentIndex"
@@ -33,19 +30,18 @@ import { AppStoreService } from '@/app/shared/services/app.store.service';
     `,
 })
 export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
-    images: Array<{ image: string; alt: string; index: number }> = [];
+    images: CarouselImage[] = [];
 
     currentIndex = 0;
     private carouselInterval: any;
 
     constructor(
-        private screenService: ScreenService,
-        private dateUtils: DateUtils,
-        private appStoreService: AppStoreService
+        private printOrderService: PrintOrderService,
+        private appStoreService: AppStoreService,
+        private mqttService: MqttService,
     ) {
         super();
-        this.appStoreService.init();
-
+        void this.printOrderService; // 确保依赖注入
         effect(() => {
             const images = this.appStoreService.carouselImagesValue();
             if (images && images.length > 0) {
@@ -56,6 +52,9 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        Promise.allSettled([this.appStoreService.init(), this.mqttService.initialize()]).catch(
+            (error) => console.error('初始化失败', error),
+        );
     }
 
     ngOnDestroy() {
@@ -71,6 +70,6 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     }
 
     async startOrder() {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home']).catch((error) => console.error('导航失败', error));
     }
 }

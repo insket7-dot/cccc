@@ -14,7 +14,6 @@ import {
 } from '@capacitor-rydeen/mqtt';
 import { PluginListenerHandle } from '@capacitor/core';
 import { Subject } from 'rxjs';
-import { v4 } from 'uuid';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { CacheKey } from '@app/shared/constants/cache.key';
 
@@ -30,7 +29,13 @@ export class MqttService implements OnDestroy {
     private listeners: PluginListenerHandle[] = [];
 
     // RxJS 事件流
-    private messageSubject = new Subject<MqttMessage>();
+    private messageSubject = new Subject<{
+        type: number;
+        deviceCode: string[];
+        nonce: string;
+        timestamp: number;
+        data: Record<string, any>;
+    }>();
     private connectionStateSubject = new Subject<MqttConnection>();
     private signalStrengthSubject = new Subject<MqttSignalStrength>();
     private networkQualitySubject = new Subject<MqttNetworkQuality>();
@@ -162,47 +167,26 @@ export class MqttService implements OnDestroy {
     }
 
     /**
-     * 解析MQTT消息payload
-     */
-    private parseMqttPayload(data: string): any {
-        console.log('MQTT消息payload', data);
-        const dataType = typeof data;
-        // const payload = JSON.parse(data) as number[] | Uint8Array;
-        // try {
-        //     let payloadString: string;
-        //
-        //     if (payload instanceof Uint8Array) {
-        //         // 如果是Uint8Array
-        //         payloadString = new TextDecoder('utf-8').decode(payload);
-        //     } else if (Array.isArray(payload)) {
-        //         // 如果是数字数组
-        //         const uint8Array = new Uint8Array(payload);
-        //         payloadString = new TextDecoder('utf-8').decode(uint8Array);
-        //     } else {
-        //         throw new Error('不支持的payload格式');
-        //     }
-        //
-        //     return JSON.parse(payloadString);
-        // } catch (error) {
-        //     console.error('MQTT消息解析失败:', error);
-        //     throw error;
-        // }
-    }
-
-    /**
      * 设置所有监听器
      */
     private async setupListeners() {
         // 消息监听
-        const msgListener = await Mqtt.addListener('mqttMessage', (msg) => {
-            // const msgValue = {
-            //     ...msg,
-            //     payload: msg.payload ? this.parseMqttPayload(msg.payload) : null,
-            // };
-            // console.log('收到 MQTT 消息', JSON.stringify(msgValue));
-            // this.messageSubject.next(msgValue);
-            console.log('收到 MQTT 消息', JSON.stringify(msg));
-            this.messageSubject.next(msg);
+        const msgListener = await Mqtt.addListener('mqttMessage', async (msg: MqttMessage) => {
+            const newMsg = {
+                ...msg,
+                payload: msg.payload ? JSON.parse(msg.payload) : {},
+            };
+            console.log('收到 MQTT 消息', JSON.stringify(newMsg));
+            const localDeviceId: string | null = await LocalStorage.getItem(CacheKey.DEVICE_ID);
+            console.log('device id:', localDeviceId);
+            if (localDeviceId) {
+                // 命中机器码
+                const isHit = newMsg.payload?.deviceCode?.includes(localDeviceId);
+                console.log('命中机器码:', isHit);
+                if (!isHit) return;
+                console.log('消息内容: string', JSON.stringify(newMsg.payload));
+                this.messageSubject.next(newMsg.payload);
+            }
         });
 
         // 连接状态监听
