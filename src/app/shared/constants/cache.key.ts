@@ -16,4 +16,5 @@ export const CacheKey = {
     LAST_STATISTICS_TIME: 'lastStatisticsTime',
     /** 轮播图图片 */
     CAROUSEL_IMAGES: 'carouselImages',
+    STORE_BASE_INFO: 'storeBaseInfo',
 };

@@ -35,17 +35,19 @@ import { Subject, takeUntil } from 'rxjs';
             </div>
 
             <!-- 下拉选项列表 -->
-            <div class="dropdown-options" *ngIf="isDropdownOpen">
-                @for (language of availableLanguages; track language.code) {
-                <div
-                    class="dropdown-option"
-                    [class.active]="language.code === currentLanguage"
-                    (click)="selectLanguage(language.code)"
-                >
-                    {{ language.nativeName }}
-                </div>
-                }
-            </div>
+             @if(isDropdownOpen) {
+                 <div class="dropdown-options">
+                     @for (language of availableLanguages; track language.code) {
+                     <div
+                         class="dropdown-option"
+                         [class.active]="language.code === currentLanguage"
+                         (click)="selectLanguage(language.code)"
+                     >
+                         {{ language.nativeName }}
+                     </div>
+                     }
+                 </div>
+             }
         </div>
     `,
     styles: [

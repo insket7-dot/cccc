@@ -73,8 +73,8 @@ export class DateUtils {
 
     // 确定格式（自定义 > i18n配置 > 默认）
     const fmt = format ||
-                this.translate.instant('app.common.dateTimeFormat') ||
-                'yyyy-MM-dd HH:mm:ss';
+    this.translate.instant('app.common.dateTimeFormat') ||
+    'yyyy-MM-dd HH:mm:ss';
 
     return formatDate(date, fmt, this.resolveLocale());
   }

@@ -33,8 +33,7 @@ export class AddTipsComponent implements OnInit, OnDestroy {
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
         private router: Router
     ) {}
-
-    ngOnInit(): void {
+     ngOnInit(): void {
         this.router.events
             .pipe(
                 filter(event => event instanceof NavigationStart),

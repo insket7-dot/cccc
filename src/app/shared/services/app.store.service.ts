@@ -3,42 +3,44 @@ import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { AppUrl } from '@app/core/constants/app.url';
-import { StoreInfo } from '@app/shared/types/store.shared.types';
+import { StoreBusTimeInterface,CarouselImage,StoreBaseInfoInterface } from '@app/shared/types/store.shared.types';
 import { DateUtils } from '@app/shared/utils/date-utils';
 
-interface CarouselImage {
-    image: string;
-    alt: string;
-    index: number;
-}
+
 
 @Injectable({
     providedIn: 'root',
 })
 export class AppStoreService extends AbstractAppService {
     private carouselImages = signal<CarouselImage[]>([]);
-    private storeInfo = signal<StoreInfo | null>(null);
+    private storeBusTime = signal<StoreBusTimeInterface | null>(null);
+    private storeBaseInfo = signal<StoreBaseInfoInterface | null>(null);
 
     constructor(private dateUtils: DateUtils) {
         super();
         this.setupCarouselPersistence();
         this.setupStorePersistence();
+        this.setupStoreBaseInfoPersistence();
     }
 
     readonly carouselImagesValue = computed(() => this.carouselImages());
-    readonly storeInfoValue = computed(() => this.storeInfo());
+    readonly storeBusTimeValue = computed(() => this.storeBusTime());
+    readonly storeBaseInfoValue = computed(() => this.storeBaseInfo());
 
     async init() {
-        const [hasStoreInfo, hasCarousel] = await Promise.all([
+        const [hasStoreBusTime, hasCarousel, hasStoreBaseInfo] = await Promise.all([
             LocalStorage.isExist(CacheKey.STORE_INFO),
             LocalStorage.isExist(CacheKey.CAROUSEL_IMAGES),
+            LocalStorage.isExist(CacheKey.STORE_BASE_INFO),
         ]);
-        if (hasStoreInfo) void this.readStorePersistence();
+        if (hasStoreBusTime) void this.readStorePersistence();
         if (hasCarousel) void this.readCarouselPersistence();
+        if (hasStoreBaseInfo) void this.readStoreBaseInfoPersistence();
 
         await Promise.all([
-            this.getRemoteStoreInfo().catch((err) => console.error('获取门店信息失败:', err)),
+            this.getRemoteStoreBusTime().catch((err) => console.error('获取门店信息失败:', err)),
             this.getRemoteCarouselImages().catch((err) => console.error('获取轮播图失败:', err)),
+            this.getRemoteStoreBaseInfo().catch((err) => console.error('获取门店基础信息失败:', err)),
         ]);
     }
 
@@ -57,9 +59,6 @@ export class AppStoreService extends AbstractAppService {
         }
     }
 
-    /**
-     * @desc 读取轮播图本地缓存
-     */
     private async readCarouselPersistence() {
         try {
             const carouselStr = await LocalStorage.getItem(CacheKey.CAROUSEL_IMAGES);
@@ -72,9 +71,6 @@ export class AppStoreService extends AbstractAppService {
         }
     }
 
-    /**
-     * @desc 轮播图数据自动持久化（监听信号变化）
-     */
     private setupCarouselPersistence() {
         effect(() => {
             const images = this.carouselImages();
@@ -86,39 +82,59 @@ export class AppStoreService extends AbstractAppService {
         });
     }
 
-    /**
-     * @desc 远程更新门店数据
-     */
-    async getRemoteStoreInfo() {
-        const res = await this.request<StoreInfo>(AppUrl.STORE_INFO);
+    async getRemoteStoreBusTime() {
+        const res = await this.request<StoreBusTimeInterface>(AppUrl.STORE_BUS_TIME);
         if (res.success) {
-            this.storeInfo.set(res.data);
+            this.storeBusTime.set(res.data);
         }
     }
 
-    /**
-     * @desc 读取门店信息本地缓存
-     */
     private async readStorePersistence() {
         try {
             const storeStr = await LocalStorage.getItem(CacheKey.STORE_INFO);
             if (storeStr) {
-                this.storeInfo.set(JSON.parse(storeStr as string) as StoreInfo);
+                this.storeBusTime.set(JSON.parse(storeStr as string) as StoreBusTimeInterface);
             }
         } catch (error) {
             console.error('从缓存加载门店信息失败:', error);
         }
     }
 
-    /**
-     * @desc 门店信息自动持久化
-     */
     private setupStorePersistence() {
         effect(() => {
-            const info = this.storeInfo();
+            const info = this.storeBusTime();
             if (info) {
                 LocalStorage.setItem(CacheKey.STORE_INFO, JSON.stringify(info)).catch((err) =>
                     console.error('存储店铺信息失败:', err)
+                );
+            }
+        });
+    }
+
+    async getRemoteStoreBaseInfo() {
+        const res = await this.request<StoreBaseInfoInterface>(AppUrl.STORE_BASEINFO);
+        if (res.success) {
+            this.storeBaseInfo.set(res.data);
+        }
+    }
+
+    private async readStoreBaseInfoPersistence() {
+        try {
+            const baseInfoStr = await LocalStorage.getItem(CacheKey.STORE_BASE_INFO);
+            if (baseInfoStr) {
+                this.storeBaseInfo.set(JSON.parse(baseInfoStr as string) as StoreBaseInfoInterface);
+            }
+        } catch (error) {
+            console.error('从缓存加载门店基础信息失败:', error);
+        }
+    }
+
+    private setupStoreBaseInfoPersistence() {
+        effect(() => {
+            const baseInfo = this.storeBaseInfo();
+            if (baseInfo) {
+                LocalStorage.setItem(CacheKey.STORE_BASE_INFO, JSON.stringify(baseInfo)).catch((err) =>
+                    console.error('存储门店基础信息失败:', err)
                 );
             }
         });

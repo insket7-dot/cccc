@@ -1,5 +1,7 @@
 <div class="menu-grid">
-    <div class="child" *ngIf="curModel === 'Accessibility'">
+    @if(curModel === 'Accessibility') {
+
+    <div class="child">
         <img src="/assets/image/banner.png" alt="" />
 
         <div class="exit_model" (click)="toggleModel('Normal')">
@@ -7,14 +9,12 @@
             <span>{{ 'page.exitAccessibilityModel' | translate }}</span>
         </div>
     </div>
+    }
 
     <div class="beff">
         <div class="left">
             <div class="left_top">
-                <img
-                    src="/assets/image/logo.png"
-                    alt="logo"
-                />
+                <img src="/assets/image/logo.png" alt="logo" />
 
                 <div class="laug">
                     <app-language-selector
@@ -35,14 +35,13 @@
                 </div>
             </div>
 
-            <div
-                class="left_bottom"
-                *ngIf="curModel !== 'Accessibility'"
-                (click)="toggleModel('Accessibility')"
-            >
+            @if(curModel !== 'Accessibility') {
+
+            <div class="left_bottom" (click)="toggleModel('Accessibility')">
                 <img src="/assets/image/Acc.png" alt="" />
                 <span>{{ 'page.model2' | translate }}</span>
             </div>
+            }
         </div>
         <div class="right">
             <div class="right_block">

@@ -17,13 +17,15 @@ import { AppStoreService } from '@/app/shared/services/app.store.service';
         <div class="splash-container">
             <div class="logo-container">
                 <div class="carousel">
-                    <img
-                        *ngFor="let img of images; let i = index"
-                        [src]="img.image"
-                        [alt]="'image'"
-                        class="yaki-logo"
-                        [class.active]="i === currentIndex"
-                    />
+                    @for (img of images; track $index) {
+
+                        <img
+\                            [src]="img.image"
+                            [alt]="'image'"
+                            class="yaki-logo"
+                            [class.active]="$index === currentIndex"
+                        />
+                    }
                 </div>
             </div>
             <div class="tap-text" (click)="startOrder()">{{ 'page.text1' | translate }}</div>

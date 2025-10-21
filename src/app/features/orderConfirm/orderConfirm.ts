@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy, effect } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractAppPage } from '../../shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { OrderConfirmService } from './services/orderConfirm.service';
-import { AppStoreService } from '@/app/shared/services/app.store.service';
 import { Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { AddTipsComponent } from './components/add-tips.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-
+import { AppStoreService } from '@/app/shared/services/app.store.service';
 
 @Component({
     selector: 'app-orderConfirm',
@@ -17,8 +16,16 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
     imports: [TranslateModule, CommonModule, MatButtonModule],
 })
 export class OrderConfirm extends AbstractAppPage implements OnInit, OnDestroy {
-    constructor(private orderConfirmService: OrderConfirmService, private location: Location, private bottomSheet: MatBottomSheet) {
+storeBaseInfo:any
+    constructor(
+        private orderConfirmService: OrderConfirmService,
+        private location: Location,
+        private bottomSheet: MatBottomSheet,
+        private appStoreService: AppStoreService
+    ) {
         super();
+        this.storeBaseInfo = computed(() => this.appStoreService.storeBaseInfoValue());
+
     }
 
     ngOnInit() {}
@@ -26,15 +33,14 @@ export class OrderConfirm extends AbstractAppPage implements OnInit, OnDestroy {
     ngOnDestroy() {}
 
     addTip() {
-         const bottomSheetRef = this.bottomSheet.open(AddTipsComponent, {
-                    data: [],
-                    panelClass: 'cart-details-sheet',
-                    disableClose: false,
-                });
+        const bottomSheetRef = this.bottomSheet.open(AddTipsComponent, {
+            data: [],
+            panelClass: 'cart-details-sheet',
+            disableClose: false,
+        });
 
-                bottomSheetRef.afterDismissed().subscribe((result) => {
-                    console.log('面板已关闭，返回结果：', result);
-                });
+        bottomSheetRef.afterDismissed().subscribe((result) => {
+        });
     }
 
     back() {

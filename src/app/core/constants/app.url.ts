@@ -47,4 +47,14 @@ export class AppUrl {
         '/yakiSer/o2o/yaki-out/device/heartBeat',
         Method.GET
     );
+    public static readonly STORE_BUS_TIME: Url = new Url(
+        'STORE_BUS_TIME',
+        '/yakiSer/o2o/yaki-out/store/bus/time',
+        Method.GET
+    );
+    public static readonly STORE_BASEINFO: Url = new Url(
+        'STORE_BASEINFO',
+        '/yakiSer/o2o/yaki-out/store/baseInfo',
+        Method.GET
+    );
 }
