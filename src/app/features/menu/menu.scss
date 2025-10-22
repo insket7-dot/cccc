@@ -74,12 +74,46 @@
                 flex-direction: column;
                 padding: 10px 0;
 
-                .left_up,.left_down {
+                .left_up,
+                .left_down {
+                    height: 20px;
                     background: #fff !important;
 
                     img {
                         width: 30%;
                         height: 50%;
+                    }
+                }
+
+                .left_cate {
+                    // display: flex;
+                    // flex-direction: column;
+                    // justify-content: space-between;
+                    height: 450px;
+                    max-height: 450px;
+                    overflow-y: scroll;
+                    .cate_item {
+                        width: 100px;
+                        height: 100px;
+                        text-align: center;
+                        // line-height: 100px;
+                        display: flex;
+                        justify-content: center; /* 水平居中 */
+                        align-items: center;
+                    }
+
+
+                    .cate_name {
+                        font-size: 18px;
+                        color: #a4b0b7;
+                    }
+                    .active{
+                        background-color: #F37E01;
+border-radius: 10px;
+                        .cate_name {
+                        font-size: 18px;
+                        color: #fff;
+                    }
                     }
                 }
             }
@@ -151,8 +185,6 @@
                             word-wrap: break-word;
                         }
 
-
-
                         .price {
                             font-size: 18px;
                             font-weight: 500;
@@ -165,12 +197,12 @@
                                 justify-content: space-between;
                             }
 
-                            .add{
-                            width: 20px;
-                            img{
-                                width: 100%;
+                            .add {
+                                width: 20px;
+                                img {
+                                    width: 100%;
+                                }
                             }
-                        }
                         }
                     }
                 }
