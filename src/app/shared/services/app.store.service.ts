@@ -8,7 +8,7 @@ import {
     CarouselImage,
     StoreBaseInfoInterface,
 } from '@app/shared/types/store.shared.types';
-import { DateUtils } from '@app/shared/utils/date-utils';
+import { DateUtils } from '@app/shared/services/date-utils.service';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
 

@@ -24,7 +24,6 @@ export class AppMenuService extends AbstractAppService {
         super();
 
         this.mqttService.getMessageObservable().subscribe((message) => {
-            console.log('menu MQTT 收到消息:', JSON.stringify(message));
             switch (message['type']) {
                 case AppMqttEnums.MENU_PUBLISH:
                 case AppMqttEnums.MENU_LOW_UP:
@@ -65,14 +64,14 @@ export class AppMenuService extends AbstractAppService {
         const menuMap = this.menuMap();
 
         // 如果明确设置了且存在，就使用
-        if (explicitCategory && menuMap.has(explicitCategory)) {
+        // if (explicitCategory && menuMap.has(explicitCategory)) {
             return explicitCategory;
-        }
+        // }
 
-        // 否则找第一个有菜单的分类
-        const firstValidCategory = categories.find((cat) => menuMap.has(cat.categoryId));
+        // // 否则找第一个有菜单的分类
+        // const firstValidCategory = categories.find((cat) => menuMap.has(cat.categoryId));
 
-        return firstValidCategory?.categoryId || '';
+        // return firstValidCategory?.categoryId || '';
     }
 
     private getCurrentMenu(): menuListItem[] {
@@ -94,7 +93,6 @@ export class AppMenuService extends AbstractAppService {
      */
     async getRemoteMenu() {
         let res = await this.request<Menu>(AppUrl.MENU_ALL_TW);
-        console.log(res);
         if (res.success) {
             this.categoryList.set(res.data.categoriesVos || []);
             this.updateMenuMap(res.data.menuResponseVo);

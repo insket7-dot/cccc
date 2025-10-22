@@ -21,7 +21,7 @@ export class AppUrl {
     public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
     public static readonly MENU_ALL_TW: Url = new Url(
         'MENU_ALL_TW',
-        '/api/menu/tw-all',
+        '/yakiSer/o2o/yaki-out/menu/baseInfo',
         Method.GET,
     );
     /** Mock 门店信息 */

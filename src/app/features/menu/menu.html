@@ -29,7 +29,14 @@
                     <img src="/assets/image/icon_up1.png" alt="" />
                 </div>
 
-                <div class="left_cate"></div>
+                <div class="left_cate">
+
+                    @for (item of categoryList(); track $index) {
+                        <div class="cate_item" [class.active]="currentCategoryValue() === item.categoryId"  (click)="chooseCategory(item)" >
+                            <div class="cate_name">{{item.categoryNameCn}}</div>
+                        </div>
+                    }
+                </div>
                 <div class="left_down">
                     <img src="/assets/image/icon_down.png" alt="" />
                 </div>
