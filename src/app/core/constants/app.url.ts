@@ -5,7 +5,7 @@ import { environment } from '@/environments/environment';
  * 前端页面地址枚举类
  */
 export class AppUrl {
-    public static readonly API_PREFIX: string = 'yakiSer/o2o/yaki-out';
+    public static readonly API_PREFIX: string = 'o2o/yaki-out';
 
     /** 页面导航：登录页地址页 */
     public static readonly PAGE_HOME: Url = new Url('PAGE_HOME', 'home', Method.NAVIGATOR);
@@ -27,11 +27,7 @@ export class AppUrl {
 
     /** Mock 菜单：全量菜单 */
     public static readonly MENU_ALL: Url = new Url('MENU_ALL', '/api/menu/all', Method.GET);
-    public static readonly MENU_ALL_TW: Url = new Url(
-        'MENU_ALL_TW',
-        '/yakiSer/o2o/yaki-out/menu/baseInfo',
-        Method.GET,
-    );
+
     /** Mock 门店信息 */
     public static readonly STORE_INFO: Url = new Url('STORE_INFO', '/api/store/info', Method.GET);
 
@@ -46,7 +42,7 @@ export class AppUrl {
      */
     public static readonly STORE_MENU: Url = new Url(
         'STORE_MENU',
-        AppUrl.requestFullUrl('menu/baseInfo'),
+        AppUrl.requestFullUrl('/menu/baseInfo'),
         Method.GET,
     );
 
