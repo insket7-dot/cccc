@@ -9,13 +9,16 @@ include ':capacitor-mlkit-barcode-scanning'
 project(':capacitor-mlkit-barcode-scanning').projectDir = new File('../node_modules/.pnpm/@capacitor-mlkit+barcode-sc_ba3a9d6af54df2b4a16a15037e71907e/node_modules/@capacitor-mlkit/barcode-scanning/android')
 
 include ':capacitor-rydeen-mqtt'
-project(':capacitor-rydeen-mqtt').projectDir = new File('../node_modules/.pnpm/@capacitor-rydeen+mqtt@7.0._df57d442dbccb8b37bf876c524e8bc46/node_modules/@capacitor-rydeen/mqtt/android')
+project(':capacitor-rydeen-mqtt').projectDir = new File('../node_modules/.pnpm/@capacitor-rydeen+mqtt@7.0._8255504f089936b73a7ff77912b31219/node_modules/@capacitor-rydeen/mqtt/android')
 
 include ':capacitor-rydeen-preferences'
 project(':capacitor-rydeen-preferences').projectDir = new File('../node_modules/.pnpm/@capacitor-rydeen+preferences@7.0.2_@capacitor+core@7.4.3/node_modules/@capacitor-rydeen/preferences/android')
 
 include ':capacitor-rydeen-tools'
 project(':capacitor-rydeen-tools').projectDir = new File('../node_modules/.pnpm/@capacitor-rydeen+tools@8.0_69bcbfb8d6a13f6d19ded8d129fc009f/node_modules/@capacitor-rydeen/tools/android')
+
+include ':capacitor-rydeen-usb-printer'
+project(':capacitor-rydeen-usb-printer').projectDir = new File('../packages/usb-printer/android')
 
 include ':capacitor-app'
 project(':capacitor-app').projectDir = new File('../node_modules/.pnpm/@capacitor+app@7.1.0_@capacitor+core@7.4.3/node_modules/@capacitor/app/android')

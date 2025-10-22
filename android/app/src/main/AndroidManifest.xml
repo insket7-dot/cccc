@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Camera permission for barcode scanning -->
+    <!-- Permissions -->
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:usesCleartextTraffic="true" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Camera permission for barcode scanning -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -40,8 +48,4 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
     </application>
-
-    <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

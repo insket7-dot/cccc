@@ -14,6 +14,7 @@ dependencies {
     implementation project(':capacitor-rydeen-mqtt')
     implementation project(':capacitor-rydeen-preferences')
     implementation project(':capacitor-rydeen-tools')
+    implementation project(':capacitor-rydeen-usb-printer')
     implementation project(':capacitor-app')
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-status-bar')
