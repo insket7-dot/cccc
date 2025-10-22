@@ -42,19 +42,24 @@ export class AppUrl {
         '/yakiSer/o2o/yaki-out/resource/get',
         Method.POST,
     );
+
+    /**
+     * @desc 心跳接口
+     */
     public static readonly HEART_BEAT: Url = new Url(
         'HEART_BEAT',
         '/yakiSer/o2o/yaki-out/device/heartBeat',
-        Method.GET
+        Method.GET,
     );
+
     public static readonly STORE_BUS_TIME: Url = new Url(
         'STORE_BUS_TIME',
         '/yakiSer/o2o/yaki-out/store/bus/time',
-        Method.GET
+        Method.GET,
     );
     public static readonly STORE_BASEINFO: Url = new Url(
         'STORE_BASEINFO',
         '/yakiSer/o2o/yaki-out/store/baseInfo',
-        Method.GET
+        Method.GET,
     );
 }

@@ -24,11 +24,8 @@ import { Platform } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
 import { DATABASE_SERVICE } from './core/tokens/database.token';
 import type { IDatabaseService } from './core/interfaces/database.interface';
-// import {LanguageSelectorComponent} from './shared/components/language-selector/language-selector';
 import { MigrationService } from './core/services/migration.service';
 import { IdleTimeoutService } from '@/app/core/services/timeout.service';
-import { HeartbeatService } from './core/services/heartbeat.service';
-
 
 @Component({
     selector: 'app-root',
@@ -41,7 +38,6 @@ import { HeartbeatService } from './core/services/heartbeat.service';
         MatDialogModule,
         MatProgressSpinnerModule,
         TranslateModule,
-        // LanguageSelectorComponent,
     ],
     templateUrl: './app.html',
     styleUrl: './app.scss',
@@ -64,7 +60,6 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         @Inject(IdleTimeoutService) private idleTimeoutService: IdleTimeoutService,
         @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
         private readonly migrationService: MigrationService,
-        private heartbeatService: HeartbeatService
     ) {
         super();
         this.initializeApp();
@@ -72,7 +67,7 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         this.idleTimeoutService.startMonitoring();
     }
 
-    ngOnInit(): void {
+    async ngOnInit() {
         this.subscriptions.push(
             this.eventManager.subscribe(AppEvent.SHOW_GLOBAL_LOADING, (show: boolean) =>
                 this.loading.set(show),
