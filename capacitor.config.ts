@@ -5,6 +5,7 @@ const config: CapacitorConfig = {
     appName: 'cross-platform-app',
     webDir: 'dist/cross-platform-app/browser',
     server: {
+        // allowNavigation: ['https://staging.yakiapp.io/'],
         androidScheme: 'https',
     },
     android: {
@@ -13,7 +14,7 @@ const config: CapacitorConfig = {
     },
     plugins: {
         CapacitorHttp: {
-            enabled: true,
+            enabled: false,
         },
         CapacitorSQLite: {
             iosDatabaseLocation: 'Library/CapacitorDatabase',

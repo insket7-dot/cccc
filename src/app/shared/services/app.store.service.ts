@@ -89,6 +89,7 @@ export class AppStoreService extends AbstractAppService {
      */
     async getRemoteStoreBusTime() {
         const res = await this.request<StoreBusTimeInterface>(AppUrl.STORE_BUS_TIME);
+        console.log('营业时间:', JSON.stringify(res));
         if (res.success) {
             this.storeBusTime.set(res.data);
         }
@@ -98,7 +99,8 @@ export class AppStoreService extends AbstractAppService {
      * @desc 远程门店基础数据
      */
     async getRemoteStoreBaseInfo() {
-        const res = await this.request<StoreBaseInfoInterface>(AppUrl.STORE_BASEINFO);
+        const res = await this.request<StoreBaseInfoInterface>(AppUrl.STORE_BASE_INFO);
+        console.log('门店基础数据:', JSON.stringify(res));
         if (res.success) {
             this.storeBaseInfo.set(res.data);
         }

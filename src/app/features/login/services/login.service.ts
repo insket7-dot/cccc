@@ -5,10 +5,7 @@ import { ResultVO } from '@rydeen/angular-framework';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService extends AbstractAppService {
-  bingDevice(params:any): Promise<ResultVO<any>> {
-    return this.request(
-      AppUrl.BINDDEVICE,
-      params
-    );
-  }
+    bingDevice(params: any): Promise<ResultVO<any>> {
+        return this.request(AppUrl.BIND_DEVICE, params);
+    }
 }

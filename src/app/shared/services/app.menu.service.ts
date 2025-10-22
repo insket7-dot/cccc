@@ -93,8 +93,8 @@ export class AppMenuService extends AbstractAppService {
      * @desc 远程更新菜单
      */
     async getRemoteMenu() {
-        let res = await this.request<Menu>(AppUrl.MENU_ALL_TW);
-        console.log(res);
+        let res = await this.request<Menu>(AppUrl.STORE_MENU);
+        console.log('获取门店菜单成功:', JSON.stringify(res));
         if (res.success) {
             this.categoryList.set(res.data.categoriesVos || []);
             this.updateMenuMap(res.data.menuResponseVo);
