@@ -12,7 +12,7 @@ import { CacheKey } from '@app/shared/constants/cache.key';
 
 export abstract class AbstractAppService extends AbstractService {
     private readonly eventManager = inject(EventManager);
-    private deviceId = signal<string>('no_device_id');
+    private deviceId = signal<string>('');
     private readonly initializationPromise: Promise<void> | null = null;
 
     constructor() {
@@ -29,7 +29,6 @@ export abstract class AbstractAppService extends AbstractService {
             }
         } catch (error) {
             console.error('读取设备ID失败:', error);
-            this.deviceId.set('no_device_id');
         }
     }
 
