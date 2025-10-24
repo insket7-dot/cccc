@@ -65,7 +65,7 @@ export class AppMenuService extends AbstractAppService {
 
         // 如果明确设置了且存在，就使用
         // if (explicitCategory && menuMap.has(explicitCategory)) {
-            return explicitCategory;
+        return explicitCategory;
         // }
 
         // // 否则找第一个有菜单的分类
@@ -81,11 +81,20 @@ export class AppMenuService extends AbstractAppService {
 
     // 设置map
     private updateMenuMap(data: MenuResponseVo[]) {
-        const menuMap = new Map<string, menuListItem[]>();
+        const tempMenuMap = new Map<string, menuListItem[]>();
         data.forEach((item) => {
-            menuMap.set(item.categoryId, item.menuVoList);
+            tempMenuMap.set(item.categoryId, item.menuVoList);
         });
-        this.menuMap.set(menuMap);
+
+        const categories = this.categoryList();
+
+        const orderedMenuMap = new Map<string, menuListItem[]>();
+        categories.forEach((category) => {
+            const menuItems = tempMenuMap.get(category.categoryId) || [];
+            orderedMenuMap.set(category.categoryId, menuItems);
+        });
+
+        this.menuMap.set(orderedMenuMap);
     }
 
     /**
@@ -107,7 +116,7 @@ export class AppMenuService extends AbstractAppService {
         effect(() => {
             const categories = this.categoryList();
             LocalStorage.setItem(CacheKey.MENU_CATEGORY, JSON.stringify(categories)).catch((err) =>
-                console.error('存储分类失败:', err),
+                console.error('存储分类失败:', err)
             );
         });
 
@@ -118,7 +127,7 @@ export class AppMenuService extends AbstractAppService {
                 menuVoList: items,
             }));
             LocalStorage.setItem(CacheKey.MENU_LIST, JSON.stringify(serializableData)).catch(
-                (err) => console.error('存储菜单失败:', err),
+                (err) => console.error('存储菜单失败:', err)
             );
         });
     }

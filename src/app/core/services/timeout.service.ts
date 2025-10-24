@@ -31,7 +31,8 @@ export class IdleTimeoutService {
             .pipe(rxFilter((event) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => {
                 // 检查当前路由是否为screen页面
-                isScreenPage = event.url.includes('/screen');
+
+                isScreenPage = event.url.includes('/screen') ||event.url.includes('/login');
                 if (!isScreenPage && !this.countdownTimer$) {
                     this.countdownTimer$ = timer(0, 1000).pipe(
                         tap((value) => {

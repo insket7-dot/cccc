@@ -1,4 +1,5 @@
-<div class="menu-grid">
+@if(!showDetails()) {
+    <div class="menu-grid">
     @if(curModel === 'Accessibility') {
 
     <div class="child">
@@ -11,7 +12,7 @@
     </div>
     }
 
-    <div class="beff">
+    <div class="beff" >
         <div class="left">
             <div class="left_top">
                 <img src="/assets/image/logo.png" alt="logo" />
@@ -25,19 +26,25 @@
             </div>
 
             <div class="left_center">
-                <div class="left_up">
+                <div class="left_up" (click)="changeCurCategory('up')">
                     <img src="/assets/image/icon_up1.png" alt="" />
                 </div>
 
-                <div class="left_cate">
-
+                <div
+                    class="left_cate"
+                    [style.height]="curModel === 'Accessibility' ? '300px' : '450px'"
+                >
                     @for (item of categoryList(); track $index) {
-                        <div class="cate_item" [class.active]="currentCategoryValue() === item.categoryId"  (click)="chooseCategory(item)" >
-                            <div class="cate_name">{{item.categoryNameCn}}</div>
-                        </div>
+                    <div
+                        class="cate_item"
+                        [class.active]="currentCategoryValue() === item.categoryId"
+                        (click)="chooseCategory(item)"
+                    >
+                        <div class="cate_name">{{ item.categoryNameCn }}</div>
+                    </div>
                     }
                 </div>
-                <div class="left_down">
+                <div class="left_down" (click)="changeCurCategory('down')">
                     <img src="/assets/image/icon_down.png" alt="" />
                 </div>
             </div>
@@ -52,32 +59,44 @@
         </div>
         <div class="right">
             <div class="right_block">
-                <p class="title">—— BEFF ——</p>
+                @for (entry of menuMapList().entries(); track entry[0]) {
 
+                <p class="title" [id]="'category-' + entry[0]">- {{ getCategoryName(entry[0]) }} -</p>
+
+                @for (item of entry[1]; track item) {
                 <div class="dish">
-                    <div class="dish_left">img</div>
+                    <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
                     <div class="dish_right">
-                        <div class="dish_name">12123123asfasdasdafasfa123123123123123sfd</div>
+                        <div class="dish_name">{{ item.productNameCn }}</div>
                         <div class="dish_desc">
-                            asdasdafgwerfdwqerfqefqwr123123123123fqwqw12312i3e412in
+                            {{ item.descriptionCn }}
                         </div>
                         <div class="price">
-                            <span>$18.22</span>
+                            <span>$ {{ item.specList[0].price }}</span>
                             <div>
-                                <span class="add">
+                                <span class="add" (click)="addCart('sub',item)">
                                     <img src="/assets/image/minus.png" alt="" />
                                 </span>
                                 <span>2</span>
-                                <span class="add">
+                                <span class="add" (click)="addCart('add',item)">
                                     <img src="/assets/image/add.png" alt="" />
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
+                } }
             </div>
         </div>
     </div>
 
-    <app-shopping-cart></app-shopping-cart>
+    <app-shopping-cart class="shopcart"></app-shopping-cart>
+
 </div>
+}
+@if(showDetails()) {
+    <app-details
+  [item]="currentItem()"
+  (onClose)="showDetails.set(false)"
+></app-details>
+}

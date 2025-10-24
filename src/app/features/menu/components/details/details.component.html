@@ -1,0 +1,33 @@
+<div class="details">
+
+    <div class="image">
+        <img src="/assets/image/logo.png" alt="">
+    </div>
+
+    <div class="info">
+        <div class="name">{{item.productNameCn}}</div>
+        <div class="desc">{{item.descriptionCn}}</div>
+
+           @for(grill of item.grillList; track grill.grillCode) {
+      <div class="grill_item">
+        <h3 class="grill_title">{{ grill.grillNameCn }}</h3> <!-- 增加标题样式 -->
+
+        @for(grillItem of grill.itemList; track grillItem.productId) {
+          <section class="example-section" [formGroup]="toppings">
+            <p>
+              <mat-checkbox [formControlName]="grillItem.productId">
+                <span class="productName">{{ grillItem.productNameCn }}</span>
+                <span class="price">${{ grillItem.price.toFixed(2) }}</span> <!-- 价格格式化 -->
+              </mat-checkbox>
+            </p>
+          </section>
+        }
+      </div>
+    }
+    </div>
+
+ <div class="add_price">
+    <span class="price">{{getPrice()}}</span>
+ </div>
+ <div class="add_button" (click)="addToCart()"><img src="/assets/image/cart.png" alt=""><span>Add To Cart</span></div>
+</div>
