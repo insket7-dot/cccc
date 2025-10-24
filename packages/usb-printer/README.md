@@ -72,6 +72,13 @@ const checkAppLaunchUrl = async () => {
 <docgen-index>
 
 * [`echo(...)`](#echo)
+* [`listDevices()`](#listdevices)
+* [`requestPermission(...)`](#requestpermission)
+* [`connect(...)`](#connect)
+* [`printText(...)`](#printtext)
+* [`printRaw(...)`](#printraw)
+* [`disconnect()`](#disconnect)
+* [Interfaces](#interfaces)
 
 </docgen-index>
 
@@ -91,5 +98,158 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
 
 --------------------
+
+
+### listDevices()
+
+```typescript
+listDevices() => Promise<ListDevicesResult>
+```
+
+**Returns:** <code>Promise&lt;<a href="#listdevicesresult">ListDevicesResult</a>&gt;</code>
+
+--------------------
+
+
+### requestPermission(...)
+
+```typescript
+requestPermission(options?: RequestPermissionOptions | undefined) => Promise<RequestPermissionResult>
+```
+
+| Param         | Type                                                                          |
+| ------------- | ----------------------------------------------------------------------------- |
+| **`options`** | <code><a href="#requestpermissionoptions">RequestPermissionOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#requestpermissionresult">RequestPermissionResult</a>&gt;</code>
+
+--------------------
+
+
+### connect(...)
+
+```typescript
+connect(options?: ConnectOptions | undefined) => Promise<ConnectResult>
+```
+
+| Param         | Type                                                      |
+| ------------- | --------------------------------------------------------- |
+| **`options`** | <code><a href="#connectoptions">ConnectOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#connectresult">ConnectResult</a>&gt;</code>
+
+--------------------
+
+
+### printText(...)
+
+```typescript
+printText(options: PrintTextOptions) => Promise<PrintResult>
+```
+
+| Param         | Type                                                          |
+| ------------- | ------------------------------------------------------------- |
+| **`options`** | <code><a href="#printtextoptions">PrintTextOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#printresult">PrintResult</a>&gt;</code>
+
+--------------------
+
+
+### printRaw(...)
+
+```typescript
+printRaw(options: PrintRawOptions) => Promise<PrintResult>
+```
+
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#printrawoptions">PrintRawOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#printresult">PrintResult</a>&gt;</code>
+
+--------------------
+
+
+### disconnect()
+
+```typescript
+disconnect() => Promise<void>
+```
+
+--------------------
+
+
+### Interfaces
+
+
+#### ListDevicesResult
+
+| Prop          | Type                     |
+| ------------- | ------------------------ |
+| **`devices`** | <code>UsbDevice[]</code> |
+
+
+#### UsbDevice
+
+| Prop             | Type                |
+| ---------------- | ------------------- |
+| **`vendorId`**   | <code>number</code> |
+| **`productId`**  | <code>number</code> |
+| **`deviceName`** | <code>string</code> |
+
+
+#### RequestPermissionResult
+
+| Prop          | Type                 |
+| ------------- | -------------------- |
+| **`granted`** | <code>boolean</code> |
+
+
+#### RequestPermissionOptions
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`vendorId`**  | <code>number</code> |
+| **`productId`** | <code>number</code> |
+
+
+#### ConnectResult
+
+| Prop            | Type                 |
+| --------------- | -------------------- |
+| **`connected`** | <code>boolean</code> |
+
+
+#### ConnectOptions
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`vendorId`**  | <code>number</code> |
+| **`productId`** | <code>number</code> |
+
+
+#### PrintResult
+
+| Prop     | Type                 |
+| -------- | -------------------- |
+| **`ok`** | <code>boolean</code> |
+
+
+#### PrintTextOptions
+
+| Prop           | Type                                      |
+| -------------- | ----------------------------------------- |
+| **`text`**     | <code>string</code>                       |
+| **`encoding`** | <code>'GBK' \| 'GB2312' \| 'UTF-8'</code> |
+| **`feed`**     | <code>number</code>                       |
+| **`cut`**      | <code>boolean</code>                      |
+
+
+#### PrintRawOptions
+
+| Prop             | Type                |
+| ---------------- | ------------------- |
+| **`dataBase64`** | <code>string</code> |
 
 </docgen-api>

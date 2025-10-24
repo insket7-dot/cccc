@@ -52,7 +52,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        Promise.allSettled([this.appStoreService.init(), this.mqttService.initialize()]).catch(
+        Promise.allSettled([this.appStoreService.init(), this.mqttService.initialize(), this.printOrderService.initialize()]).catch(
             (error) => console.error('初始化失败', error),
         );
     }

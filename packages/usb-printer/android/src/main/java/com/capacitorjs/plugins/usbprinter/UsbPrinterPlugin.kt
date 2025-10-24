@@ -5,6 +5,8 @@ import android.content.Intent
 import android.hardware.usb.*
 import android.util.Base64
 import com.getcapacitor.*
+import com.getcapacitor.annotation.CapacitorPlugin
+import com.getcapacitor.PluginMethod
 import kotlinx.coroutines.flow.MutableSharedFlow
 import java.nio.charset.Charset
 
@@ -25,14 +27,32 @@ class UsbPrinterPlugin : Plugin() {
 
     @PluginMethod
     fun listDevices(call: PluginCall) {
-        val devices = manager.deviceList.values.map { d ->
-            JSObject().apply {
-                put("vendorId", d.vendorId)
-                put("productId", d.productId)
-                put("deviceName", d.deviceName)
+        try {
+            Logger.info("USB Printer - 开始获取设备列表")
+
+            val deviceList = manager.deviceList
+            Logger.info("USB Printer - 找到 ${deviceList.size} 个USB设备")
+
+            deviceList.values.forEachIndexed { index, device ->
+                Logger.info("USB Printer - 设备$index: ${device.deviceName}, VID: ${device.vendorId}, PID: ${device.productId}")
             }
+
+            val devices = deviceList.values.map { d ->
+                JSObject().apply {
+                    put("vendorId", d.vendorId)
+                    put("productId", d.productId)
+                    put("deviceName", d.deviceName)
+                    put("deviceId", d.deviceId)
+                }
+            }
+
+            Logger.info("USB Printer - 成功处理设备列表，返回 ${devices.size} 个设备")
+            call.resolve(JSObject().put("devices", devices))
+
+        } catch (e: Exception) {
+            Logger.error("USB Printer - listDevices 错误: ${e.message}", e)
+            call.reject("获取设备列表失败: ${e.message}")
         }
-        call.resolve(JSObject().put("devices", devices))
     }
 
     @PluginMethod
@@ -44,7 +64,12 @@ class UsbPrinterPlugin : Plugin() {
             if (pid != null) d.vendorId == vid && d.productId == pid else d.vendorId == vid
         } ?: return call.reject("device not found")
 
-        val pi = PendingIntent.getBroadcast(context, 0, Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE)
+        val pi = PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(ACTION_USB_PERMISSION),
+            PendingIntent.FLAG_IMMUTABLE
+        )
         manager.requestPermission(dev, pi)
 
         call.resolve(JSObject().put("granted", manager.hasPermission(dev)))
@@ -98,19 +123,30 @@ class UsbPrinterPlugin : Plugin() {
 
     @PluginMethod
     fun disconnect(call: PluginCall) {
-        try { iface?.let { conn?.releaseInterface(it) } } catch (_: Throwable) {}
-        try { conn?.close() } catch (_: Throwable) {}
+        try {
+            iface?.let { conn?.releaseInterface(it) }
+        } catch (_: Throwable) {
+        }
+        try {
+            conn?.close()
+        } catch (_: Throwable) {
+        }
         conn = null; endpointOut = null; iface = null; currentDevice = null
         call.resolve()
     }
 
     private fun charset(encoding: String): Charset =
         when (encoding) {
-            "GBK","GB2312" -> Charset.forName("GBK")
+            "GBK", "GB2312" -> Charset.forName("GBK")
             else -> Charsets.UTF_8
         }
 
-    private fun sendEscPosTextForEpson(text: String, enc: String, feed: Int, cut: Boolean): Boolean {
+    private fun sendEscPosTextForEpson(
+        text: String,
+        enc: String,
+        feed: Int,
+        cut: Boolean
+    ): Boolean {
         if (conn == null || endpointOut == null) return false
 
         val init = byteArrayOf(0x1B, 0x40)
@@ -121,11 +157,11 @@ class UsbPrinterPlugin : Plugin() {
         val cutCmd = byteArrayOf(0x1D, 0x56, 0x42, 0x00)
 
         return bulkWrite(init) &&
-               bulkWrite(alignLeft) &&
-               bulkWrite(codepageCN) &&
-               bulkWrite(content) &&
-               bulkWrite(feeds) &&
-               (!cut || bulkWrite(cutCmd))
+            bulkWrite(alignLeft) &&
+            bulkWrite(codepageCN) &&
+            bulkWrite(content) &&
+            bulkWrite(feeds) &&
+            (!cut || bulkWrite(cutCmd))
     }
 
     private fun bulkWrite(data: ByteArray): Boolean {

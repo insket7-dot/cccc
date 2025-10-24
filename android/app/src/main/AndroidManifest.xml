@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Permissions -->
+    <!-- USB设备权限 -->
+    <uses-feature android:name="android.hardware.usb.host" />
+
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
+
     <uses-permission
         android:name="android.permission.INTERNET"
         android:usesCleartextTraffic="true" />
@@ -29,7 +34,9 @@
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleTask"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
+            android:windowFullscreen="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

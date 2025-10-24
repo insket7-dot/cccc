@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-    appId: 'com.example.crossplatformapp',
+    appId: 'com.example.yakipos',
     appName: 'cross-platform-app',
     webDir: 'dist/cross-platform-app/browser',
     server: {
