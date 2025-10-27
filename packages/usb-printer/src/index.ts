@@ -2,9 +2,9 @@ import { registerPlugin } from '@capacitor/core';
 
 import type { UsbPrinterPlugin } from './definitions';
 
-const UsbPrinterPlugin = registerPlugin<UsbPrinterPlugin>('UsbPrinterPlugin', {
-  web: () => import('./web').then(m => new m.UsbPrinterPluginWeb())
+const UsbPrinter = registerPlugin<UsbPrinterPlugin>('UsbPrinter', {
+  web: () => import('./web').then((m) => new m.UsbPrinterWeb()),
 });
 
 export * from './definitions';
-export { UsbPrinterPlugin };
+export { UsbPrinter };

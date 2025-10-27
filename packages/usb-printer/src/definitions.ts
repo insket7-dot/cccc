@@ -6,6 +6,27 @@ export interface UsbPrinterPlugin {
   printText(options: PrintTextOptions): Promise<PrintResult>;
   printRaw(options: PrintRawOptions): Promise<PrintResult>;
   disconnect(): Promise<void>;
+
+  // 订单打印
+  printOrder(options: PrintOrderOptions): Promise<{ success: boolean }>;
+  isAvailable(): Promise<PrinterAvailableResult>;
+  loadPlug(): Promise<void>;
+}
+
+export interface PrintItem {
+  name: string;
+  qty: number;
+  price: number;
+}
+
+export interface PrintOrderOptions {
+  orderId: string;
+  items: PrintItem[];
+}
+
+export interface PrinterAvailableResult {
+  available: boolean;
+  device?: string;
 }
 
 export interface UsbDevice {

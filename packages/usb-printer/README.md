@@ -78,6 +78,9 @@ const checkAppLaunchUrl = async () => {
 * [`printText(...)`](#printtext)
 * [`printRaw(...)`](#printraw)
 * [`disconnect()`](#disconnect)
+* [`printOrder(...)`](#printorder)
+* [`isAvailable()`](#isavailable)
+* [`loadPlug()`](#loadplug)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -180,6 +183,41 @@ disconnect() => Promise<void>
 --------------------
 
 
+### printOrder(...)
+
+```typescript
+printOrder(options: PrintOrderOptions) => Promise<{ success: boolean; }>
+```
+
+| Param         | Type                                                            |
+| ------------- | --------------------------------------------------------------- |
+| **`options`** | <code><a href="#printorderoptions">PrintOrderOptions</a></code> |
+
+**Returns:** <code>Promise&lt;{ success: boolean; }&gt;</code>
+
+--------------------
+
+
+### isAvailable()
+
+```typescript
+isAvailable() => Promise<PrinterAvailableResult>
+```
+
+**Returns:** <code>Promise&lt;<a href="#printeravailableresult">PrinterAvailableResult</a>&gt;</code>
+
+--------------------
+
+
+### loadPlug()
+
+```typescript
+loadPlug() => Promise<void>
+```
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -251,5 +289,30 @@ disconnect() => Promise<void>
 | Prop             | Type                |
 | ---------------- | ------------------- |
 | **`dataBase64`** | <code>string</code> |
+
+
+#### PrintOrderOptions
+
+| Prop          | Type                     |
+| ------------- | ------------------------ |
+| **`orderId`** | <code>string</code>      |
+| **`items`**   | <code>PrintItem[]</code> |
+
+
+#### PrintItem
+
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`name`**  | <code>string</code> |
+| **`qty`**   | <code>number</code> |
+| **`price`** | <code>number</code> |
+
+
+#### PrinterAvailableResult
+
+| Prop            | Type                 |
+| --------------- | -------------------- |
+| **`available`** | <code>boolean</code> |
+| **`device`**    | <code>string</code>  |
 
 </docgen-api>

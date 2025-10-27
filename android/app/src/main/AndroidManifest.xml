@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Permissions -->
-    <!-- USB设备权限 -->
-    <uses-feature android:name="android.hardware.usb.host" />
-
-    <uses-permission android:name="android.permission.USB_PERMISSION" />
+    <!-- 1) 声明 USB Host 能力 -->
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="false" />
 
     <uses-permission
         android:name="android.permission.INTERNET"
@@ -42,6 +42,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- 2) 绑定 USB 设备插入事件 + 设备过滤表 -->
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
 
         </activity>
 

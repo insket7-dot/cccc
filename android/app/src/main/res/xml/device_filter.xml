@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 类匹配 -->
+    <usb-device class="7"/>
+    <usb-device class="255"/>
+    <usb-device class="2"/>
+    <usb-device class="10"/>
+
+    <!-- 厂商（vendor-only；拿到确切 PID 后可再加 product-id） -->
+    <usb-device vendor-id="0x04B8"/> <!-- EPSON -->
+    <usb-device vendor-id="0x324F"/> <!-- GigaDevice (GD32) -->
+</resources>
