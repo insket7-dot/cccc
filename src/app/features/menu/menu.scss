@@ -157,6 +157,10 @@ border-radius: 10px;
                     .dish_left {
                         width: 100px;
                         height: 100%;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
                     }
                     .dish_right {
                         padding: 0 10px;

@@ -24,13 +24,26 @@ export class PrintOrderService {
         });
     }
 
+    private items = [
+        {
+            name: '伯牙绝弦',
+            price: 18,
+            flavor: '奶香乌龙',
+            category: '当季新品',
+            img: 'items/bw-cj.jpg',
+        },
+        // { name:'千岛雾芽', price:22, flavor:'茉莉奶绿', category:'当季新品', img:'items/cy-ys.jpg' },
+        // { name:'月影酌茗', price:35, flavor:'美式',     category:'人气榜单', img:'items/sb-ame.jpg' },
+        // { name:'雪落寒梅', price:28, flavor:'拿铁',     category:'人气榜单', img:'items/rx-latte.jpg' },
+    ];
+
     /**
      * @desc 初始化
      */
     async initialize() {
         try {
-            const flag = await UsbPrinter.loadPlug();
-            console.log('初始化USB打印机成功:', JSON.stringify(flag));
+            UsbPrinter.loadPlug().catch((err) => console.error('加载USB打印机插件失败:', err));
+            console.log('初始化USB打印机成功:');
         } catch (e) {
             console.log('初始化USB打印机失败:', JSON.stringify(e));
         }
@@ -39,7 +52,9 @@ export class PrintOrderService {
     /**
      * @desc 打印订单
      */
-    async printOrder(orderId: string, items: any[]) {
+    async printOrder(orderId?: string, items?: any[]) {
+        orderId = orderId || v4();
+        items = items || this.items; // 模拟数据
         console.log('打印订单号:', orderId);
         console.log('打印订单内容:', JSON.stringify(items));
         const text = this.buildReceiptText(orderId, items);

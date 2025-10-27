@@ -52,7 +52,7 @@ public class PrinterPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void loadPlug() {
+    public void loadPlug(PluginCall call) {
         Log.d(TAG, "PrinterPlugin load 1 ");
 //        super.load();
         Log.d(TAG, "PrinterPlugin load 2 ");
@@ -108,7 +108,15 @@ public class PrinterPlugin extends Plugin {
                 }
             }
         };
-        getContext().registerReceiver(usbReceiver, filter);
+        //        getContext().registerReceiver(usbReceiver, filter);
+        // 替换原来的 registerReceiver 调用
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 14+ (API 34+)
+            getContext().registerReceiver(usbReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            // Android 13 及以下
+            getContext().registerReceiver(usbReceiver, filter);
+        }
 
         // 调试：枚举设备
         Map<String, UsbDevice> map = usbManager != null ? usbManager.getDeviceList() : null;
@@ -119,6 +127,7 @@ public class PrinterPlugin extends Plugin {
                     + " mfg=" + d.getManufacturerName() + " prod=" + d.getProductName());
             }
         }
+        call.resolve();
     }
 
     @Override
@@ -143,15 +152,6 @@ public class PrinterPlugin extends Plugin {
     @PluginMethod
     public void printOrder(PluginCall call) {
         startPrint(call);
-    }
-
-    @PluginMethod
-    public void echo(PluginCall call) {
-        String msg = call.getString("msg", "");
-        JSObject ret = new JSObject();
-        ret.put("ok", true);
-        ret.put("echo", msg);
-        call.resolve(ret);
     }
 
     // ========== 流程：选设备 → 权限 → 打印 ==========
