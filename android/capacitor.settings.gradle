@@ -18,7 +18,10 @@ include ':capacitor-rydeen-tools'
 project(':capacitor-rydeen-tools').projectDir = new File('../node_modules/.pnpm/@capacitor-rydeen+tools@8.0_69bcbfb8d6a13f6d19ded8d129fc009f/node_modules/@capacitor-rydeen/tools/android')
 
 include ':capacitor-rydeen-usb-printer'
-project(':capacitor-rydeen-usb-printer').projectDir = new File('../packages/usb-printer/android')
+project(':capacitor-rydeen-usb-printer').projectDir = new File('../../capacitor-plugins/usb-printer/android')
+
+include ':capacitor-rydeen-voice'
+project(':capacitor-rydeen-voice').projectDir = new File('../../capacitor-plugins/voice/android')
 
 include ':capacitor-app'
 project(':capacitor-app').projectDir = new File('../node_modules/.pnpm/@capacitor+app@7.1.0_@capacitor+core@7.4.3/node_modules/@capacitor/app/android')

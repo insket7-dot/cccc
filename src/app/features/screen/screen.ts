@@ -6,6 +6,7 @@ import { AppStoreService } from '@/app/shared/services/app.store.service';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { CarouselImage } from '@app/shared/types/store.shared.types';
 import { PrintOrderService } from '@app/shared/services/print-order.service';
+import { AppVoiceService } from '@app/shared/services/app.voice.service';
 
 @Component({
     selector: 'app-screen',
@@ -25,6 +26,9 @@ import { PrintOrderService } from '@app/shared/services/print-order.service';
                     }
                 </div>
             </div>
+            <div class="tap-text tap-test" (click)="printerText()">
+                {{ 'page.text1' | translate }}
+            </div>
             <div class="tap-text" (click)="startOrder()">{{ 'page.text1' | translate }}</div>
         </div>
     `,
@@ -39,6 +43,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
         private printOrderService: PrintOrderService,
         private appStoreService: AppStoreService,
         private mqttService: MqttService,
+        private voiceService: AppVoiceService,
     ) {
         super();
         void this.printOrderService; // 确保依赖注入
@@ -52,9 +57,12 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        Promise.allSettled([this.appStoreService.init(), this.mqttService.initialize(), this.printOrderService.initialize()]).catch(
-            (error) => console.error('初始化失败', error),
-        );
+        Promise.allSettled([
+            this.appStoreService.init(),
+            this.mqttService.initialize(),
+            this.printOrderService.initialize(),
+            this.voiceService.initialize(),
+        ]).catch((error) => console.error('初始化失败', error));
     }
 
     ngOnDestroy() {
@@ -71,5 +79,9 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
 
     async startOrder() {
         this.router.navigate(['/home']).catch((error) => console.error('导航失败', error));
+    }
+
+    printerText() {
+        this.printOrderService.printOrder().catch((error) => console.error('打印失败', error));
     }
 }

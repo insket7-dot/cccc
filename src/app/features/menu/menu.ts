@@ -10,6 +10,8 @@ import { LanguageSelectorComponent } from '@app/shared/components/language-selec
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { detailsComponent } from './components/details/details.component';
+import { AppVoiceService } from '@app/shared/services/app.voice.service';
+import { LanguageService } from '@app/core/services/language.service';
 
 @Component({
     selector: 'app-menu',
@@ -40,7 +42,11 @@ export class Menu extends AbstractAppPage implements OnInit {
     protected readonly showDetails = signal<boolean>(false);
     protected readonly currentItem = signal<any>(null);
 
-    constructor(private appMenuService: AppMenuService) {
+    constructor(
+        private appMenuService: AppMenuService,
+        private voiceService: AppVoiceService,
+        private languageService: LanguageService,
+    ) {
         super();
 
         effect(() => {
@@ -71,6 +77,11 @@ export class Menu extends AbstractAppPage implements OnInit {
 
     // 选择分类
     chooseCategory(item: any) {
+        const textKey = this.languageService.getCurrentLanguageKey('categoryName');
+        const voiceText = item[textKey];
+        console.log('voice Text:', voiceText);
+        this.voiceService.speak(voiceText).catch((err) => console.error('语音播放失败:', err));
+
         this.appMenuService.setCurrentCategory(item.categoryId);
 
         this.scrollToCategory(item.categoryId);

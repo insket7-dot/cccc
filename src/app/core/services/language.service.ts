@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { LocalStorage } from '@rydeen/angular-framework';
+import { CacheKey } from '@app/shared/constants/cache.key';
 
 export interface LanguageOption {
     code: string;
@@ -9,13 +10,14 @@ export interface LanguageOption {
     nativeName: string;
     shortName: string;
     available: boolean;
+    key: string;
 }
 
 @Injectable({
     providedIn: 'root',
 })
 export class LanguageService {
-    private readonly STORAGE_KEY = 'app-language';
+    private readonly STORAGE_KEY = CacheKey.APP_LANGUAGE;
     private readonly DEFAULT_LANGUAGE = 'zh-cn';
 
     private readonly availableLanguages: LanguageOption[] = [
@@ -24,15 +26,24 @@ export class LanguageService {
             name: '简体中文',
             nativeName: '简体中文',
             shortName: '简',
+            key: 'Cn',
             available: true,
         },
-        { code: 'en-us', name: 'English', nativeName: 'English', shortName: 'En', available: true },
+        {
+            code: 'en-us',
+            name: 'English',
+            nativeName: 'English',
+            shortName: 'En',
+            available: true,
+            key: 'En',
+        },
         {
             code: 'zh-tw',
             name: '繁體中文',
             nativeName: '繁體中文',
             shortName: '繁',
             available: true,
+            key: 'Cn',
         },
     ];
 
@@ -68,5 +79,14 @@ export class LanguageService {
 
     public getCurrentLanguageOption(): LanguageOption | undefined {
         return this.availableLanguages.find((lang) => lang.code === this.getCurrentLanguage());
+    }
+
+    /**
+     * @desc 输出当前字段拼接上多语言的字段
+     */
+    public getCurrentLanguageKey(name: string): string {
+        const languageOption = this.getCurrentLanguageOption();
+        const languageKey = languageOption ? languageOption.key : 'Cn';
+        return `${name}${languageKey}`;
     }
 }

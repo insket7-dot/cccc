@@ -32,7 +32,8 @@ export class IdleTimeoutService {
             .subscribe((event: NavigationEnd) => {
                 // 检查当前路由是否为screen页面
                 console.log('NavigationEnd Url', event.url);
-                isScreenPage = ['/', '/screen', '/login'].includes(event.url);
+                const cleanUrl = event.url.replace(/^\/#/, '');
+                isScreenPage = ['/', '/screen', '/login'].includes(cleanUrl);
                 if (!isScreenPage && !this.countdownTimer$) {
                     this.countdownTimer$ = timer(0, 1000).pipe(
                         tap((value) => {

@@ -18,4 +18,6 @@ export const CacheKey = {
     CAROUSEL_IMAGES: 'carouselImages',
     /** 门店基础信息 */
     STORE_BASE_INFO: 'storeBaseInfo',
+    /** 语言 */
+    APP_LANGUAGE: 'app-language',
 };

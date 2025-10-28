@@ -6,7 +6,7 @@ import {
     EnvironmentInjector,
     LOCALE_ID,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { MigrationService } from './core/services/migration.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DATABASE_SERVICE } from './core/tokens/database.token';
@@ -22,7 +22,6 @@ import {
     MAT_MOMENT_DATE_ADAPTER_OPTIONS,
     MomentDateAdapter,
 } from '@angular/material-moment-adapter';
-
 
 export const CUSTOM_DATE_FORMATS = {
     parse: {
@@ -80,7 +79,7 @@ export function createTranslateLoader(http: HttpClient): TranslateLoader {
 export const appConfig: ApplicationConfig = {
     providers: [
         provideHttpClient(withInterceptorsFromDi()),
-        provideRouter(routes),
+        provideRouter(routes, withHashLocation()),
         provideBrowserGlobalErrorListeners(),
         provideAnimationsAsync(),
         provideZoneChangeDetection({ eventCoalescing: true }),
