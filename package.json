@@ -1,6 +1,6 @@
 {
-    "name": "cross-platform-app",
-    "version": "0.0.0",
+    "name": "yaki-app",
+    "version": "0.0.1",
     "packageManager": "pnpm@10.18.1",
     "scripts": {
         "start:prod": "ng serve --configuration=production",

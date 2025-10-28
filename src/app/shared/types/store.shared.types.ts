@@ -24,6 +24,10 @@ export interface CarouselImage {
  */
 export interface StoreBaseInfoInterface {
     /**
+     * @desc 语音播放开关
+     */
+    voiceFlag?: boolean;
+    /**
      * 餐厅编码
      */
     storeCode?: string;

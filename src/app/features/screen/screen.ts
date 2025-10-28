@@ -26,9 +26,6 @@ import { AppVoiceService } from '@app/shared/services/app.voice.service';
                     }
                 </div>
             </div>
-            <div class="tap-text tap-test" (click)="printerText()">
-                {{ 'page.text1' | translate }}
-            </div>
             <div class="tap-text" (click)="startOrder()">{{ 'page.text1' | translate }}</div>
         </div>
     `,
@@ -79,9 +76,5 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
 
     async startOrder() {
         this.router.navigate(['/home']).catch((error) => console.error('导航失败', error));
-    }
-
-    printerText() {
-        this.printOrderService.printOrder().catch((error) => console.error('打印失败', error));
     }
 }
