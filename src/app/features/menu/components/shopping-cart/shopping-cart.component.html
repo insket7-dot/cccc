@@ -1,13 +1,16 @@
-<div class="shopping-cart">
-    <div class="cart" (click)="showDetails()">
-       <img class="shop" src="/assets/image/shop.png" alt="">
-    </div>
-    <div class="price">
-        <div class="unit">$</div>
+<div class="shop-layout">
+    <div class="shopping-cart">
+        <div class="cart" (click)="showDetails()">
+            <img class="shop" src="/assets/image/shop.png" alt="">
+        </div>
+        <div class="price">
+            <div class="unit">$</div>
 
-        <div class="text">98.22</div>
-    </div>
-    <div class="continue" (click)="continue()">
+            <div class="text">98.22</div>
+        </div>
+        <div class="continue" (click)="continue()">
             {{'page.continueText' | translate}}
+        </div>
     </div>
 </div>
+

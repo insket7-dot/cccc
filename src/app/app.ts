@@ -64,7 +64,7 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         super();
         this.initializeApp();
 
-        this.idleTimeoutService.startMonitoring();
+        // this.idleTimeoutService.startMonitoring();
     }
 
     async ngOnInit() {

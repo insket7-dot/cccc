@@ -54,11 +54,11 @@ importers:
         specifier: ^8.0.6
         version: 8.0.6(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))
       '@capacitor-rydeen/usb-printer':
-        specifier: link:D:/Rydeen/tw/capacitor-plugins/usb-printer
-        version: link:../capacitor-plugins/usb-printer
+        specifier: 1.0.2
+        version: 1.0.2(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))
       '@capacitor-rydeen/voice':
-        specifier: link:D:/Rydeen/tw/capacitor-plugins/voice
-        version: link:../capacitor-plugins/voice
+        specifier: 1.0.0
+        version: 1.0.0(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))
       '@capacitor/android':
         specifier: ^7.4.3
         version: 7.4.3(@capacitor/core@7.4.3)
@@ -619,6 +619,20 @@ packages:
 
   '@capacitor-rydeen/tools@8.0.6':
     resolution: {integrity: sha512-KR4V4VyI2a1x6q6Qnf+NsTzyE8AXu2ucAzd2Zw/DfnEdEp5FkfeaLyIidDOQtn3CqXgeh0ooTeRK76lwCWXQww==}
+    peerDependencies:
+      '@capacitor/android': '*'
+      '@capacitor/core': '*'
+      '@capacitor/ios': '*'
+
+  '@capacitor-rydeen/usb-printer@1.0.2':
+    resolution: {integrity: sha512-GsF5uhfB/BZAANKyTA/x7WaATSA60HbNio04GWlKAoNx53g6qtggQ8dtHGFQS9XHgYLihpapatFeuDrx3e92hA==}
+    peerDependencies:
+      '@capacitor/android': '*'
+      '@capacitor/core': '*'
+      '@capacitor/ios': '*'
+
+  '@capacitor-rydeen/voice@1.0.0':
+    resolution: {integrity: sha512-0sBKf3xxPHD7eNqZF64WlslOCX5xqxfjtylJ0baXpSuGs4+JFzXwtpQawnxFB5tidVbDiICDeA8PVFqrH3L7mQ==}
     peerDependencies:
       '@capacitor/android': '*'
       '@capacitor/core': '*'
@@ -5021,6 +5035,30 @@ snapshots:
       '@capacitor/core': 7.4.3
 
   '@capacitor-rydeen/tools@8.0.6(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))':
+    dependencies:
+      '@capacitor/android': 7.4.3(@capacitor/core@7.4.3)
+      '@capacitor/core': 7.4.3
+      '@capacitor/ios': 7.4.3(@capacitor/core@7.4.3)
+      '@fingerprintjs/fingerprintjs': 4.6.2
+      electron-updater: 6.6.2
+      loudness: 0.4.2
+      node-machine-id: 1.1.12
+    transitivePeerDependencies:
+      - supports-color
+
+  '@capacitor-rydeen/usb-printer@1.0.2(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))':
+    dependencies:
+      '@capacitor/android': 7.4.3(@capacitor/core@7.4.3)
+      '@capacitor/core': 7.4.3
+      '@capacitor/ios': 7.4.3(@capacitor/core@7.4.3)
+      '@fingerprintjs/fingerprintjs': 4.6.2
+      electron-updater: 6.6.2
+      loudness: 0.4.2
+      node-machine-id: 1.1.12
+    transitivePeerDependencies:
+      - supports-color
+
+  '@capacitor-rydeen/voice@1.0.0(@capacitor/android@7.4.3(@capacitor/core@7.4.3))(@capacitor/core@7.4.3)(@capacitor/ios@7.4.3(@capacitor/core@7.4.3))':
     dependencies:
       '@capacitor/android': 7.4.3(@capacitor/core@7.4.3)
       '@capacitor/core': 7.4.3

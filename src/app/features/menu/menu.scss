@@ -45,7 +45,7 @@
 
         .left {
             width: 120px;
-            height: 100%;
+            height: 100vh;
             background-color: #f5f5f5;
             text-align: center;
             padding: 10px;
@@ -66,56 +66,67 @@
             }
 
             .left_center {
-                // max-height: 32%;
-                // overflow-y: scroll;
-                // margin-top: 20px;
+                flex: 1;
                 display: flex;
-                justify-content: space-between;
                 flex-direction: column;
-                padding: 10px 0;
+                gap: 10px;
 
                 .left_up,
                 .left_down {
-                    height: 20px;
-                    background: #fff !important;
+                    flex-shrink: 0;
+                    height: 26px;
+                    background: #fff;
                     margin: 10px 0;
+                    border-radius: 6px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     img {
-                        width: 30%;
-                        height: 50%;
+                        width: 30px;
+                        height: 12px;
                     }
                 }
 
                 .left_cate {
-                    // display: flex;
-                    // flex-direction: column;
-                    // justify-content: space-between;
-                    // height: 450px;
-                    // max-height: 70%;
-                    overflow-y: scroll;
+                    flex: 1;
+                    max-height: calc(100vh - 440px);
+                    min-height: 0;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+
+                    &::-webkit-scrollbar {
+                        display: none; /* Chrome/Safari 隐藏滚动条 */
+                    }
                     .cate_item {
                         width: 100px;
                         height: 100px;
                         text-align: center;
-                        // line-height: 100px;
                         display: flex;
                         justify-content: center; /* 水平居中 */
                         align-items: center;
                     }
 
-
                     .cate_name {
                         font-size: 18px;
                         color: #a4b0b7;
                     }
-                    .active{
-                        background-color: #F37E01;
-border-radius: 10px;
+                    .active {
+                        background-color: #f37e01;
+                        border-radius: 10px;
                         .cate_name {
-                        font-size: 18px;
-                        color: #fff;
-                    }
+                            font-size: 18px;
+                            color: #fff;
+                        }
                     }
                 }
+            }
+
+            &-empty {
+                height: 100px;
+                width: 100%;
+                display: block;
+                background: transparent;
             }
 
             .left_bottom {
@@ -136,12 +147,19 @@ border-radius: 10px;
 
         .right {
             width: calc(100% - 130px);
-            padding: 10px;
 
             .right_block {
-                height: 62vh;
-    overflow-y: scroll;
-    padding-bottom: 250px;
+                padding: 10px;
+                flex: 1;
+                min-height: 0;
+                max-height: calc(100vh - 100px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
                 .title {
                     width: 100%;
                     color: #afafaf;
@@ -218,9 +236,8 @@ border-radius: 10px;
         }
     }
 }
-.shopcart{
+.shop-cart {
     position: fixed;
     bottom: 0;
     width: 100%;
 }
-

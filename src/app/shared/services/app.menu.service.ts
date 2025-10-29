@@ -19,6 +19,7 @@ export class AppMenuService extends AbstractAppService {
     private menuMap = signal<Map<string, menuListItem[]>>(new Map());
     private categoryList = signal<MenuCategoryItem[]>([]);
     private currentCategory = signal<string>('');
+    private menu = signal<MenuResponseVo[]>([]);
 
     constructor(private mqttService: MqttService) {
         super();
@@ -41,6 +42,7 @@ export class AppMenuService extends AbstractAppService {
     readonly categoryListValue = computed(() => this.categoryList());
     readonly currentCategoryValue = computed(() => this.getCurrentCategory());
     readonly currentMenuValue = computed(() => this.getCurrentMenu());
+    readonly menuValue = computed(() => this.menu());
 
     /**
      * @desc 更新分类ID
@@ -64,14 +66,14 @@ export class AppMenuService extends AbstractAppService {
         const menuMap = this.menuMap();
 
         // 如果明确设置了且存在，就使用
-        // if (explicitCategory && menuMap.has(explicitCategory)) {
-        return explicitCategory;
-        // }
+        if (explicitCategory && menuMap.has(explicitCategory)) {
+            return explicitCategory;
+        }
 
-        // // 否则找第一个有菜单的分类
-        // const firstValidCategory = categories.find((cat) => menuMap.has(cat.categoryId));
+        // 否则找第一个有菜单的分类
+        const firstValidCategory = categories.find((cat) => menuMap.has(cat.categoryId));
 
-        // return firstValidCategory?.categoryId || '';
+        return firstValidCategory?.categoryId || '';
     }
 
     private getCurrentMenu(): menuListItem[] {
@@ -104,6 +106,7 @@ export class AppMenuService extends AbstractAppService {
         let res = await this.request<Menu>(AppUrl.STORE_MENU);
         console.log('获取门店菜单成功:', JSON.stringify(res));
         if (res.success) {
+            this.menu.set(res.data.menuResponseVo);
             this.categoryList.set(res.data.categoriesVos || []);
             this.updateMenuMap(res.data.menuResponseVo);
         }
@@ -116,7 +119,14 @@ export class AppMenuService extends AbstractAppService {
         effect(() => {
             const categories = this.categoryList();
             LocalStorage.setItem(CacheKey.MENU_CATEGORY, JSON.stringify(categories)).catch((err) =>
-                console.error('存储分类失败:', err)
+                console.error('存储分类失败:', err),
+            );
+        });
+
+        effect(() => {
+            const menu = this.menu();
+            LocalStorage.setItem(CacheKey.MENU, JSON.stringify(menu)).catch((err) =>
+                console.error('存储菜单失败:', err),
             );
         });
 
@@ -127,7 +137,7 @@ export class AppMenuService extends AbstractAppService {
                 menuVoList: items,
             }));
             LocalStorage.setItem(CacheKey.MENU_LIST, JSON.stringify(serializableData)).catch(
-                (err) => console.error('存储菜单失败:', err)
+                (err) => console.error('存储菜单失败:', err),
             );
         });
     }

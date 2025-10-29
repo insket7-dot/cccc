@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
 import { UsbPrinter } from '@capacitor-rydeen/usb-printer';
-import { v4 } from 'uuid';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +14,7 @@ export class PrintOrderService {
                 case AppMqttEnums.ESC_PRINT_ORDER:
                     if (message.data) {
                         // 获取指令集，执行打印机操作
-                        this.printOrder(v4(), message.data as any[]).catch((err) =>
+                        this.printOrder(message.data['escString']).catch((err) =>
                             console.error('打印失败:', err),
                         );
                     }
@@ -23,19 +22,6 @@ export class PrintOrderService {
             }
         });
     }
-
-    private items = [
-        {
-            name: '伯牙绝弦',
-            price: 18,
-            flavor: '奶香乌龙',
-            category: '当季新品',
-            img: 'items/bw-cj.jpg',
-        },
-        // { name:'千岛雾芽', price:22, flavor:'茉莉奶绿', category:'当季新品', img:'items/cy-ys.jpg' },
-        // { name:'月影酌茗', price:35, flavor:'美式',     category:'人气榜单', img:'items/sb-ame.jpg' },
-        // { name:'雪落寒梅', price:28, flavor:'拿铁',     category:'人气榜单', img:'items/rx-latte.jpg' },
-    ];
 
     /**
      * @desc 初始化
@@ -52,15 +38,12 @@ export class PrintOrderService {
     /**
      * @desc 打印订单
      */
-    async printOrder(orderId?: string, items?: any[]) {
-        orderId = orderId || v4();
-        items = items || this.items; // 模拟数据
-        console.log('打印订单号:', orderId);
-        console.log('打印订单内容:', JSON.stringify(items));
-        const text = this.buildReceiptText(orderId, items);
-
+    async printOrder(data: string) {
+        if (!data) {
+            return;
+        }
         try {
-            const payload = { orderId, items, text, preferredVendorId: 1208 };
+            const payload = { escText: data };
             const res = await UsbPrinter.printText(payload);
             console.log('打印结果:', JSON.stringify(res));
         } catch (e) {

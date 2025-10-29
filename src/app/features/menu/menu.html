@@ -1,102 +1,93 @@
-@if(!showDetails()) {
+@if (!showDetails()) {
     <div class="menu-grid">
-    @if(curModel === 'Accessibility') {
+        @if (curModel === 'Accessibility') {
+            <div class="child">
+                <img src="/assets/image/banner.png" alt="" />
 
-    <div class="child">
-        <img src="/assets/image/banner.png" alt="" />
-
-        <div class="exit_model" (click)="toggleModel('Normal')">
-            <img src="/assets/image/exit.png" alt="" />
-            <span>{{ 'page.exitAccessibilityModel' | translate }}</span>
-        </div>
-    </div>
-    }
-
-    <div class="beff" >
-        <div class="left">
-            <div class="left_top">
-                <img src="/assets/image/logo.png" alt="logo" />
-
-                <div class="laug">
-                    <app-language-selector
-                        [width]="'80px'"
-                        [height]="'30px'"
-                    ></app-language-selector>
+                <div class="exit_model" (click)="toggleModel('Normal')">
+                    <img src="/assets/image/exit.png" alt="" />
+                    <span>{{ 'page.exitAccessibilityModel' | translate }}</span>
                 </div>
             </div>
+        }
 
-            <div class="left_center">
-                <div class="left_up" (click)="changeCurCategory('up')">
-                    <img src="/assets/image/icon_up1.png" alt="" />
+        <div class="beff">
+            <div class="left">
+                <div class="left_top">
+                    <img src="/assets/image/logo.png" alt="logo" />
+
+                    <div class="laug">
+                        <app-language-selector width="100%" height="30px"></app-language-selector>
+                    </div>
                 </div>
 
-                <div
-                    class="left_cate"
-                    [style.height]="curModel === 'Accessibility' ? '300px' : '450px'"
-                >
-                    @for (item of categoryList(); track $index) {
-                    <div
-                        class="cate_item"
-                        [class.active]="currentCategoryValue() === item.categoryId"
-                        (click)="chooseCategory(item)"
-                    >
-                        <div class="cate_name">{{ item.categoryNameCn }}</div>
+                <div class="left_center">
+                    <div class="left_up" (click)="changeCurCategory('up')">
+                        <img src="/assets/image/icon_up1.png" alt="" />
                     </div>
+                    <div class="left_cate">
+                        @for (item of categoryList(); track $index) {
+                            <div
+                                class="cate_item"
+                                [class.active]="currentCategoryValue() === item.categoryId"
+                                (click)="chooseCategory(item)"
+                                [attr.data-id]="item.categoryId"
+                            >
+                                <div class="cate_name">{{ item.categoryNameCn }}</div>
+                            </div>
+                        }
+                    </div>
+                    <div class="left_down" (click)="changeCurCategory('down')">
+                        <img src="/assets/image/icon_down.png" alt="" />
+                    </div>
+                </div>
+
+                @if (curModel !== 'Accessibility') {
+                    <div class="left_bottom" (click)="toggleModel('Accessibility')">
+                        <img src="/assets/image/Acc.png" alt="" />
+                        <span>{{ 'page.model2' | translate }}</span>
+                    </div>
+                }
+                <div class="left-empty"></div>
+            </div>
+            <div class="right">
+                <div class="right_block">
+                    @for (entry of menuComputed(); track entry.categoryId) {
+                        <p class="title" [id]="`category-${entry.categoryId}`">
+                            - {{ getCategoryName(entry.categoryId) }} -
+                        </p>
+
+                        @for (item of entry.menuVoList; track item) {
+                            <div class="dish">
+                                <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
+                                <div class="dish_right">
+                                    <div class="dish_name">{{ item.productNameCn }}</div>
+                                    <div class="dish_desc">
+                                        {{ item.descriptionCn }}
+                                    </div>
+                                    <div class="price">
+                                        <span>$ {{ item.specList[0].price }}</span>
+                                        <div>
+                                            <span class="add" (click)="addCart('sub', item)">
+                                                <img src="/assets/image/minus.png" alt="" />
+                                            </span>
+                                            <span>2</span>
+                                            <span class="add" (click)="addCart('add', item)">
+                                                <img src="/assets/image/add.png" alt="" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     }
                 </div>
-                <div class="left_down" (click)="changeCurCategory('down')">
-                    <img src="/assets/image/icon_down.png" alt="" />
-                </div>
-            </div>
-
-            @if(curModel !== 'Accessibility') {
-
-            <div class="left_bottom" (click)="toggleModel('Accessibility')">
-                <img src="/assets/image/Acc.png" alt="" />
-                <span>{{ 'page.model2' | translate }}</span>
-            </div>
-            }
-        </div>
-        <div class="right">
-            <div class="right_block">
-                @for (entry of menuMapList().entries(); track entry[0]) {
-
-                <p class="title" [id]="'category-' + entry[0]">- {{ getCategoryName(entry[0]) }} -</p>
-
-                @for (item of entry[1]; track item) {
-                <div class="dish">
-                    <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
-                    <div class="dish_right">
-                        <div class="dish_name">{{ item.productNameCn }}</div>
-                        <div class="dish_desc">
-                            {{ item.descriptionCn }}
-                        </div>
-                        <div class="price">
-                            <span>$ {{ item.specList[0].price }}</span>
-                            <div>
-                                <span class="add" (click)="addCart('sub',item)">
-                                    <img src="/assets/image/minus.png" alt="" />
-                                </span>
-                                <span>2</span>
-                                <span class="add" (click)="addCart('add',item)">
-                                    <img src="/assets/image/add.png" alt="" />
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                } }
             </div>
         </div>
+
+        <app-shopping-cart class="shop-cart"></app-shopping-cart>
     </div>
-
-    <app-shopping-cart class="shopcart"></app-shopping-cart>
-
-</div>
 }
-@if(showDetails()) {
-    <app-details
-  [item]="currentItem()"
-  (onClose)="showDetails.set(false)"
-></app-details>
+@if (showDetails()) {
+    <app-details [item]="currentItem()" (onClose)="showDetails.set(false)"></app-details>
 }
