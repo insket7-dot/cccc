@@ -29,7 +29,8 @@
             "toast.warn": "警告",
             "unused": "未用完",
             "used": "已用完",
-            "warning": "警告"
+            "warning": "警告",
+            "starting": "起"
         },
         "home": {
             "actions": {
@@ -130,34 +131,33 @@
             },
             "title": "用户管理"
         }
-
     },
     "page": {
-            "model1": "普通模式",
-            "model2": "无障碍模式",
-            "startBtn": "开始点餐",
-            "text1": "点击开始点餐",
-            "tip": "选择点餐方式",
-            "way1": "堂食",
-            "way2": "外带",
-            "tip2": "提示",
-            "tip3": "由于长时间无操作，系统将在 {{time}} 秒内返回主页",
-            "storeCode": "门店编码",
-            "storeCodeRequired": "门店编码不能为空",
-            "authCode": "授权码",
-            "authCodeRequired": "授权码不能为空",
-            "exitAccessibilityModel": "退出无障碍模式",
-            "selectWay": "请选择点餐方式",
-            "password": "密码",
-            "passwordRequired": "密码不能为空",
-            "resetConfig": "重置设置",
-            "resetSystem": "重置点餐系统",
-            "loginOut": "退出点餐系统",
-            "continue":"是否下单",
-            "orderDetails":"订单详情",
-            "continueText":"继续点餐",
-            "addtip":"添加小费",
-            "percentage":"比例",
-            "fixed":"固定"
-        }
+        "model1": "普通模式",
+        "model2": "无障碍模式",
+        "startBtn": "开始点餐",
+        "text1": "点击开始点餐",
+        "tip": "选择点餐方式",
+        "way1": "堂食",
+        "way2": "外带",
+        "tip2": "提示",
+        "tip3": "由于长时间无操作，系统将在 {{time}} 秒内返回主页",
+        "storeCode": "门店编码",
+        "storeCodeRequired": "门店编码不能为空",
+        "authCode": "授权码",
+        "authCodeRequired": "授权码不能为空",
+        "exitAccessibilityModel": "退出无障碍模式",
+        "selectWay": "请选择点餐方式",
+        "password": "密码",
+        "passwordRequired": "密码不能为空",
+        "resetConfig": "重置设置",
+        "resetSystem": "重置点餐系统",
+        "loginOut": "退出点餐系统",
+        "continue": "是否下单",
+        "orderDetails": "订单详情",
+        "continueText": "继续点餐",
+        "addtip": "添加小费",
+        "percentage": "比例",
+        "fixed": "固定"
+    }
 }

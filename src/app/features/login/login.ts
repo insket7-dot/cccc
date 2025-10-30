@@ -11,7 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { deviceState } from './constants/login.constants';
 import { CacheKey } from '@app/shared/constants/cache.key';
-import { ModelStateService } from '@app/core/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/model-state.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 
 @Component({

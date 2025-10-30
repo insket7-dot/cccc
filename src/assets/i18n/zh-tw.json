@@ -29,7 +29,8 @@
             "toast.warn": "警告",
             "unused": "未用完",
             "used": "已用完",
-            "warning": "警告"
+            "warning": "警告",
+            "starting": "起"
         },
         "home": {
             "actions": {

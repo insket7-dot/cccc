@@ -1,20 +1,19 @@
-import { Component, signal, OnInit, inject } from '@angular/core';
+import { Component, signal, OnInit, inject, OnDestroy, computed } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { HomeService } from './services/home.service';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
-import { MenuData, MenuModel } from '@app/shared/types/menu.shared.types';
+import { MenuConstantsItem, MenuData, MenuModel } from '@app/shared/types/menu.shared.types';
 import { HomeUi } from './types/home.types';
 import { ResultVO } from '@rydeen/angular-framework';
-import { MenuItemInterFace } from './constants/home.constants';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
-
-import { ModelStateService } from '@app/core/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/model-state.service';
+import { modeList, wayList } from '@app/shared/constants/menu.constants';
 
 @Component({
     selector: 'app-home',
@@ -31,49 +30,23 @@ import { ModelStateService } from '@app/core/services/model-state.service';
     templateUrl: './home.html',
     styleUrl: './home.scss',
 })
-export class Home extends AbstractAppPage implements OnInit {
+export class Home extends AbstractAppPage implements OnInit, OnDestroy {
     protected readonly HomeUi = HomeUi;
     protected readonly searchQuery = signal<string>('');
     protected readonly processLog = signal<string | null>(null);
     protected readonly searchLog = signal<string | null>(null);
     protected readonly searchItems = signal<MenuData[]>([]);
 
-    private readonly translateService = inject(TranslateService);
     private readonly modelStateService = inject(ModelStateService);
-    wayList = signal<MenuItemInterFace[]>([
-        {
-            type: 'DineIn',
-            name: 'page.way1',
-            icon: '/assets/image/dinein.png',
-        },
-        {
-            type: 'TakeOut',
-            name: 'page.way2',
-            icon: '/assets/image/takeout.png',
-        },
-    ]);
+    // 点餐模式
+    wayList = signal<MenuConstantsItem[]>(wayList);
+    // 普通、儿童模式
+    modelList = signal<MenuConstantsItem[]>(modeList);
 
-    modelList = signal<MenuItemInterFace[]>([
-        {
-            type: 'Normal',
-            name: 'page.model1',
-            icon: '/assets/image/icon_mr2.png',
-        },
-        {
-            type: 'Accessibility',
-            name: 'page.model2',
-            icon: '/assets/image/Acc.png',
-        },
-    ]);
+    curModel = computed(() => this.modelStateService.curModelValue());
+    curWay = computed(() => this.modelStateService.curWayValue());
 
-    isEnglish = false;
-    private clickCount = 0;
-    get curModel() {
-        return this.modelStateService.curModel();
-    }
-    get curWay() {
-        return this.modelStateService.curWay();
-    }
+    private clickCount = 0; // 点击次数
 
     constructor(private readonly homeService: HomeService) {
         super();
@@ -85,6 +58,10 @@ export class Home extends AbstractAppPage implements OnInit {
         this.registerHandler(HomeUi.searchBtn, () => this.onMenuSearch());
         // 输入框回车或变更后触发搜索
         this.registerHandler(HomeUi.searchInput, () => this.onMenuSearch());
+    }
+
+    ngOnDestroy() {
+        this.clickCount = 0;
     }
 
     async onMenuProcess(): Promise<void> {
@@ -137,10 +114,12 @@ export class Home extends AbstractAppPage implements OnInit {
 
     startOrder() {
         if (!this.curWay) {
-            this.error(this.translate.instant('page.selectWay'));
+            this.error(this.translate.instant('page.selectWay')).catch((error) =>
+                console.error(error),
+            );
             return;
         } else {
-            this.router.navigate(['/menu']);
+            this.router.navigate(['/menu']).catch((error) => console.error(error));
         }
     }
 
@@ -149,7 +128,9 @@ export class Home extends AbstractAppPage implements OnInit {
         // 点击6次后重置计数并导航到登录页
         if (this.clickCount >= 6) {
             this.clickCount = 0;
-            this.router.navigate(['/login'], { queryParams: { state: 'RESET' } });
+            this.router
+                .navigate(['/login'], { queryParams: { state: 'RESET' } })
+                .catch((error) => console.error(error));
         }
     }
 }

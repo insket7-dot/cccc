@@ -98,6 +98,10 @@
                     &::-webkit-scrollbar {
                         display: none; /* Chrome/Safari 隐藏滚动条 */
                     }
+
+                    &.child-mode-left {
+                        max-height: calc(100vh - 640px);
+                    }
                     .cate_item {
                         width: 100px;
                         height: 100px;
@@ -160,6 +164,9 @@
                 &::-webkit-scrollbar {
                     display: none;
                 }
+                &.child-mode-right {
+                    max-height: calc(100vh - 360px);
+                }
                 .title {
                     width: 100%;
                     color: #afafaf;
@@ -216,6 +223,11 @@
                             font-weight: 500;
                             display: flex;
                             justify-content: space-between;
+                            &-starting {
+                                font-size: 12px;
+                                margin-left: 4px;
+                                color: #afafaf;
+                            }
 
                             div {
                                 width: 80px;

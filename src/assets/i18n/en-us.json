@@ -29,7 +29,8 @@
             "toast.warn": "Warning",
             "unused": "Unused",
             "used": "Used",
-            "warning": "Warning"
+            "warning": "Warning",
+            "starting": "from"
         },
         "home": {
             "actions": {
@@ -152,15 +153,11 @@
         "resetConfig": "Reset settings",
         "resetSystem": "Reset the ordering system",
         "loginOut": "Exit the ordering system",
-        "continue":"Whether to place an order",
-        "orderDetails":"Order Details",
-        "continueText":"Continue",
-        "addtip":"Add Tip",
-        "percentage":"percentage",
-        "fixed":"fixed"
-
-
-
-
+        "continue": "Whether to place an order",
+        "orderDetails": "Order Details",
+        "continueText": "Continue",
+        "addtip": "Add Tip",
+        "percentage": "percentage",
+        "fixed": "fixed"
     }
 }

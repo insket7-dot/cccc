@@ -11,9 +11,9 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
-import { MenuData } from '@app/shared/types/menu.shared.types';
+import { MenuData, menuListItem } from '@app/shared/types/menu.shared.types';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
-import { ModelStateService } from '@app/core/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/model-state.service';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
@@ -21,6 +21,7 @@ import { detailsComponent } from './components/details/details.component';
 import { AppVoiceService } from '@app/shared/services/app.voice.service';
 import { LanguageService } from '@app/core/services/language.service';
 import { fromEvent, Subscription, throttleTime } from 'rxjs';
+import { MenuType } from '@app/shared/constants/menu.constants';
 
 @Component({
     selector: 'app-menu',
@@ -38,6 +39,7 @@ import { fromEvent, Subscription, throttleTime } from 'rxjs';
     styleUrl: './menu.scss',
 })
 export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDestroy {
+    private readonly modelStateService = inject(ModelStateService);
     private appMenuService = inject(AppMenuService);
     // 菜品数据
     protected readonly categoryList = computed(() => this.appMenuService.categoryListValue());
@@ -49,13 +51,15 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     protected readonly items = signal<MenuData[]>([]);
 
-    private readonly modelStateService = inject(ModelStateService);
-
     // details数据
     protected readonly showDetails = signal<boolean>(false);
-    protected readonly currentItem = signal<any>(null);
+    protected readonly currentItem = signal<menuListItem | null>(null);
+    detailProductId: string | null = null;
+    cartVisible: boolean = false; // 购物车是否可见
 
     private scrollSub?: Subscription;
+
+    MenuType = MenuType;
 
     constructor(
         private voiceService: AppVoiceService,
@@ -97,10 +101,9 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         this.scrollSub?.unsubscribe();
     }
 
-    // 模式
-    get curModel() {
-        return this.modelStateService.curModel();
-    }
+    isAccessibility = computed(() => this.modelStateService.isAccessibility());
+    isNormal = computed(() => this.modelStateService.isNormal());
+
     async ngOnInit(): Promise<void> {
         this.appMenuService.init().catch((err) => console.error('获取菜单失败:', err));
     }
@@ -128,23 +131,10 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     // 滚动到指定分类
     private scrollToCategory(categoryId: string): void {
-        // 找右侧对应标题
         const target = document.getElementById('category-' + categoryId);
         if (target) {
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        // requestAnimationFrame(() => {
-        //     const targetElement = document.getElementById(`category-${categoryId}`);
-        //     const rightBlock = document.querySelector('.right_block');
-        //
-        //     if (!targetElement || !rightBlock) return;
-        //
-        //     const offset = this.curModel === 'Accessibility' ? 300 : 20;
-        //     rightBlock.scrollTo({
-        //         top: targetElement.offsetTop - offset,
-        //         behavior: 'smooth',
-        //     });
-        // });
     }
     // 切换分类
     changeCurCategory(type: string) {
@@ -169,15 +159,18 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         this.scrollToCategory(newCategory.categoryId);
     }
 
-    addCart(type: any, item: any) {
-        console.log(
-            '%c [ type ]-120',
-            'font-size:13px; background:#dfb5dc; color:#fff9ff;',
-            type,
-            item,
-        );
-
-        this.currentItem.set(item);
+    // 打开详情页
+    openDetail(item: menuListItem) {
+        this.detailProductId = item.productId;
         this.showDetails.set(true);
+    }
+
+    closeDetail() {
+        this.showDetails.set(false);
+    }
+
+    // 打开购物车
+    openCart() {
+        this.cartVisible = true;
     }
 }

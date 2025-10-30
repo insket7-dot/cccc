@@ -1,10 +1,10 @@
 @if (!showDetails()) {
     <div class="menu-grid">
-        @if (curModel === 'Accessibility') {
+        @if (isAccessibility()) {
             <div class="child">
                 <img src="/assets/image/banner.png" alt="" />
 
-                <div class="exit_model" (click)="toggleModel('Normal')">
+                <div class="exit_model" (click)="toggleModel(MenuType.NORMAL)">
                     <img src="/assets/image/exit.png" alt="" />
                     <span>{{ 'page.exitAccessibilityModel' | translate }}</span>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="left_up" (click)="changeCurCategory('up')">
                         <img src="/assets/image/icon_up1.png" alt="" />
                     </div>
-                    <div class="left_cate">
+                    <div class="left_cate" [ngClass]="[isAccessibility() ? 'child-mode-left' : '']">
                         @for (item of categoryList(); track $index) {
                             <div
                                 class="cate_item"
@@ -42,8 +42,8 @@
                     </div>
                 </div>
 
-                @if (curModel !== 'Accessibility') {
-                    <div class="left_bottom" (click)="toggleModel('Accessibility')">
+                @if (isNormal()) {
+                    <div class="left_bottom" (click)="toggleModel(MenuType.ACCESSIBILITY)">
                         <img src="/assets/image/Acc.png" alt="" />
                         <span>{{ 'page.model2' | translate }}</span>
                     </div>
@@ -51,13 +51,13 @@
                 <div class="left-empty"></div>
             </div>
             <div class="right">
-                <div class="right_block">
+                <div class="right_block" [ngClass]="[isAccessibility() ? 'child-mode-right' : '']">
                     @for (entry of menuComputed(); track entry.categoryId) {
                         <p class="title" [id]="`category-${entry.categoryId}`">
                             - {{ getCategoryName(entry.categoryId) }} -
                         </p>
 
-                        @for (item of entry.menuVoList; track item) {
+                        @for (item of entry.menuVoList; track item.productId) {
                             <div class="dish">
                                 <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
                                 <div class="dish_right">
@@ -66,13 +66,16 @@
                                         {{ item.descriptionCn }}
                                     </div>
                                     <div class="price">
-                                        <span>$ {{ item.specList[0].price }}</span>
+                                        <span>$ {{ item.specList[0].price | number: '1.2-2' }}<span class="price-starting">{{'app.common.starting' | translate }}</span> </span>
                                         <div>
-                                            <span class="add" (click)="addCart('sub', item)">
-                                                <img src="/assets/image/minus.png" alt="" />
-                                            </span>
-                                            <span>2</span>
-                                            <span class="add" (click)="addCart('add', item)">
+                                            @if (item.quantity > 0) {
+                                                <span class="add" (click)="openCart()">
+                                                    <img src="/assets/image/minus.png" alt="" />
+                                                </span>
+                                                <span>{{ item.quantity || 0 }}</span>
+                                            }
+
+                                            <span class="add" (click)="openDetail(item)">
                                                 <img src="/assets/image/add.png" alt="" />
                                             </span>
                                         </div>
@@ -85,9 +88,9 @@
             </div>
         </div>
 
-        <app-shopping-cart class="shop-cart"></app-shopping-cart>
+        <app-shopping-cart class="shop-cart" [(visible)]="cartVisible"></app-shopping-cart>
     </div>
 }
 @if (showDetails()) {
-    <app-details [item]="currentItem()" (onClose)="showDetails.set(false)"></app-details>
+    <app-details [id]="detailProductId" (onClose)="closeDetail()"></app-details>
 }

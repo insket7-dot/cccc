@@ -17,7 +17,7 @@
             <img class="take-icon" [src]="item.icon" alt="" />
             <span class="take_type">{{ item.name | translate }}</span>
 
-            @if(curWay === item.type) {
+            @if(curWay() === item.type) {
             <img class="active" src="/assets/image/select.png" alt="" />
             }
         </div>
@@ -32,7 +32,7 @@
         @for (item of modelList(); track item.type) {
         <div
             class="model-item"
-            [class.selected]="curModel === item.type"
+            [class.selected]="curModel() === item.type"
             (click)="toggleModel(item)"
         >
             <img [src]="item.icon" alt="" />

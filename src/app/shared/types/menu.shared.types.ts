@@ -35,6 +35,7 @@ export interface MenuData {
  * @desc 菜单子项
  */
 export interface menuListItem {
+    quantity: number; // 购物车中数量
     crossedOutPrice: number;
     dataFrom: string;
     dayOfWeek: string;
@@ -148,6 +149,7 @@ export interface MenuCategoryItem {
 
 export interface MenuResponseVo {
     categoryId: string;
+    categoryName?: string;
     id: number;
     menuVoList: menuListItem[] | [];
     parentId: number;
@@ -160,4 +162,13 @@ export interface Menu {
     categoriesVos: MenuCategoryItem[] | [] | null;
     channelId: string;
     menuResponseVo: Array<MenuResponseVo>;
+}
+
+/**
+ * @desc 常量列表参数
+ */
+export interface MenuConstantsItem {
+    type: string;
+    name: string;
+    icon?: string;
 }
