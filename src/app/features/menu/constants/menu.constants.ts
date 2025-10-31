@@ -10,4 +10,3 @@ export const MenuWorkerTimeout = {
     PROCESS_MS: 20000,
     SEARCH_MS: 10000,
 } as const;
-

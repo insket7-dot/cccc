@@ -1,12 +1,14 @@
-import { Component, Input, Output, EventEmitter, inject, computed } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, computed, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { menuListItem } from '@app/shared/types/menu.shared.types';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
+import { I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
+import { ProductType } from '@app/shared/constants/menu.constants';
+import { SingleItem } from '@app/features/menu/components/single-item/single-item';
+import { ComboItem } from '@app/features/menu/components/combo-item/combo-item';
+import { CartService } from '@app/shared/services/cart.service';
+import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
 
 @Component({
     selector: 'app-details',
@@ -14,23 +16,21 @@ import { AppMenuService } from '@app/shared/services/app.menu.service';
     templateUrl: './details.component.html',
     styleUrl: './details.component.scss',
 
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        TranslateModule,
-        MatCheckboxModule,
-        FormsModule,
-        ReactiveFormsModule,
-    ],
+    imports: [CommonModule, TranslateModule, I18nFieldPipe, SingleItem, ComboItem],
 })
 export class detailsComponent extends AbstractAppPage {
     appMenuService = inject(AppMenuService);
     @Input() id: string | null = '';
     @Output() onClose = new EventEmitter<void>();
-    @Output() onAddToCart = new EventEmitter<{
-        item: menuListItem | null;
-        selectedOptions: Record<string, boolean>;
-    }>();
+
+    constructor(private cartService: CartService) {
+        super();
+    }
+    protected readonly ProductType = ProductType;
+    // 单品ref
+    @ViewChild('singleItemRef') singleItemRef?: SingleItem;
+    // 套餐ref
+    @ViewChild('comboItemRef') comboItemRef?: ComboItem;
 
     // 菜品详情数据
     item = computed(() => {
@@ -43,49 +43,46 @@ export class detailsComponent extends AbstractAppPage {
         return this.item()?.price;
     });
 
-    private readonly _formBuilder = inject(FormBuilder);
+    /**
+     * @desc 添加购物车
+     */
+    async addToCart() {
+        const productRef =
+            this.item()?.productType === ProductType.PRODUCT
+                ? this.singleItemRef
+                : this.comboItemRef;
+        const valid = productRef?.validate();
+        if (valid) {
+            const data = productRef?.getSelection();
+            const payload: ShopCartProduct = {
+                cartId: '',
+                productType: this.item()?.productType ?? '',
+                productId: this.item()?.productId ?? '',
+                quantity: 1,
+            };
+            // 单品数据组装
+            if (this.item()?.productType === ProductType.PRODUCT) {
+                payload.skuId = data?.skuId ?? '';
+                payload.grillList = data?.grillList ?? [];
+                // 单品唯一ID设计： productType + productId + skuId + (n * (grillId + n * productId))
+                const gillKey = (data?.grillList ?? [])
+                    .sort((a, b) => a.grillId.localeCompare(b.grillId))
+                    .map((g) => `${g.grillId}${g?.itemList.map((t) => t.productId).join('-')}`)
+                    .join('-');
+                const keyList = [payload.productType, payload.productId, payload.skuId, gillKey];
+                payload.cartId = keyList.filter(Boolean).join('-');
+            }
 
-    toppings: any = this._formBuilder.group({});
-    constructor() {
-        super();
+            console.log('add cart', payload);
+
+            // 套餐数据组装
+            if (this.item()?.productType === ProductType.COMBO) {
+            }
+
+            await this.cartService.addToCart(payload);
+            this.close();
+        }
     }
-
-    ngOnInit(): void {
-        // 初始化时动态构建表单（根据传入的可选项目）
-        this.initForm();
-    }
-
-    private initForm(): void {
-        if (!this.item()?.grillList) return;
-
-        const formControls: Record<string, boolean> = {};
-
-        this.item()?.grillList.forEach((grill: any) => {
-            grill.itemList.forEach((item: any) => {
-                formControls[item.productId] = false;
-            });
-        });
-
-        this.toppings = this._formBuilder.group(formControls);
-    }
-
-    addToCart(): void {
-        if (!this.item()) return;
-
-        const selectedOptions = this.toppings.value;
-        this.onAddToCart.emit({
-            item: this.item() ?? null,
-            selectedOptions,
-        });
-
-        console.log('已添加到购物车:', {
-            item: this.item(),
-            selected: selectedOptions,
-        });
-        // this.close();
-    }
-
-    getPrice() {}
 
     close() {
         this.onClose.emit();

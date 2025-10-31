@@ -33,7 +33,7 @@
                                 (click)="chooseCategory(item)"
                                 [attr.data-id]="item.categoryId"
                             >
-                                <div class="cate_name">{{ item.categoryNameCn }}</div>
+                                <div class="cate_name">{{ item | i18nField: 'categoryName' }}</div>
                             </div>
                         }
                     </div>
@@ -54,19 +54,24 @@
                 <div class="right_block" [ngClass]="[isAccessibility() ? 'child-mode-right' : '']">
                     @for (entry of menuComputed(); track entry.categoryId) {
                         <p class="title" [id]="`category-${entry.categoryId}`">
-                            - {{ getCategoryName(entry.categoryId) }} -
+                            - {{ entry.categoryName }} -
                         </p>
 
                         @for (item of entry.menuVoList; track item.productId) {
                             <div class="dish">
                                 <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
                                 <div class="dish_right">
-                                    <div class="dish_name">{{ item.productNameCn }}</div>
+                                    <div class="dish_name">{{ item | i18nField: 'productName'}}</div>
                                     <div class="dish_desc">
-                                        {{ item.descriptionCn }}
+                                        {{ item | i18nField: 'description' }}
                                     </div>
                                     <div class="price">
-                                        <span>$ {{ item.specList[0].price | number: '1.2-2' }}<span class="price-starting">{{'app.common.starting' | translate }}</span> </span>
+                                        <span
+                                            >$ {{ item.specList[0].price | number: '1.2-2'
+                                            }}<span class="price-starting">{{
+                                                'app.common.starting' | translate
+                                            }}</span>
+                                        </span>
                                         <div>
                                             @if (item.quantity > 0) {
                                                 <span class="add" (click)="openCart()">
@@ -91,6 +96,7 @@
         <app-shopping-cart class="shop-cart" [(visible)]="cartVisible"></app-shopping-cart>
     </div>
 }
+
 @if (showDetails()) {
     <app-details [id]="detailProductId" (onClose)="closeDetail()"></app-details>
 }

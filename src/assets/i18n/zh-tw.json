@@ -153,5 +153,18 @@
         "resetConfig": "重置設定",
         "resetSystem": "重置點餐系統",
         "loginOut": "退出點餐系統"
+    },
+    "menu": {
+        "detail": {
+            "grill": {
+                "title": "加料",
+                "required": "请选择加料"
+            },
+            "spec": {
+                "title": "规格",
+                "required": "请选择规格"
+            },
+            "addCart": "加入购物车"
+        }
     }
 }

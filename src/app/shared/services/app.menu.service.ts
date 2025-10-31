@@ -12,6 +12,8 @@ import { AppUrl } from '@app/core/constants/app.url';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
 import { CartService } from '@app/shared/services/cart.service';
+import { I18nTextService } from '@app/shared/services/i18n-text.service';
+import { ProductType } from '@app/shared/constants/menu.constants';
 
 @Injectable({
     providedIn: 'root',
@@ -30,6 +32,7 @@ export class AppMenuService extends AbstractAppService {
     constructor(
         private mqttService: MqttService,
         private cartService: CartService,
+        private i18nTextService: I18nTextService,
     ) {
         super();
 
@@ -62,8 +65,37 @@ export class AppMenuService extends AbstractAppService {
     // 已加购的商品列表
     readonly cartListValue = computed(() => {
         const menuMap = this.menuIdMap();
+        const cartList = this.cartService.cartList();
         const cartMap = this.cartService.cartMap();
-        return Array.from(cartMap.values()).filter((item) => menuMap.has(item.id));
+        const result = cartList.map((item) => {
+            const productInfo = menuMap.get(item.productId);
+            const descList = [];
+            // 规格
+            if (item.skuId) {
+                if (item.productType === ProductType.PRODUCT) {
+                    const skuList = productInfo?.specList || [];
+                    const skuItem = skuList.filter((sku) => sku.skuId === item.skuId);
+                    descList.push(this.i18nTextService.get(skuItem, 'skuName'));
+                }
+
+                // 套餐子项
+                if (item.productType === ProductType.COMBO) {
+                }
+            }
+            // 加料
+            if (item.grillList) {
+                // const grillName = this.i18nTextService.get(productInfo, 'grillName');
+                // descList.push(grillName || '*');
+            }
+
+            return {
+                ...item,
+                title: this.i18nTextService.get(productInfo, 'productName'),
+                image: productInfo?.imageUrl ?? '',
+                desc: '',
+            };
+        });
+        return Array.from(cartMap.values()).filter((item) => menuMap.has(item.productId));
     });
 
     /**
@@ -72,23 +104,26 @@ export class AppMenuService extends AbstractAppService {
     getMenusAsResponse(): MenuResponseVo[] {
         const categoryMap = this.menuCategory();
         const menuMap = this.menuMapValue();
-        const cartMap = this.cartService.cartMap();
+        const cartList = this.cartService.cartList();
 
         const result: MenuResponseVo[] = [];
 
         for (const [categoryId, list] of menuMap.entries()) {
             const categoryInfo = categoryMap.get(categoryId);
             const mergedMenuList = list.map((menuItem) => {
-                const cartItem = cartMap.get(String(menuItem.id));
+                // 查询整个列表中是否有该商品
+                const cartQuantity = cartList.filter(
+                    (t) => t.productId === menuItem.productId,
+                ).length;
                 return {
                     ...menuItem,
-                    quantity: cartItem?.quantity ?? 0, // 动态合并数量
+                    quantity: cartQuantity, // 动态合并数量
                 };
             });
 
             result.push({
                 categoryId,
-                categoryName: categoryInfo?.categoryNameCn,
+                categoryName: this.i18nTextService.get(categoryInfo, 'categoryName'),
                 id: categoryInfo?.id ?? 0,
                 parentId: categoryInfo?.parentId ?? 0,
                 menuVoList: mergedMenuList,
@@ -101,8 +136,8 @@ export class AppMenuService extends AbstractAppService {
     /**
      * @desc 更新分类ID
      */
-    setCurrentCategory(id: string) {
-        this.currentCategory.set(id);
+    setCurrentCategory(categoryId: string) {
+        this.currentCategory.set(categoryId);
     }
 
     async init() {

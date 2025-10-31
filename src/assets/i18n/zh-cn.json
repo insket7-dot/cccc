@@ -159,5 +159,18 @@
         "addtip": "添加小费",
         "percentage": "比例",
         "fixed": "固定"
+    },
+    "menu": {
+        "detail": {
+            "grill": {
+                "title": "加料",
+                "required": "请选择加料"
+            },
+            "spec": {
+                "title": "规格",
+                "required": "请选择规格"
+            },
+            "addCart": "加入购物车"
+        }
     }
 }

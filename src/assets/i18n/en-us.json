@@ -159,5 +159,18 @@
         "addtip": "Add Tip",
         "percentage": "percentage",
         "fixed": "fixed"
+    },
+    "menu": {
+        "detail": {
+            "grill": {
+                "title": "Grill",
+                "required": "Please Select Grill"
+            },
+            "spec": {
+                "title": "Spec",
+                "required": "Please select a specification"
+            },
+            "addCart": "Add Cart"
+        }
     }
 }

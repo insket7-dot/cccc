@@ -41,7 +41,7 @@ export interface menuListItem {
     dayOfWeek: string;
     descriptionCn: string;
     end_date: string;
-    grillList: any[];
+    grillList: MenuGrillItem[];
     id: number;
     imageUrl: string;
     isShow: string;
@@ -114,17 +114,46 @@ export interface menuListItem {
     single_no_delivery: string;
     sliderUrlList: any[];
     sort: number;
-    specList: Array<{
-        defaultFlag: string;
-        price: number;
-        propertyClassList: any[];
-        skuId: string;
-        skuNameCn: string;
-        skuNameEn: string;
-        stockStatus: string;
-        upLowStatus: string;
-    }>;
+    specList: MenuSpecItem[];
     start_date: string;
+    stockStatus: string;
+    upLowStatus: string;
+}
+
+/**
+ * @desc 加料
+ */
+export interface MenuGrillItem {
+    grillCode: string;
+    grillNameCn: string;
+    grillNameEn: string;
+    itemList: GrillItem[];
+    maxitemCount: number;
+    minItemCount: number;
+}
+
+interface GrillItem {
+    maxQuantity: number;
+    minQuantity: number;
+    price: number;
+    priceThreshold: number;
+    productId: string;
+    productNameCn: string;
+    productNameEn: string;
+    stockStatus: string;
+    upLowStatus: string;
+}
+
+/**
+ * @desc 规格
+ */
+export interface MenuSpecItem {
+    defaultFlag: string;
+    price: number;
+    propertyClassList: any[];
+    skuId: string;
+    skuNameCn: string;
+    skuNameEn: string;
     stockStatus: string;
     upLowStatus: string;
 }

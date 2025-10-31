@@ -4,31 +4,26 @@
     </div>
 
     <div class="info">
-        <div class="name">{{ item()?.productNameCn }}</div>
-        <div class="desc">{{ item()?.descriptionCn }}</div>
+        <div class="info-top">
+            <div class="name">{{ item() | i18nField: 'productName' }}</div>
+            <div class="desc">{{ item()?.descriptionCn }}</div>
+        </div>
 
-        @for (grill of item()?.grillList; track grill.grillCode) {
-            <div class="grill_item">
-                <h3 class="grill_title">{{ grill.grillNameCn }}</h3>
-                <!-- 增加标题样式 -->
-                @for (grillItem of grill.itemList; track grillItem.productId) {
-                    <section class="example-section" [formGroup]="toppings">
-                        <p>
-                            <mat-checkbox [formControlName]="grillItem.productId">
-                                <span class="productName">{{ grillItem.productNameCn }}</span>
-                                <span class="price">${{ grillItem.price | number: '1.2-2' }}</span>
-                            </mat-checkbox>
-                        </p>
-                    </section>
-                }
-            </div>
+        <!-- 单品 -->
+        @if (item()?.productType === ProductType.PRODUCT) {
+            <app-single-item #singleItemRef [data]="item()"></app-single-item>
+        }
+        <!-- 套餐 -->
+        @if (item()?.productType === ProductType.COMBO) {
+            <app-combo-item #comboItemRef [data]="item()"></app-combo-item>
         }
     </div>
 
     <div class="add_price">
         <span class="price">{{ totalPrice() }}</span>
     </div>
-    <div class="add_button" (click)="addToCart()">
-        <img src="/assets/image/cart.png" alt="" /><span>Add To Cart</span>
+    <div class="add_button">
+        <img src="/assets/image/cart.png" alt="" />
+        <span (click)="addToCart()">{{ 'menu.detail.addCart' | translate }}</span>
     </div>
 </div>

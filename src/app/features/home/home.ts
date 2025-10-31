@@ -76,12 +76,16 @@ export class Home extends AbstractAppPage implements OnInit, OnDestroy {
             const successMsg = this.translate.instant('app.home.messages.syncSuccess', { count });
             this.processLog.set(successMsg);
             await this.success(successMsg);
-        } catch (e: any) {
+        } catch (e) {
+            let msg = 'unknow error';
+            if (e instanceof Error) {
+                msg = e.message;
+            }
             const errorMsg = this.translate.instant('app.home.messages.syncFailed', {
-                error: e.message,
+                error: msg,
             });
             this.processLog.set(errorMsg);
-            await this.error(e.message);
+            await this.error(msg);
         }
     }
 
@@ -95,20 +99,24 @@ export class Home extends AbstractAppPage implements OnInit, OnDestroy {
                 count: items.length,
             });
             this.searchLog.set(searchMsg);
-        } catch (e: any) {
+        } catch (e) {
+            let msg = 'unknow error';
+            if (e instanceof Error) {
+                msg = e.message;
+            }
             const errorMsg = this.translate.instant('app.home.messages.searchFailed', {
-                error: e.message,
+                error: msg,
             });
             this.searchLog.set(errorMsg);
-            await this.error(e.message);
+            await this.error(msg);
         }
     }
 
-    toggleWay(way: any) {
+    toggleWay(way: MenuConstantsItem) {
         this.modelStateService.setCurWay(way.type);
     }
 
-    toggleModel(model: any) {
+    toggleModel(model: MenuConstantsItem) {
         this.modelStateService.setCurModel(model.type);
     }
 

@@ -1,4 +1,4 @@
-<div class="home-container ">
+<div class="home-container">
     <div class="language-selector">
         <app-language-selector></app-language-selector>
     </div>
@@ -13,14 +13,14 @@
 
     <div class="take-list">
         @for (item of wayList(); track item.type) {
-        <div class="take-item" (click)="toggleWay(item)">
-            <img class="take-icon" [src]="item.icon" alt="" />
-            <span class="take_type">{{ item.name | translate }}</span>
+            <div class="take-item" (click)="toggleWay(item)">
+                <img class="take-icon" [src]="item.icon" alt="" />
+                <span class="take_type">{{ item.name | translate }}</span>
 
-            @if(curWay() === item.type) {
-            <img class="active" src="/assets/image/select.png" alt="" />
-            }
-        </div>
+                @if (curWay() === item.type) {
+                    <img class="active" src="/assets/image/select.png" alt="" />
+                }
+            </div>
         }
     </div>
 
@@ -30,14 +30,14 @@
 
     <div class="model-list">
         @for (item of modelList(); track item.type) {
-        <div
-            class="model-item"
-            [class.selected]="curModel() === item.type"
-            (click)="toggleModel(item)"
-        >
-            <img [src]="item.icon" alt="" />
-            <div class="model-name">{{ item.name | translate }}</div>
-        </div>
+            <div
+                class="model-item"
+                [class.selected]="curModel() === item.type"
+                (click)="toggleModel(item)"
+            >
+                <img [src]="item.icon" alt="" />
+                <div class="model-name">{{ item.name | translate }}</div>
+            </div>
         }
     </div>
 </div>

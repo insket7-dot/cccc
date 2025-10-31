@@ -22,6 +22,8 @@ import { AppVoiceService } from '@app/shared/services/app.voice.service';
 import { LanguageService } from '@app/core/services/language.service';
 import { fromEvent, Subscription, throttleTime } from 'rxjs';
 import { MenuType } from '@app/shared/constants/menu.constants';
+import { I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
+import { CartService } from '@app/shared/services/cart.service';
 
 @Component({
     selector: 'app-menu',
@@ -34,6 +36,7 @@ import { MenuType } from '@app/shared/constants/menu.constants';
         LanguageSelectorComponent,
         ShoppingCartComponent,
         detailsComponent,
+        I18nFieldPipe,
     ],
     templateUrl: './menu.html',
     styleUrl: './menu.scss',
@@ -52,9 +55,9 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     protected readonly items = signal<MenuData[]>([]);
 
     // details数据
-    protected readonly showDetails = signal<boolean>(false);
-    protected readonly currentItem = signal<menuListItem | null>(null);
+    readonly showDetails = signal<boolean>(false);
     detailProductId: string | null = null;
+
     cartVisible: boolean = false; // 购物车是否可见
 
     private scrollSub?: Subscription;
@@ -64,6 +67,7 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     constructor(
         private voiceService: AppVoiceService,
         private languageService: LanguageService,
+        private cartService: CartService,
     ) {
         super();
     }
@@ -99,6 +103,7 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     ngOnDestroy() {
         this.scrollSub?.unsubscribe();
+        this.cartService.clearCart();
     }
 
     isAccessibility = computed(() => this.modelStateService.isAccessibility());
@@ -122,11 +127,6 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         this.appMenuService.setCurrentCategory(item.categoryId);
 
         this.scrollToCategory(item.categoryId);
-    }
-
-    // 获取分类名称
-    getCategoryName(key: any) {
-        return this.categoryList().find((item: any) => item.categoryId === key)?.categoryNameCn;
     }
 
     // 滚动到指定分类
@@ -167,6 +167,7 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     closeDetail() {
         this.showDetails.set(false);
+        this.detailProductId = null;
     }
 
     // 打开购物车

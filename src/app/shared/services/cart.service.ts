@@ -5,22 +5,25 @@ import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
     providedIn: 'root',
 })
 export class CartService {
-    private cart = signal<ShopCartProduct[]>([]);
+    private cartMapSignal = signal<Map<string, ShopCartProduct>>(new Map());
 
-    readonly cartList = computed(() => this.cart());
-    readonly cartMap = computed(() => {
-        const newMap = new Map<string, ShopCartProduct>();
-        const list = this.cart();
-        list.forEach((product) => {
-            newMap.set(product.id, product);
-        });
-        return newMap;
-    });
+    // 购物车列表
+    readonly cartList = computed(() => Array.from(this.cartMapSignal().values()));
+    // 唯一ID -> 商品勾选参数
+    readonly cartMap = computed(() => this.cartMapSignal());
 
     /**
      * @desc 添加商品到购物车内
      */
-    addToCart(product: ShopCartProduct) {}
+    async addToCart(product: ShopCartProduct) {
+        const hasKey = this.cartMapSignal().has(product.cartId);
+        if (hasKey) {
+            const cartItem = this.cartMapSignal().get(product.cartId)!;
+            cartItem.quantity++;
+        } else {
+            this.cartMapSignal().set(product.cartId, product);
+        }
+    }
 
     /**
      * @desc 增加商品数量
@@ -41,6 +44,6 @@ export class CartService {
      * @desc 清空
      */
     clearCart() {
-        this.cart.set([]);
+        this.cartMapSignal().clear();
     }
 }

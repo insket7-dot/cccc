@@ -40,7 +40,7 @@ export const wayList: MenuConstantsItem[] = [
         icon: '/assets/image/dinein.png',
     },
     {
-        type: OrderMode.DINE_IN,
+        type: OrderMode.TAKE_OUT,
         name: 'page.way2',
         icon: '/assets/image/takeout.png',
     },
