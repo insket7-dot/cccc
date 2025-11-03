@@ -83,34 +83,7 @@ export interface menuListItem {
         tuesday: string;
         wednesday: string;
     }>;
-    setMealList: Array<{
-        fixed: string;
-        isShow: string;
-        itemList: Array<{
-            addPrice: number;
-            defaultFlag: string;
-            defaultQuantity: number;
-            end_date: string;
-            freeFlag: string;
-            lQuantity: number;
-            lowerStatus: string;
-            originalPrice: number;
-            price: number;
-            productId: string;
-            productName: string;
-            productNameEn: string;
-            sellTimeList: Array<Record<string, any>>;
-            skuId: string;
-            skuNameCn: string;
-            skuNameEn: string;
-            start_date: string;
-            stockStatus: string;
-        }>;
-        optionalMinQuantity: number;
-        optionalQuantity: number;
-        round: number;
-        roundNameCn: string;
-    }>;
+    setMealList: MenuRoundItem[];
     single_no_delivery: string;
     sliderUrlList: any[];
     sort: number;
@@ -118,6 +91,43 @@ export interface menuListItem {
     start_date: string;
     stockStatus: string;
     upLowStatus: string;
+}
+
+/**
+ * @desc 套餐-轮次
+ */
+export interface MenuRoundItem {
+    fixed: string;
+    isShow: string;
+    itemList: MenuRoundItemSku[];
+    optionalMinQuantity: number;
+    optionalQuantity: number;
+    round: number;
+    roundNameCn: string;
+}
+
+/**
+ * @desc 套餐-轮次-子项
+ */
+export interface MenuRoundItemSku {
+    addPrice: number;
+    defaultFlag: string;
+    defaultQuantity: number;
+    end_date: string;
+    freeFlag: string;
+    lQuantity: number;
+    lowerStatus: string;
+    originalPrice: number;
+    price: number;
+    productId: string;
+    productName: string;
+    productNameEn: string;
+    sellTimeList: Array<Record<string, any>>;
+    skuId: string;
+    skuNameCn: string;
+    skuNameEn: string;
+    start_date: string;
+    stockStatus: string;
 }
 
 /**

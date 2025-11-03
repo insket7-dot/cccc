@@ -1,4 +1,5 @@
 import { ProductType } from '@app/shared/constants/menu.constants';
+import { MenuGrillItem, MenuSpecItem } from '@app/shared/types/menu.shared.types';
 
 /**
  * @desc 套餐轮次组
@@ -34,9 +35,13 @@ export interface GrillItemSku {
     quantity: number; // 默认1
 }
 
+/**
+ * @desc 购物车扩展字段 - 属于共享性质
+ */
 export interface CartExtra {
     // 单品字段
     skuId?: string; // 规格ID(单品)
+    skuPrice?: number; // 规格价格(单品)
     grillList?: GrillItem[]; // 加料 ID(单品)
 
     // 套餐字段
@@ -53,17 +58,23 @@ export interface ShopCartProduct extends CartExtra {
     productType: ProductType | string; // 商品类型(单品、套餐）
     productId: string; // 商品ID
     quantity: number;
+    subtotal?: number; // 用于缓存小计
 }
 
 /**
- * @desc 购物车列表
+ * @desc 购物车展示列表Item
  */
-export interface ShopCartList extends ShopCartProduct {
-    title: string;
-    image: string;
-    price: number;
+export interface cartViewItem {
+    cartId: string;
+    productId: string;
+    productName: string;
+    imageUrl: string;
+    productType: string | ProductType;
+    subtotal?: number; // 用于缓存小计
     quantity: number;
-    desc: string;
+    spec?: MenuSpecItem; // 单品规格
+    grill?: MenuGrillItem[]; // 单品加料
+    rounds?: ComboRoundItem[]; // 套餐轮次
 }
 
 /**

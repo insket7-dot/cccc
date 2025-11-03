@@ -60,6 +60,7 @@
         "@rydeen/angular-framework": "^20.0.0",
         "@rydeen/hotfix": "7.0.2",
         "@rydeen/logger": "^6.0.1",
+        "decimal.js": "^10.6.0",
         "jeep-sqlite": "^2.8.0",
         "kysely": "^0.28.7",
         "moment": "^2.30.1",
