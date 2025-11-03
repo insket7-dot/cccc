@@ -17,3 +17,23 @@ export enum AppMqttEnums {
     // 门店轮播图更新
     STORE_CAROUSEL_UPDATE = 7,
 }
+
+/**
+ * @desc 购物车更新结果
+ */
+export enum CartUpdateResult {
+    /** 找不到商品 */
+    NotFound = 'not-found',
+
+    /** 数量已更新 */
+    Updated = 'updated',
+
+    /** 数量减少至0，应删除 */
+    Deleted = 'deleted',
+
+    /** 非法数量变更  */
+    InvalidDelta = 'invalid-delta',
+
+    /** 到达最大数量限制 */
+    LimitReached = 'limit-reached',
+}
