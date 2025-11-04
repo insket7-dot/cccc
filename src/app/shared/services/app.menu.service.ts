@@ -14,6 +14,7 @@ import { AppMqttEnums } from '@app/shared/constants/app.enums';
 import { CartService } from '@app/shared/services/cart.service';
 import { I18nTextService } from '@app/shared/services/i18n-text.service';
 import { ProductType } from '@app/shared/constants/menu.constants';
+import { cartViewItem } from '@app/shared/types/cart.shared.types';
 
 @Injectable({
     providedIn: 'root',
@@ -66,36 +67,59 @@ export class AppMenuService extends AbstractAppService {
     readonly cartListValue = computed(() => {
         const menuMap = this.menuIdMap();
         const cartList = this.cartService.cartList();
-        const cartMap = this.cartService.cartMap();
-        const result = cartList.map((item) => {
+        console.log('--------------- cart list -----------------', cartList);
+        const cartListResult = cartList.map((item) => {
+            console.log('--------------- cart item -----------------', item);
             const productInfo = menuMap.get(item.productId);
-            const descList = [];
-            // 规格
-            if (item.skuId) {
-                if (item.productType === ProductType.PRODUCT) {
-                    const skuList = productInfo?.specList || [];
-                    const skuItem = skuList.filter((sku) => sku.skuId === item.skuId);
-                    descList.push(this.i18nTextService.get(skuItem, 'skuName'));
-                }
-
-                // 套餐子项
-                if (item.productType === ProductType.COMBO) {
-                }
-            }
-            // 加料
-            if (item.grillList) {
-                // const grillName = this.i18nTextService.get(productInfo, 'grillName');
-                // descList.push(grillName || '*');
-            }
-
-            return {
-                ...item,
-                title: this.i18nTextService.get(productInfo, 'productName'),
-                image: productInfo?.imageUrl ?? '',
-                desc: '',
+            console.log('--------------- product info -----------------', productInfo);
+            const result: cartViewItem = {
+                cartId: item.cartId,
+                productId: item.productId,
+                productName: this.i18nTextService.get(productInfo, 'productName'),
+                imageUrl: productInfo?.imageUrl ?? '',
+                productType: productInfo?.productType ?? ProductType.PRODUCT,
+                quantity: item.quantity,
+                subtotal: item.subtotal ?? 0,
             };
+
+            // 单品
+            if (item.productType === ProductType.PRODUCT) {
+                // 规格
+                if (item.skuId) {
+                    result.spec = (productInfo?.specList || []).find(
+                        (sku) => sku.skuId === item.skuId,
+                    );
+                }
+                // 加料
+                if (item.grillList) {
+                    const list = item.grillList.map((grill) => {
+                        const grillItem = (productInfo?.grillList || []).find(
+                            (t) => t.grillCode === grill.grillId,
+                        );
+                        if (!grillItem) {
+                            return null;
+                        }
+                        const targetProductIds = grillItem?.itemList.map((t) => t.productId);
+                        grillItem.itemList =
+                            grillItem?.itemList?.filter((t) =>
+                                targetProductIds?.includes(t.productId),
+                            ) ?? [];
+                        // 后期放开数量限制后，可添加数量字段
+                        return grillItem;
+                    });
+                    console.log(list);
+                    result.grill = list.filter((t) => t !== null);
+                }
+            }
+
+            // 套餐-轮次
+            if (item.productType === ProductType.COMBO) {
+            }
+
+            return result;
         });
-        return Array.from(cartMap.values()).filter((item) => menuMap.has(item.productId));
+        console.log('-------------------- cart list result ------------------', cartListResult);
+        return cartListResult;
     });
 
     /**
@@ -111,13 +135,14 @@ export class AppMenuService extends AbstractAppService {
         for (const [categoryId, list] of menuMap.entries()) {
             const categoryInfo = categoryMap.get(categoryId);
             const mergedMenuList = list.map((menuItem) => {
-                // 查询整个列表中是否有该商品
-                const cartQuantity = cartList.filter(
-                    (t) => t.productId === menuItem.productId,
-                ).length;
+                // 查询整个列表中同商品的总数量
+                const sameProductQuantity = cartList
+                    .filter((t) => t.productId === menuItem.productId)
+                    .map((t) => t.quantity)
+                    .reduce((acc, cur) => acc + cur, 0);
                 return {
                     ...menuItem,
-                    quantity: cartQuantity, // 动态合并数量
+                    quantity: sameProductQuantity,
                 };
             });
 
