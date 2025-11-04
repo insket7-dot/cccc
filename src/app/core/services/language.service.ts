@@ -13,37 +13,64 @@ export interface LanguageOption {
     key: string;
 }
 
+/**
+ * @desc 语言code
+ */
+export enum LanguageEnum {
+    ZH_CN = 'zh-cn',
+    EN_US = 'en-us',
+    ZH_TW = 'zh-tw',
+}
+
+/**
+ * @desc 后端多语言字段后缀标识
+ */
+export enum LanguageKeyEnum {
+    ZH_CN = 'Cn',
+    EN_US = 'En',
+    ZH_TW = 'Cn',
+}
+
+/**
+ * @desc 货币标识符
+ */
+export enum LanguagePriceEnum {
+    ZH_CN = '$',
+    EN_US = '$',
+    ZH_TW = '￥',
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class LanguageService {
     private readonly STORAGE_KEY = CacheKey.APP_LANGUAGE;
-    private readonly DEFAULT_LANGUAGE = 'zh-cn';
+    private readonly DEFAULT_LANGUAGE = LanguageEnum.ZH_CN;
 
     private readonly availableLanguages: LanguageOption[] = [
         {
-            code: 'zh-cn',
+            code: LanguageEnum.ZH_CN,
             name: '简体中文',
             nativeName: '简体中文',
             shortName: '简',
-            key: 'Cn',
+            key: LanguageKeyEnum.ZH_CN,
             available: true,
         },
         {
-            code: 'en-us',
+            code: LanguageEnum.EN_US,
             name: 'English',
             nativeName: 'English',
             shortName: 'En',
             available: true,
-            key: 'En',
+            key: LanguageKeyEnum.EN_US,
         },
         {
-            code: 'zh-tw',
+            code: LanguageEnum.ZH_TW,
             name: '繁體中文',
             nativeName: '繁體中文',
             shortName: '繁',
             available: true,
-            key: 'Cn',
+            key: LanguageKeyEnum.ZH_TW,
         },
     ];
 
@@ -65,10 +92,16 @@ export class LanguageService {
         return this.availableLanguages.filter((lang) => lang.available);
     }
 
+    /**
+     * @desc 获取当前语言值
+     */
     public getCurrentLanguage(): string {
         return this.currentLanguageSubject.value;
     }
 
+    /**
+     * @desc 设置语言
+     */
     public async setLanguage(languageCode: string) {
         if (this.availableLanguages.some((lang) => lang.code === languageCode)) {
             this.translate.use(languageCode);
@@ -77,6 +110,9 @@ export class LanguageService {
         }
     }
 
+    /**
+     * @desc 获取当前语言选项
+     */
     public getCurrentLanguageOption(): LanguageOption | undefined {
         return this.availableLanguages.find((lang) => lang.code === this.getCurrentLanguage());
     }
@@ -86,7 +122,23 @@ export class LanguageService {
      */
     public getCurrentLanguageKey(name: string): string {
         const languageOption = this.getCurrentLanguageOption();
-        const languageKey = languageOption ? languageOption.key : 'Cn';
+        const languageKey = languageOption ? languageOption.key : LanguageKeyEnum.ZH_CN;
         return `${name}${languageKey}`;
+    }
+
+    /**
+     * @desc 根据当前语言获取当前的货币标识符
+     */
+    public getCurrencyCode() {
+        switch (this.getCurrentLanguage()) {
+            case LanguageEnum.ZH_CN:
+                return LanguagePriceEnum.ZH_CN;
+            case LanguageEnum.EN_US:
+                return LanguagePriceEnum.EN_US;
+            case LanguageEnum.ZH_TW:
+                return LanguagePriceEnum.ZH_TW;
+            default:
+                return LanguagePriceEnum.ZH_CN;
+        }
     }
 }
