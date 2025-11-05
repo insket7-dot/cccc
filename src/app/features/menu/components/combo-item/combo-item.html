@@ -1,1 +1,27 @@
-<p>combo-item works!</p>
+<!-- 轮次 -->
+@if (item()?.setMealList) {
+    <div class="combo">
+        <div class="title">{{ 'menu.detail.combo.title' | translate }}</div>
+        @for (item of item()?.setMealList; track `combo_round_${item.round}`) {
+            <div class="combo-item">
+                <div class="combo-item-title">{{ item | i18nField: 'roundName' }}</div>
+                <mat-radio-group
+                    [value]="getSelectedRound(item.round)"
+                    (change)="onRoundChange(item.round, $event.value)"
+                >
+                    @for (comboItem of item.itemList; track comboItem.skuId) {
+                        <div class="combo-sku">
+                            <span class="combo-sku-name">{{ comboItem.productName }}</span>
+                            <div>
+                                <span class="combo-sku-price">{{
+                                    comboItem.price | priceI18n
+                                }}</span>
+                                <mat-radio-button [value]="comboItem.skuId"></mat-radio-button>
+                            </div>
+                        </div>
+                    }
+                </mat-radio-group>
+            </div>
+        }
+    </div>
+}
