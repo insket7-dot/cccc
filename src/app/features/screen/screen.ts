@@ -7,6 +7,7 @@ import { MqttService } from '@app/core/services/mqtt.service';
 import { CarouselImage } from '@app/shared/types/store.shared.types';
 import { PrintOrderService } from '@app/shared/services/print-order.service';
 import { AppVoiceService } from '@app/shared/services/app.voice.service';
+import { AppMenuService } from '@app/shared/services/app.menu.service';
 
 @Component({
     selector: 'app-screen',
@@ -37,6 +38,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     private carouselInterval: any;
 
     constructor(
+        private menuService: AppMenuService,
         private printOrderService: PrintOrderService,
         private appStoreService: AppStoreService,
         private mqttService: MqttService,
@@ -44,6 +46,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     ) {
         super();
         void this.printOrderService; // 确保依赖注入
+        void this.menuService; // 确保依赖注入
         effect(() => {
             const images = this.appStoreService.carouselImagesValue();
             if (images && images.length > 0) {
