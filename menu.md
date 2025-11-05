@@ -26,19 +26,35 @@ sequenceDiagram
     participant CartS as Cart Service
     participant SubtotalS as Subtotal Service
     participant PriceS as Price Service
-    
-    MenuS->>MENU: 获取菜单数据
-    MENU->>DETAIL: 点击加购操作,传输菜单数据
-    DETAIL->>CartS: 调用购物车服务的加购方法
-    CartS->>SubtotalS: 加购后计算购物车当前商品小计
-    SubtotalS->>PriceS: 计算使用精密计算服务
-    PriceS->>SubtotalS: 返回计算结果
-    SubtotalS->>CartS: 返回计算结果
-    CartS->>MenuS: 返回购物车列表数据
-    MenuS->>MENU: 刷新菜单列表
-    CartS->>MENU: 刷新购物车数据
-    DETAIL->>SubtotalS: 修改数量，调用实时计算小计服务
-    SubtotalS->>PriceS: 调用精密计算服务
-    PriceS->>SubtotalS: 返回计算结果
-    SubtotalS->>DETAIL: 返回计算结果
+
+    rect rgb(230, 245, 255)
+        Note over MENU,CartS: 🛒 加购流程
+        MenuS->>MENU: 获取菜单数据
+        MENU->>DETAIL: 点击加购操作,传输菜单数据
+        DETAIL->>CartS: 调用购物车服务的加购方法
+        CartS->>SubtotalS: 加购后计算购物车当前商品小计
+        SubtotalS->>PriceS: 调用精密计算服务
+        PriceS->>SubtotalS: 返回计算结果
+        SubtotalS->>CartS: 返回小计结果
+        CartS->>MenuS: 返回购物车列表数据
+        MenuS->>MENU: 刷新菜单列表
+        CartS->>MENU: 刷新购物车数据
+    end
+    rect rgb(255, 240, 230)
+        Note over DETAIL,SubtotalS: 🔄 详情页实时修改数量计算
+        DETAIL->>SubtotalS: 修改数量，调用实时计算小计服务
+        SubtotalS->>PriceS: 调用精密计算服务
+        PriceS->>SubtotalS: 返回计算结果
+        SubtotalS->>DETAIL: 返回计算结果
+    end
+    rect rgb(240, 255, 240)
+        Note over MENU,MenuS: ♻️ 购物车加减与刷新
+        MENU->>CartS: 调用购物车的加减方法
+        CartS->>SubtotalS: 调用小计服务
+        SubtotalS->>PriceS: 调用精密计算服务
+        PriceS->>SubtotalS: 返回计算结果
+        SubtotalS->>CartS: 返回计算结果
+        CartS->>MenuS: 刷新购物车数据
+        MenuS->>MENU: 刷新购物车渲染数据
+    end
 ```
