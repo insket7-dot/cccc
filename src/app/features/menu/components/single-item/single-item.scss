@@ -1,5 +1,5 @@
 .title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin: 10px 0;
     padding-bottom: 10px;
@@ -7,7 +7,7 @@
 }
 .spec {
     margin: 10px 0;
-    font-size: 18px;
+    font-size: 16px;
 
     &-item {
         display: flex;
@@ -27,10 +27,10 @@
 
 .grill {
     &-item {
-        font-size: 18px;
+        font-size: 16px;
         margin-top: 20px;
         &-title {
-            font-size: 20px;
+            font-size: 18px;
         }
     }
     &-sku {

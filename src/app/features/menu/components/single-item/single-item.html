@@ -2,12 +2,12 @@
 @if (item()?.specList) {
     <div class="spec">
         <div class="title">{{ 'menu.detail.spec.title' | translate }}</div>
-        <mat-radio-group [value]="selectedSpec()" (change)="selectedSpec.set($event.value)">
+        <mat-radio-group [value]="selectedSpec()" (change)="onSpecChange($event.value)">
             @for (spec of item()?.specList; track spec.skuId) {
                 <div class="spec-item">
                     <span class="spec-item-name">{{ spec | i18nField: 'skuName' }}</span>
                     <div>
-                        <span class="spec-item-price">${{ spec.price | number: '1.2-2' }}</span>
+                        <span class="spec-item-price">{{ spec.price | priceI18n }}</span>
                         <mat-radio-button [value]="spec.skuId"></mat-radio-button>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                                 grillItem | i18nField: 'productName'
                             }}</span>
                             <div>
-                                <span class="grill-sku-price">${{ grillItem.price | number: '1.2-2' }}</span>
+                                <span class="grill-sku-price">{{ grillItem.price | priceI18n }}</span>
                                 <mat-radio-button [value]="grillItem.productId"></mat-radio-button>
                             </div>
                         </div>

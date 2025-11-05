@@ -2,7 +2,7 @@ import { Component, computed, EventEmitter, Input, Output, signal } from '@angul
 import { MenuGrillItem, menuListItem } from '@app/shared/types/menu.shared.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatRadioModule } from '@angular/material/radio';
-import { I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
+import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { CartExtra } from '@app/shared/types/cart.shared.types';
@@ -11,13 +11,20 @@ import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 @Component({
     selector: 'app-single-item',
     standalone: true,
-    imports: [MatCheckboxModule, MatRadioModule, TranslateModule, I18nFieldPipe, CommonModule],
+    imports: [
+        MatCheckboxModule,
+        MatRadioModule,
+        TranslateModule,
+        I18nFieldPipe,
+        CommonModule,
+        PriceI18nPipe,
+    ],
     templateUrl: './single-item.html',
     styleUrl: './single-item.scss',
 })
 export class SingleItem extends AbstractAppPage {
     @Input() data: menuListItem | null | undefined = null;
-    @Output() specChange = new EventEmitter<string>();
+    @Output() selectedChange = new EventEmitter<CartExtra>();
 
     constructor() {
         super();
@@ -29,6 +36,11 @@ export class SingleItem extends AbstractAppPage {
 
     // 当前选中的加料（多选）
     readonly selectedGrills = signal<MenuGrillItem[]>([]);
+
+    onSpecChange(value: string) {
+        this.selectedSpec.set(value);
+        this.getSelection();
+    }
 
     onGrillChange(grillId: string, productId: string) {
         const grill = this.item()?.grillList?.find((g) => g.grillCode === grillId);
@@ -42,19 +54,10 @@ export class SingleItem extends AbstractAppPage {
         const existing = prev.find((g) => g.grillCode === grillId);
         const next: MenuGrillItem[] = existing
             ? prev.map((g) => (g.grillCode === grillId ? { ...g, itemList: [selectedSku] } : g))
-            : [
-                  ...prev,
-                  {
-                      grillCode: grill.grillCode,
-                      grillNameCn: grill.grillNameCn,
-                      grillNameEn: grill.grillNameEn,
-                      maxitemCount: grill.maxitemCount,
-                      minItemCount: grill.minItemCount,
-                      itemList: [selectedSku],
-                  },
-              ];
-        console.log(next);
+            : [...prev, { ...grill, itemList: [selectedSku] }];
         this.selectedGrills.set(next);
+
+        this.getSelection();
     }
 
     getSelectedSku(grillId: string): string | null {
@@ -66,8 +69,10 @@ export class SingleItem extends AbstractAppPage {
      * @desc 外部调用-获取组装后的报文
      */
     getSelection(): CartExtra {
-        return {
+        const specItem = this.item()?.specList?.find((x) => x.skuId === this.selectedSpec());
+        const result = {
             skuId: this.selectedSpec() ?? undefined,
+            skuPrice: specItem?.price ?? 0,
             grillList: this.selectedGrills().map((t) => ({
                 grillId: t.grillCode,
                 itemList: t.itemList.map((x) => ({
@@ -77,6 +82,8 @@ export class SingleItem extends AbstractAppPage {
                 })),
             })),
         };
+        this.selectedChange.emit(result);
+        return result;
     }
 
     /**
