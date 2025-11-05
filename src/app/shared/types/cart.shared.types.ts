@@ -1,11 +1,11 @@
 import { ProductType } from '@app/shared/constants/menu.constants';
-import { MenuGrillItem, MenuSpecItem } from '@app/shared/types/menu.shared.types';
+import { MenuGrillItem, MenuRoundItem, MenuSpecItem } from '@app/shared/types/menu.shared.types';
 
 /**
  * @desc 套餐轮次组
  */
 export interface ComboRoundItem {
-    roundId: string;
+    roundId: number;
     min: number; // 默认 1
     max: number;
     itemList: ComboSkuItem[];
@@ -74,7 +74,7 @@ export interface cartViewItem {
     quantity: number;
     spec?: MenuSpecItem; // 单品规格
     grill?: MenuGrillItem[]; // 单品加料
-    rounds?: ComboRoundItem[]; // 套餐轮次
+    rounds?: MenuRoundItem[]; // 套餐轮次
 }
 
 /**

@@ -1,6 +1,28 @@
 import { MenuConstantsItem } from '@app/shared/types/menu.shared.types';
 
 /**
+ * @desc 菜品数量限制
+ */
+export enum ProductLimit {
+    // 不限制
+    UNLIMITED = -1,
+    // 限制最小数量
+    LIMIT = 1,
+    // 限制最大 数量
+    LIMIT_MAX = 99,
+}
+
+/**
+ * @desc 分类操作
+ */
+export enum CategoryOperation {
+    //上一个
+    PREV = 'prev',
+    // 下一个
+    NEXT = 'next',
+}
+
+/**
  * @desc 商品类型
  */
 export enum ProductType {

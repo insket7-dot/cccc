@@ -17,8 +17,7 @@ export class SubtotalService {
             // 加料
             if (item.grillList?.length) {
                 const grillTotal = item.grillList.reduce((sum, g) => {
-                    const list = g.itemList ?? [];
-                    const groupTotal = list.reduce((s, i) => {
+                    const groupTotal = (g.itemList ?? []).reduce((s, i) => {
                         return this.priceService.add(
                             s,
                             this.priceService.mul(i.price ?? 0, i.quantity ?? 1),
@@ -33,6 +32,20 @@ export class SubtotalService {
         }
         // 套餐价格
         if (item.productType === ProductType.COMBO) {
+            if (item.rounds?.length) {
+                const roundTotal = item.rounds.reduce((sum, r) => {
+                    const groupTotal = (r.itemList ?? []).reduce((s, i) => {
+                        return this.priceService.add(
+                            s,
+                            this.priceService.mul(i.price ?? 0, i.quantity ?? 1),
+                        );
+                    }, this.priceService.zero());
+
+                    return this.priceService.add(sum, groupTotal);
+                }, this.priceService.zero());
+
+                subtotal = this.priceService.add(subtotal, roundTotal);
+            }
         }
 
         return this.priceService.toNumber(this.priceService.mul(subtotal, item.quantity));

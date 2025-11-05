@@ -13,7 +13,7 @@ import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
 import { CartService } from '@app/shared/services/cart.service';
 import { I18nTextService } from '@app/shared/services/i18n-text.service';
-import { ProductType } from '@app/shared/constants/menu.constants';
+import { CategoryOperation, ProductType } from '@app/shared/constants/menu.constants';
 import { cartViewItem } from '@app/shared/types/cart.shared.types';
 
 @Injectable({
@@ -42,6 +42,7 @@ export class AppMenuService extends AbstractAppService {
                 case AppMqttEnums.MENU_PUBLISH:
                 case AppMqttEnums.MENU_LOW_UP:
                 case AppMqttEnums.MENU_SELL_0UT:
+                    console.log('MenuService MQTT 收到消息:', JSON.stringify(message));
                     this.getRemoteMenu().catch((err) => console.error('获取菜单失败:', err));
                     break;
             }
@@ -51,6 +52,14 @@ export class AppMenuService extends AbstractAppService {
         this.setupPersistence();
     }
 
+    // 分类id-下标
+    readonly categoryIndexMap = computed(() => {
+        const map = new Map<string, number>();
+        this.categoryListValue().forEach((t, index) => {
+            map.set(t.categoryId, index);
+        });
+        return map;
+    });
     // 分类-商品Map
     readonly menuMapValue = computed(() => this.menuMap());
     // 商品ID-商品信息Map
@@ -71,11 +80,8 @@ export class AppMenuService extends AbstractAppService {
     readonly cartListValue = computed(() => {
         const menuMap = this.menuIdMap();
         const cartList = this.cartService.cartList();
-        console.log('--------------- cart list -----------------', cartList);
         const cartListResult = cartList.map((item) => {
-            console.log('--------------- cart item -----------------', item);
             const productInfo = menuMap.get(item.productId);
-            console.log('--------------- product info -----------------', productInfo);
             const result: cartViewItem = {
                 cartId: item.cartId,
                 productId: item.productId,
@@ -111,13 +117,28 @@ export class AppMenuService extends AbstractAppService {
                         // 后期放开数量限制后，可添加数量字段
                         return grillItem;
                     });
-                    console.log(list);
                     result.grill = list.filter((t) => t !== null);
                 }
             }
 
             // 套餐-轮次
             if (item.productType === ProductType.COMBO) {
+                const list = (item?.rounds ?? []).map((t) => {
+                    const roundItem = (productInfo?.setMealList || []).find(
+                        (x) => x.round === t.roundId,
+                    );
+                    if (!roundItem) {
+                        return null;
+                    }
+                    const targetProductIds = roundItem?.itemList.map((t) => t.productId);
+                    roundItem.itemList =
+                        roundItem?.itemList?.filter((t) =>
+                            targetProductIds?.includes(t.productId),
+                        ) ?? [];
+                    return roundItem;
+                });
+
+                result.rounds = list.filter((t) => t !== null);
             }
 
             return result;
@@ -158,7 +179,6 @@ export class AppMenuService extends AbstractAppService {
                 menuVoList: mergedMenuList,
             });
         }
-        console.log('menu list result:', result);
         return result;
     }
 
@@ -167,6 +187,27 @@ export class AppMenuService extends AbstractAppService {
      */
     setCurrentCategory(categoryId: string) {
         this.currentCategory.set(categoryId);
+    }
+
+    /**
+     * @desc 分类操作上下
+     */
+    categoryUpDown(type: CategoryOperation) {
+        const categoryList = this.categoryList();
+        const index = this.categoryIndexMap().get(this.currentCategoryValue());
+
+        // 如果找不到 index，直接返回
+        if (index === undefined) return;
+
+        // 计算新的索引
+        const offset = type === CategoryOperation.PREV ? -1 : 1;
+        const newIndex = Math.min(Math.max(index + offset, 0), categoryList.length - 1);
+
+        // 切换分类
+        const target = categoryList[newIndex];
+        if (target) {
+            this.setCurrentCategory(target.categoryId);
+        }
     }
 
     async init() {

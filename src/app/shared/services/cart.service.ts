@@ -3,12 +3,14 @@ import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
 import { debounceTime, Subject } from 'rxjs';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
 import { SubtotalService } from '@app/shared/services/subtotal.service';
+import { PriceService } from '@app/shared/services/price.service';
+import { ProductLimit } from '@app/shared/constants/menu.constants';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CartService {
-    private maxCartCount = 99;
+    private maxCartCount = ProductLimit.LIMIT_MAX;
     private _cartMap: Map<string, ShopCartProduct> = new Map();
     private cartMapSignal = signal<Map<string, ShopCartProduct>>(new Map());
     private cartChanges$ = new Subject<void>();
@@ -17,8 +19,21 @@ export class CartService {
     readonly cartList = computed(() => Array.from(this.cartMapSignal().values()));
     // 唯一ID -> 商品勾选参数
     readonly cartMap = computed(() => this.cartMapSignal());
+    // 购物车总价
+    readonly cartTotal = computed(() => {
+        const total = this.priceService.toNumber(
+            this.priceService.sumList(this.cartList().map((item) => item.subtotal)),
+        );
+        return {
+            total,
+            count: this.cartList().length,
+        };
+    });
 
-    constructor(private subtotalService: SubtotalService) {
+    constructor(
+        private subtotalService: SubtotalService,
+        private priceService: PriceService,
+    ) {
         this.cartChanges$
             .pipe(
                 debounceTime(200), // 防抖 200ms
@@ -36,34 +51,6 @@ export class CartService {
      * @desc 更新小计价格
      */
     private updateSubtotal(item: ShopCartProduct) {
-        // let subtotal = this.priceService.zero();
-        // // 单品价格
-        // if (item.productType === ProductType.PRODUCT) {
-        //     // 规格
-        //     subtotal = this.priceService.add(subtotal, item.skuPrice ?? 0);
-        //
-        //     // 加料
-        //     if (item.grillList?.length) {
-        //         const grillTotal = item.grillList.reduce((sum, g) => {
-        //             const list = g.itemList ?? [];
-        //             const groupTotal = list.reduce((s, i) => {
-        //                 return this.priceService.add(
-        //                     s,
-        //                     this.priceService.mul(i.price ?? 0, i.quantity ?? 1),
-        //                 );
-        //             }, this.priceService.zero());
-        //
-        //             return this.priceService.add(sum, groupTotal);
-        //         }, this.priceService.zero());
-        //
-        //         subtotal = this.priceService.add(subtotal, grillTotal);
-        //     }
-        // }
-        // // 套餐价格
-        // if (item.productType === ProductType.COMBO) {
-        // }
-
-        // item.subtotal = this.priceService.toNumber(this.priceService.mul(subtotal, item.quantity));
         item.subtotal = this.subtotalService.subtotalComputed(item);
 
         return item;
