@@ -170,7 +170,15 @@
                 "title": "Spec",
                 "required": "Please select a specification"
             },
-            "addCart": "Add Cart"
+            "addCart": "Add Cart",
+            "combo": {
+                "required": "Please select the round.",
+                "title": "Round Group"
+            }
+        },
+        "count": "Count",
+        "cart": {
+            "deleteTip": "Are you sure you want to delete this product?"
         }
     }
 }

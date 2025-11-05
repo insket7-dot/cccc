@@ -170,7 +170,15 @@
                 "title": "规格",
                 "required": "请选择规格"
             },
-            "addCart": "加入购物车"
+            "addCart": "加入购物车",
+            "combo": {
+                "required": "请选择轮次",
+                "title": "轮次组"
+            }
+        },
+        "count": "数量",
+        "cart": {
+            "deleteTip": "确定删除商品嘛？"
         }
     }
 }
