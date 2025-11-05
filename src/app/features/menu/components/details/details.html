@@ -1,0 +1,42 @@
+<div class="details">
+    <div class="image">
+        <img [src]="item()?.imageUrl" alt="" />
+    </div>
+
+    <div class="info">
+        <div class="info-top">
+            <div class="name">{{ item() | i18nField: 'productName' }}</div>
+            <div class="desc">{{ item()?.descriptionCn }}</div>
+        </div>
+
+        <!-- 单品 -->
+        @if (item()?.productType === ProductType.PRODUCT) {
+            <app-single-item #singleItemRef [data]="item()" (selectedChange)="selectedChange($event)"></app-single-item>
+        }
+        <!-- 套餐 -->
+        @if (item()?.productType === ProductType.COMBO) {
+            <app-combo-item #comboItemRef [data]="item()" (selectedChange)="selectedChange($event)"></app-combo-item>
+        }
+
+        <!-- 价格 步进器-->
+        <div class="add_price">
+            <span class="price">{{ totalPrice() | priceI18n }}</span>
+
+            <div>
+                <span class="add" (click)="decreaseQuantity()">
+                    <img src="/assets/image/minus.png" alt="" />
+                </span>
+                <span>{{ addQuantity() }}</span>
+
+                <span class="add" (click)="increaseQuantity()">
+                    <img src="/assets/image/add.png" alt="" />
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="add_button">
+        <img src="/assets/image/cart.png" alt="" />
+        <span (click)="addToCart()">{{ 'menu.detail.addCart' | translate }}</span>
+    </div>
+</div>
