@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="left_center">
-                    <div class="left_up" (click)="changeCurCategory('up')">
+                    <div class="left_up" (click)="changeCurCategory(CategoryOperation.PREV)">
                         <img src="/assets/image/icon_up1.png" alt="" />
                     </div>
                     <div class="left_cate" [ngClass]="[isAccessibility() ? 'child-mode-left' : '']">
@@ -37,7 +37,7 @@
                             </div>
                         }
                     </div>
-                    <div class="left_down" (click)="changeCurCategory('down')">
+                    <div class="left_down" (click)="changeCurCategory(CategoryOperation.NEXT)">
                         <img src="/assets/image/icon_down.png" alt="" />
                     </div>
                 </div>
@@ -61,14 +61,16 @@
                             <div class="dish">
                                 <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
                                 <div class="dish_right">
-                                    <div class="dish_name">{{ item | i18nField: 'productName'}}</div>
+                                    <div class="dish_name">
+                                        {{ item | i18nField: 'productName' }}
+                                    </div>
                                     <div class="dish_desc">
                                         {{ item | i18nField: 'description' }}
                                     </div>
                                     <div class="price">
-                                        <span
-                                            >$ {{ item.specList[0].price | number: '1.2-2'
-                                            }}<span class="price-starting">{{
+                                        <span>
+                                            {{ item.price | priceI18n }}
+                                            <span class="price-starting">{{
                                                 'app.common.starting' | translate
                                             }}</span>
                                         </span>
@@ -93,10 +95,10 @@
             </div>
         </div>
 
-        <app-shopping-cart class="shop-cart" [(visible)]="cartVisible"></app-shopping-cart>
+        <menu-shopping-cart class="shop-cart" [(visible)]="cartVisible"></menu-shopping-cart>
     </div>
 }
 
 @if (showDetails()) {
-    <app-details [id]="detailProductId" (onClose)="closeDetail()"></app-details>
+    <menu-details-component [id]="detailProductId" (onClose)="closeDetail()"></menu-details-component>
 }

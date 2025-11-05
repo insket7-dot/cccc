@@ -15,14 +15,14 @@ import { MenuData, menuListItem } from '@app/shared/types/menu.shared.types';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { ModelStateService } from '@app/shared/services/model-state.service';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
-import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
-import { detailsComponent } from './components/details/details.component';
+import { DetailsComponent } from './components/details/details';
 import { AppVoiceService } from '@app/shared/services/app.voice.service';
 import { LanguageService } from '@app/core/services/language.service';
 import { fromEvent, Subscription, throttleTime } from 'rxjs';
-import { MenuType } from '@app/shared/constants/menu.constants';
-import { I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
+import { CategoryOperation, MenuType } from '@app/shared/constants/menu.constants';
+import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { CartService } from '@app/shared/services/cart.service';
 
 @Component({
@@ -35,8 +35,9 @@ import { CartService } from '@app/shared/services/cart.service';
         TranslateModule,
         LanguageSelectorComponent,
         ShoppingCartComponent,
-        detailsComponent,
+        DetailsComponent,
         I18nFieldPipe,
+        PriceI18nPipe,
     ],
     templateUrl: './menu.html',
     styleUrl: './menu.scss',
@@ -63,6 +64,7 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     private scrollSub?: Subscription;
 
     MenuType = MenuType;
+    CategoryOperation = CategoryOperation;
 
     constructor(
         private voiceService: AppVoiceService,
@@ -110,7 +112,10 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     isNormal = computed(() => this.modelStateService.isNormal());
 
     async ngOnInit(): Promise<void> {
-        this.appMenuService.init().catch((err) => console.error('获取菜单失败:', err));
+        // 初始化 - 兜底
+        if (this.categoryList().length === 0) {
+            this.appMenuService.init().catch((err) => console.error('获取菜单失败:', err));
+        }
     }
 
     toggleModel(model: string) {
@@ -137,26 +142,10 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         }
     }
     // 切换分类
-    changeCurCategory(type: string) {
-        const categories = this.categoryList();
-        if (!categories.length) return;
+    changeCurCategory(type: CategoryOperation) {
+        this.appMenuService.categoryUpDown(type);
 
-        const currentIndex = categories.findIndex(
-            (item: any) => item.categoryId === this.currentCategoryValue(),
-        );
-        const total = categories.length;
-        let newIndex: number;
-
-        if (type === 'up') {
-            newIndex = currentIndex === 0 ? total - 1 : currentIndex - 1;
-        } else {
-            newIndex = currentIndex === total - 1 ? 0 : currentIndex + 1;
-        }
-
-        const newCategory = categories[newIndex];
-        this.appMenuService.setCurrentCategory(newCategory.categoryId);
-
-        this.scrollToCategory(newCategory.categoryId);
+        this.scrollToCategory(this.currentCategoryValue());
     }
 
     // 打开详情页
