@@ -46,7 +46,6 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     ) {
         super();
         void this.printOrderService; // 确保依赖注入
-        void this.menuService; // 确保依赖注入
         effect(() => {
             const images = this.appStoreService.carouselImagesValue();
             if (images && images.length > 0) {
@@ -58,6 +57,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         Promise.allSettled([
+            this.menuService.init(),
             this.appStoreService.init(),
             this.mqttService.initialize(),
             this.printOrderService.initialize(),
