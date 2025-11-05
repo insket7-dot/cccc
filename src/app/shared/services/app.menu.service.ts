@@ -56,13 +56,17 @@ export class AppMenuService extends AbstractAppService {
     // 商品ID-商品信息Map
     readonly menuIdMapValue = computed(() => this.menuIdMap());
     // 分类列表
-    readonly categoryListValue = computed(() => this.categoryList());
+    readonly categoryListValue = computed(() =>
+        this.categoryList().filter((t) => t.categoryId !== '-1'),
+    );
     // 当前选择的分类
     readonly currentCategoryValue = computed(() => this.getCurrentCategory());
     // 当前分类下得菜品列表
     readonly currentMenuValue = computed(() => this.getCurrentMenu());
     // 菜品整体渲染列表（分类-菜单列表）
-    readonly menuValue = computed(() => this.getMenusAsResponse());
+    readonly menuValue = computed(() =>
+        this.getMenusAsResponse().filter((t) => t.categoryId !== '-1'),
+    );
     // 已加购的商品列表
     readonly cartListValue = computed(() => {
         const menuMap = this.menuIdMap();
