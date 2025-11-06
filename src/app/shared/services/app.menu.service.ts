@@ -191,17 +191,21 @@ export class AppMenuService extends AbstractAppService {
 
     /**
      * @desc 分类操作上下
+     * @param type
+     * @param loop 是否循环
      */
-    categoryUpDown(type: CategoryOperation) {
-        const categoryList = this.categoryList();
+    categoryUpDown(type: CategoryOperation, loop: boolean = true) {
+        const categoryList = this.categoryListValue();
         const index = this.categoryIndexMap().get(this.currentCategoryValue());
 
         // 如果找不到 index，直接返回
-        if (index === undefined) return;
+        if (index === undefined || categoryList.length === 0) return;
 
         // 计算新的索引
         const offset = type === CategoryOperation.PREV ? -1 : 1;
-        const newIndex = Math.min(Math.max(index + offset, 0), categoryList.length - 1);
+        const newIndex = loop
+            ? (index + offset + categoryList.length) % categoryList.length
+            : Math.min(Math.max(index + offset, 0), categoryList.length - 1);
 
         // 切换分类
         const target = categoryList[newIndex];
