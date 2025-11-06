@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { ResultVO } from '@rydeen/angular-framework';
 import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
-import { AppUrl } from '@app/core/constants/app.url';
 import type { IDatabaseService } from '@app/core/interfaces/database.interface';
 import { DATABASE_SERVICE } from '@app/core/tokens/database.token';
 import {
@@ -11,15 +10,19 @@ import {
     MenuModel,
 } from '@app/shared/types/menu.shared.types';
 import { QueryBuilder, LIKE } from '@app/core/builders/query-builder';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Injectable({ providedIn: 'root' })
 export class HomeService extends AbstractAppService {
-    constructor(@Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService) {
+    constructor(
+        @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
+        private appUrlService: AppUrlService,
+    ) {
         super();
     }
 
     async fetchAllMenu(): Promise<ResultVO<MenuData[]>> {
-        return await this.request<MenuData[]>(AppUrl.MENU_ALL);
+        return await this.request<MenuData[]>(this.appUrlService.getApiUrl('MENU_ALL'));
     }
 
     /**

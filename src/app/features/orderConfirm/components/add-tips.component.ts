@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Component({
     selector: 'app-add-tips',
@@ -21,7 +22,7 @@ export class AddTipsComponent implements OnInit, OnDestroy {
 
     tipTypeList = [
         { name: 'page.percentage', value: 'percentage' },
-        { name: 'page.fixed', value: 'fixed' }
+        { name: 'page.fixed', value: 'fixed' },
     ];
     tipType: 'percentage' | 'fixed' = 'percentage';
     percentages = [30, 50, 80];
@@ -31,19 +32,23 @@ export class AddTipsComponent implements OnInit, OnDestroy {
     constructor(
         private bottomSheetRef: MatBottomSheetRef<AddTipsComponent>,
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-        private router: Router
+        private router: Router,
+        private appUrlService: AppUrlService,
     ) {}
-     ngOnInit(): void {
+    ngOnInit(): void {
         this.router.events
             .pipe(
-                filter(event => event instanceof NavigationStart),
-                filter((event: NavigationStart) => event.url === '/screen'),
-                takeUntil(this.destroy$)
+                filter((event) => event instanceof NavigationStart),
+                filter(
+                    (event: NavigationStart) =>
+                        event.url === this.appUrlService.getPageUrlValue('PAGE_SCREEN'),
+                ),
+                takeUntil(this.destroy$),
             )
             .subscribe(() => {
                 this.bottomSheetRef.dismiss({
                     closed: true,
-                    reason: 'navigated to screen'
+                    reason: 'navigated to screen',
                 });
             });
     }

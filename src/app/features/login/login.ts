@@ -13,6 +13,7 @@ import { deviceState } from './constants/login.constants';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { ModelStateService } from '@app/shared/services/model-state.service';
 import { LocalStorage } from '@rydeen/angular-framework';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Component({
     selector: 'app-login',
@@ -41,6 +42,7 @@ export class Login extends AbstractAppPage implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private LoginService: LoginService,
+        private readonly appUrlService: AppUrlService,
     ) {
         super();
         this.loginForm = this.formBuilder.group({
@@ -66,14 +68,16 @@ export class Login extends AbstractAppPage implements OnInit {
     async onSubmitHandler() {
         if (this.loginForm.valid) {
             if (this.currentState === deviceState.BIND_DEVICE) {
-                const result: any = await this.LoginService.bingDevice({
+                const result = await this.LoginService.bingDevice({
                     storeCode: this.loginForm.value.storeCode.trim(),
                     authCode: this.loginForm.value.authCode.trim(),
                 });
                 if (result.data) {
                     await LocalStorage.setItem(CacheKey.DEVICE_ID, result.data);
                     this.modelStateService.setDeviceId(result.data);
-                    this.router.navigate(['/screen'], {}).catch((error) => console.error(error));
+                    this.router
+                        .navigate([this.appUrlService.getPageUrlValue('PAGE_SCREEN')], {})
+                        .catch((error) => console.error(error));
                 }
             }
         } else {

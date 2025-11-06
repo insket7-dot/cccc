@@ -14,6 +14,7 @@ import { ResultVO } from '@rydeen/angular-framework';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
 import { ModelStateService } from '@app/shared/services/model-state.service';
 import { modeList, wayList } from '@app/shared/constants/menu.constants';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Component({
     selector: 'app-home',
@@ -48,7 +49,10 @@ export class Home extends AbstractAppPage implements OnInit, OnDestroy {
 
     private clickCount = 0; // 点击次数
 
-    constructor(private readonly homeService: HomeService) {
+    constructor(
+        private readonly homeService: HomeService,
+        private readonly appUrlService: AppUrlService,
+    ) {
         super();
     }
 
@@ -127,7 +131,9 @@ export class Home extends AbstractAppPage implements OnInit, OnDestroy {
             );
             return;
         } else {
-            this.router.navigate(['/menu']).catch((error) => console.error(error));
+            this.router
+                .navigate([this.appUrlService.getPageUrlValue('PAGE_MENU')])
+                .catch((error) => console.error(error));
         }
     }
 
@@ -137,7 +143,9 @@ export class Home extends AbstractAppPage implements OnInit, OnDestroy {
         if (this.clickCount >= 6) {
             this.clickCount = 0;
             this.router
-                .navigate(['/login'], { queryParams: { state: 'RESET' } })
+                .navigate([this.appUrlService.getPageUrl('PAGE_LOGIN')], {
+                    queryParams: { state: 'RESET' },
+                })
                 .catch((error) => console.error(error));
         }
     }

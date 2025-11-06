@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
-import { AppUrl } from '@app/core/constants/app.url';
-import { ResultVO } from '@rydeen/angular-framework';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Injectable({ providedIn: 'root' })
 export class ScreenService extends AbstractAppService {
-    getResource(param:any): Promise<ResultVO<any>> {
-        return this.request(AppUrl.GET_RESOURCE,param);
+    constructor(private readonly appUrlService: AppUrlService) {
+        super();
+    }
+
+    getResource(param: any) {
+        return this.request<any>(this.appUrlService.getApiUrl('GET_RESOURCE'), param);
     }
 }

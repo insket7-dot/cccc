@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { CartService } from '@app/shared/services/cart.service';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Component({
     selector: 'menu-shopping-cart',
@@ -24,6 +25,7 @@ export class ShoppingCartComponent extends AbstractAppPage {
         private bottomSheet: MatBottomSheet,
         private appMenuService: AppMenuService,
         private cartService: CartService,
+        private readonly appUrlService: AppUrlService,
     ) {
         super();
     }
@@ -61,9 +63,16 @@ export class ShoppingCartComponent extends AbstractAppPage {
     }
 
     async continue() {
-        await this.confirm('page.continue', {}, async (result): Promise<any> => {
+        if (this.cartTotalCount() <= 0) {
+            this.info(this.translate.instant('menu.cart.addRequired')).catch(console.error);
+            return;
+        }
+        await this.confirm('page.continue', {}, async (result) => {
             if (result.role === 'ok') {
-                this.router.navigate(['/orderConfirm']).catch((error) => console.error(error));
+                this.router
+                    .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_CONFIRM')])
+                    .catch((error) => console.error(error));
+                return true;
             } else {
                 return false;
             }

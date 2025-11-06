@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
-import { AppUrl } from '@app/core/constants/app.url';
-import { ResultVO } from '@rydeen/angular-framework';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService extends AbstractAppService {
-    bingDevice(params: any): Promise<ResultVO<any>> {
-        return this.request(AppUrl.BIND_DEVICE, params);
+    constructor(private appUrlService: AppUrlService) {
+        super();
+    }
+
+    bingDevice(params: { storeCode: string; authCode: string }) {
+        return this.request<string>(this.appUrlService.getApiUrl('BIND_DEVICE'), params);
     }
 }

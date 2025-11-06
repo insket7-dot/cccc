@@ -5,57 +5,64 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router, NavigationStart } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AppUrlService } from '@app/shared/services/app.url.service';
 
 @Component({
-  selector: 'app-cart-details-bottom-sheet',
-  standalone: true,
-  imports: [CommonModule, MatButtonModule],
-  template: `
-    <div class="bottom-sheet-content">
-      <h3>购物车详情</h3>
-      <p>商品数量：{{ data[0].price }}</p>
-      <button mat-raised-button color="primary" (click)="closeSheet()">关闭</button>
-    </div>
-  `,
-  styles: [`
-    .bottom-sheet-content {
-      padding: 16px;
-    }
-    h3 {
-      margin: 0 0 16px 0;
-    }
-  `]
+    selector: 'app-cart-details-bottom-sheet',
+    standalone: true,
+    imports: [CommonModule, MatButtonModule],
+    template: `
+        <div class="bottom-sheet-content">
+            <h3>购物车详情</h3>
+            <p>商品数量：{{ data[0].price }}</p>
+            <button mat-raised-button color="primary" (click)="closeSheet()">关闭</button>
+        </div>
+    `,
+    styles: [
+        `
+            .bottom-sheet-content {
+                padding: 16px;
+            }
+            h3 {
+                margin: 0 0 16px 0;
+            }
+        `,
+    ],
 })
 export class CartDetailsBottomSheetComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+    private destroy$ = new Subject<void>();
 
-  constructor(
-    private bottomSheetRef: MatBottomSheetRef<CartDetailsBottomSheetComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-    private router: Router,
-  ) {}
+    constructor(
+        private bottomSheetRef: MatBottomSheetRef<CartDetailsBottomSheetComponent>,
+        @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+        private router: Router,
+        private readonly appUrlService: AppUrlService,
+    ) {}
 
-  ngOnInit(): void {
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationStart),
-        filter((event: NavigationStart) => event.url === '/screen'),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.bottomSheetRef.dismiss({
-          closed: true,
-          reason: 'navigated to screen'
-        });
-      });
-  }
+    ngOnInit(): void {
+        this.router.events
+            .pipe(
+                filter((event) => event instanceof NavigationStart),
+                filter(
+                    (event: NavigationStart) =>
+                        event.url === this.appUrlService.getPageUrlValue('PAGE_SCREEN'),
+                ),
+                takeUntil(this.destroy$),
+            )
+            .subscribe(() => {
+                this.bottomSheetRef.dismiss({
+                    closed: true,
+                    reason: 'navigated to screen',
+                });
+            });
+    }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 
-  closeSheet() {
-    this.bottomSheetRef.dismiss({ closed: true });
-  }
+    closeSheet() {
+        this.bottomSheetRef.dismiss({ closed: true });
+    }
 }
