@@ -57,12 +57,10 @@ export class AppStoreService extends AbstractAppService {
     async init() {
         await this.readPersistence();
 
-        await Promise.all([
-            this.getRemoteStoreBusTime().catch((err) => console.error('获取门店信息失败:', err)),
-            this.getRemoteCarouselImages().catch((err) => console.error('获取轮播图失败:', err)),
-            this.getRemoteStoreBaseInfo().catch((err) =>
-                console.error('获取门店基础信息失败:', err),
-            ),
+        await Promise.allSettled([
+            this.getRemoteStoreBusTime(),
+            this.getRemoteCarouselImages(),
+            this.getRemoteStoreBaseInfo(),
         ]);
     }
 
@@ -99,10 +97,12 @@ export class AppStoreService extends AbstractAppService {
      * @desc 远程门店基础数据
      */
     async getRemoteStoreBaseInfo() {
-        const res = await this.request<StoreBaseInfoInterface>(AppUrl.STORE_BASE_INFO);
+        const res = await this.request<{ storeInfo: StoreBaseInfoInterface[] }>(
+            AppUrl.STORE_BASE_INFO,
+        );
         console.log('门店基础数据:', JSON.stringify(res));
         if (res.success) {
-            this.storeBaseInfo.set(res.data);
+            this.storeBaseInfo.set(res.data.storeInfo[0]);
         }
     }
 
