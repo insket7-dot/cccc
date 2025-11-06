@@ -18,6 +18,12 @@ export class AppUrl {
 
     public static readonly PAGE_LOGIN: Url = new Url('PAGE_LOGIN', 'login', Method.NAVIGATOR);
 
+    public static readonly PAGE_ORDER_CONFIRM: Url = new Url(
+        'PAGE_ORDER_CONFIRM',
+        'orderConfirm',
+        Method.NAVIGATOR,
+    );
+
     /**
      * @desc 拼接完整请求url方法
      */
@@ -89,5 +95,14 @@ export class AppUrl {
         'STORE_BASE_INFO',
         AppUrl.requestFullUrl('/store/baseInfo'),
         Method.GET,
+    );
+
+    /**
+     * @desc 订单确认
+     */
+    public static readonly API_ORDER_CONFIRM: Url = new Url(
+        'API_ORDER_CONFIRM',
+        AppUrl.requestFullUrl('/order/confirm'),
+        Method.POST,
     );
 }

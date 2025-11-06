@@ -43,6 +43,8 @@ import { environment } from '@/environments/environment';
 import { MockInterceptor, provideMock } from '@rydeen/angular-framework';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LanguageService } from './core/services/language.service';
+import { APP_URLS } from '@app/core/tokens/app.url.token';
+import { AppUrl } from '@app/core/constants/app.url';
 
 // 注册本地化数据
 registerLocaleData(localeZh, 'zh-cn');
@@ -134,6 +136,10 @@ export const appConfig: ApplicationConfig = {
         {
             provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
             useValue: { useUtc: true },
+        },
+        {
+            provide: APP_URLS,
+            useValue: AppUrl,
         },
     ],
 };
