@@ -31,8 +31,8 @@
             "used": "已用完",
             "warning": "警告",
             "starting": "起",
-            "total": "合计",
-            "order": "下单"
+            "total": "合計",
+            "order": "下單"
         },
         "home": {
             "actions": {
@@ -46,7 +46,7 @@
                 "searchComplete": "查詢完成，關鍵字\"{{keyword}}\"，匹配 {{count}} 項",
                 "searchFailed": "菜單搜索失敗: {{error}}",
                 "syncFailed": "菜單同步失敗: {{error}}",
-                "syncSuccess": "菜單同步成功，共 {{count}} 項數據已存入 SQLite.",
+                "syncSuccess": "菜單同步成功，共 {{count}} 項數據已存入 SQLite。",
                 "syncing": "正在同步菜單數據到本地數據庫..."
             },
             "title": "首頁"
@@ -134,8 +134,9 @@
             "title": "用戶管理"
         },
         "order": {
-            "total": "总数量{num}个",
-            "confirmTip": "歡迎來到 Yaki！我們已經準備就緒，期待為您奉上美味的食物和貼心的服務。"
+            "total": "總數量{{num}}個",
+            "confirmTip": "歡迎來到 Yaki！我們已經準備就緒，期待為您奉上美味的食物和貼心的服務。",
+            "confirmPlaceOrder": "確認下單嘛？"
         }
     },
     "page": {
@@ -159,10 +160,10 @@
         "resetConfig": "重置設定",
         "resetSystem": "重置點餐系統",
         "loginOut": "退出點餐系統",
-        "continue": "是否下单",
-        "orderDetails": "订单详情",
-        "continueText": "继续点餐",
-        "addtip": "添加小费",
+        "continue": "是否下單",
+        "orderDetails": "訂單詳情",
+        "continueText": "繼續點餐",
+        "addtip": "添加小費",
         "percentage": "比例",
         "fixed": "固定"
     },
@@ -170,22 +171,22 @@
         "detail": {
             "grill": {
                 "title": "加料",
-                "required": "请选择加料"
+                "required": "請選擇加料"
             },
             "spec": {
-                "title": "规格",
-                "required": "请选择规格"
+                "title": "規格",
+                "required": "請選擇規格"
             },
-            "addCart": "加入购物车",
+            "addCart": "加入購物車",
             "combo": {
-                "required": "请选择轮次",
-                "title": "轮次组"
+                "required": "請選擇輪次",
+                "title": "輪次組"
             }
         },
-        "count": "数量",
+        "count": "數量",
         "cart": {
-            "deleteTip": "确定删除商品嘛？",
-            "addRequired": "请加购商品"
+            "deleteTip": "確定刪除商品嗎？",
+            "addRequired": "請加購商品"
         }
     }
 }

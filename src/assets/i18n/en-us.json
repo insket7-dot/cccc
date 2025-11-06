@@ -134,8 +134,9 @@
             "title": "User Management"
         },
         "order": {
-            "total": "{num} item in total.",
-            "confirmTip": "Welcome to Yaki! We are ready and look forward to servingyou delicious food and heartfelt service."
+            "total": "{{num}} item in total.",
+            "confirmTip": "Welcome to Yaki! We are ready and look forward to servingyou delicious food and heartfelt service.",
+            "confirmPlaceOrder": "Are you sure you want to place the order?"
         }
     },
     "page": {
