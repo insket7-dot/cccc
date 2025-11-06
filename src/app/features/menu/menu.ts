@@ -23,7 +23,6 @@ import { LanguageService } from '@app/core/services/language.service';
 import { fromEvent, Subscription, throttleTime } from 'rxjs';
 import { CategoryOperation, MenuType } from '@app/shared/constants/menu.constants';
 import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
-import { CartService } from '@app/shared/services/cart.service';
 
 @Component({
     selector: 'app-menu',
