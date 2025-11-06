@@ -21,7 +21,7 @@
             "save": "Save",
             "search": "Search",
             "success": "Success",
-            "title": "Cross Platform App",
+            "title": "Yaki",
             "toast.error": "Error",
             "toast.exit": "Return again and exit this application",
             "toast.info": "Prompt",
@@ -30,7 +30,9 @@
             "unused": "Unused",
             "used": "Used",
             "warning": "Warning",
-            "starting": "from"
+            "starting": "from",
+            "total": "Total",
+            "order": "Confirm Order"
         },
         "home": {
             "actions": {
@@ -130,6 +132,10 @@
                 "phone": "Phone"
             },
             "title": "User Management"
+        },
+        "order": {
+            "total": "{num} item in total.",
+            "confirmTip": "Welcome to Yaki! We are ready and look forward to servingyou delicious food and heartfelt service."
         }
     },
     "page": {
@@ -178,7 +184,8 @@
         },
         "count": "Count",
         "cart": {
-            "deleteTip": "Are you sure you want to delete this product?"
+            "deleteTip": "Are you sure you want to delete this product?",
+            "addRequired": "Please add products to the cart."
         }
     }
 }

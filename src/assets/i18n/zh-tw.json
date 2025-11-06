@@ -21,7 +21,7 @@
             "save": "保存",
             "search": "搜索",
             "success": "成功",
-            "title": "跨平台應用",
+            "title": "Yaki",
             "toast.error": "錯誤",
             "toast.exit": "再次返回退出本應用",
             "toast.info": "提示",
@@ -30,7 +30,9 @@
             "unused": "未用完",
             "used": "已用完",
             "warning": "警告",
-            "starting": "起"
+            "starting": "起",
+            "total": "合计",
+            "order": "下单"
         },
         "home": {
             "actions": {
@@ -130,6 +132,10 @@
                 "phone": "手機"
             },
             "title": "用戶管理"
+        },
+        "order": {
+            "total": "总数量{num}个",
+            "confirmTip": "歡迎來到 Yaki！我們已經準備就緒，期待為您奉上美味的食物和貼心的服務。"
         }
     },
     "page": {
@@ -152,7 +158,13 @@
         "passwordRequired": "密碼不能為空",
         "resetConfig": "重置設定",
         "resetSystem": "重置點餐系統",
-        "loginOut": "退出點餐系統"
+        "loginOut": "退出點餐系統",
+        "continue": "是否下单",
+        "orderDetails": "订单详情",
+        "continueText": "继续点餐",
+        "addtip": "添加小费",
+        "percentage": "比例",
+        "fixed": "固定"
     },
     "menu": {
         "detail": {
@@ -172,7 +184,8 @@
         },
         "count": "数量",
         "cart": {
-            "deleteTip": "确定删除商品嘛？"
+            "deleteTip": "确定删除商品嘛？",
+            "addRequired": "请加购商品"
         }
     }
 }
