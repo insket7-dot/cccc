@@ -17,10 +17,10 @@
     @for (item of cartList(); track item.cartId) {
         <mat-list-item>
             <div>{{ item.cartId }}</div>
-            <div>
-                <span (click)="itemSubtraction(item.cartId)">-</span>
+            <div class="cart-control">
+                <span class="cart-icon" (click)="itemSubtraction(item.cartId)">-</span>
                 <span>{{ item.quantity }}</span>
-                <span (click)="itemAdd(item.cartId)">+<</span>
+                <span class="cart-icon" (click)="itemAdd(item.cartId)">+</span>
             </div>
         </mat-list-item>
     }

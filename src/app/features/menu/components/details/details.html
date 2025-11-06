@@ -11,11 +11,19 @@
 
         <!-- 单品 -->
         @if (item()?.productType === ProductType.PRODUCT) {
-            <app-single-item #singleItemRef [data]="item()" (selectedChange)="selectedChange($event)"></app-single-item>
+            <app-single-item
+                #singleItemRef
+                [data]="item()"
+                (selectedChange)="selectedChange($event)"
+            ></app-single-item>
         }
         <!-- 套餐 -->
         @if (item()?.productType === ProductType.COMBO) {
-            <app-combo-item #comboItemRef [data]="item()" (selectedChange)="selectedChange($event)"></app-combo-item>
+            <app-combo-item
+                #comboItemRef
+                [data]="item()"
+                (selectedChange)="selectedChange($event)"
+            ></app-combo-item>
         }
 
         <!-- 价格 步进器-->
@@ -35,8 +43,8 @@
         </div>
     </div>
 
-    <div class="add_button">
+    <div class="add_button" (click)="addToCart()">
         <img src="/assets/image/cart.png" alt="" />
-        <span (click)="addToCart()">{{ 'menu.detail.addCart' | translate }}</span>
+        <span>{{ 'menu.detail.addCart' | translate }}</span>
     </div>
 </div>

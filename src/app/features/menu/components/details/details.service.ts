@@ -47,7 +47,6 @@ export class DetailsService {
             payload.cartId = keyList.filter(Boolean).join('-');
         }
 
-        console.log('add cart', payload);
         return payload;
     }
 

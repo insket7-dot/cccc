@@ -69,7 +69,6 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     constructor(
         private voiceService: AppVoiceService,
         private languageService: LanguageService,
-        private cartService: CartService,
     ) {
         super();
     }
@@ -105,7 +104,6 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     ngOnDestroy() {
         this.scrollSub?.unsubscribe();
-        this.cartService.clearCart();
     }
 
     isAccessibility = computed(() => this.modelStateService.isAccessibility());
