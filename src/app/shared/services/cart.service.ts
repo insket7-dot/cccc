@@ -24,9 +24,10 @@ export class CartService {
         const total = this.priceService.toNumber(
             this.priceService.sumList(this.cartList().map((item) => item.subtotal)),
         );
+        const totalCount = this.cartList().reduce((acc, item) => acc + item.quantity, 0);
         return {
             total,
-            count: this.cartList().length,
+            count: totalCount,
         };
     });
 
@@ -69,7 +70,6 @@ export class CartService {
             const data = this.updateSubtotal(product);
             this._cartMap.set(product.cartId, data);
         }
-        console.log(this._cartMap);
 
         // 发射事件
         this.emitChange();
