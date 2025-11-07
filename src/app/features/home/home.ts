@@ -7,10 +7,11 @@ import { ModelStateService } from '@app/shared/services/model-state.service';
 import { modeList, wayList } from '@app/shared/constants/menu.constants';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { DeviceStateEnum } from '@app/shared/constants/login.constants';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
     selector: 'app-home',
-    imports: [TranslateModule, LanguageSelectorComponent],
+    imports: [TranslateModule, LanguageSelectorComponent, NgOptimizedImage],
     templateUrl: './home.html',
     styleUrl: './home.scss',
 })

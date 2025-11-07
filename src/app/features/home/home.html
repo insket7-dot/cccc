@@ -4,7 +4,13 @@
     </div>
 
     <div class="logo" (click)="onLogoClick()">
-        <img src="/assets/image/Layer_1.png" alt="Yaki Logo" />
+        <img
+            class="logo-img"
+            ngSrc="/assets/image/Layer_1.png"
+            alt="Yaki Logo"
+            width="386"
+            height="128"
+        />
     </div>
 
     <div class="tip">
@@ -14,11 +20,19 @@
     <div class="take-list">
         @for (item of wayList(); track item.type) {
             <div class="take-item" (click)="toggleWay(item)">
-                <img class="take-icon" [src]="item.icon" alt="" />
+                @if (item.icon) {
+                    <img class="take-icon" [ngSrc]="item.icon" alt="" width="100" height="100" />
+                }
                 <span class="take_type">{{ item.name | translate }}</span>
 
                 @if (curWay() === item.type) {
-                    <img class="active" src="/assets/image/select.png" alt="" />
+                    <img
+                        class="active"
+                        ngSrc="/assets/image/select.png"
+                        alt=""
+                        width="86"
+                        height="86"
+                    />
                 }
             </div>
         }
@@ -35,7 +49,15 @@
                 [class.selected]="curModel() === item.type"
                 (click)="toggleModel(item)"
             >
-                <img [src]="item.icon" alt="" />
+                @if (item.icon) {
+                    <img
+                        class="model-item-icon"
+                        [ngSrc]="item.icon"
+                        alt=""
+                        width="70"
+                        height="70"
+                    />
+                }
                 <div class="model-name">{{ item.name | translate }}</div>
             </div>
         }
