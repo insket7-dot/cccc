@@ -5,38 +5,45 @@
     </div>
 
     <div class="store_info">
-        <div class="storeName">YAKI(({{storeBaseInfo()?.storeInfo[0]?.storeCode}}))</div>
+        <div class="storeName">{{ 'app.common.title' | translate }}({{ storeBaseInfo()?.storeCode }})</div>
 
         <div class="text">
-            Welcome to Yaki! We are ready and look forward to servingyou delicious food and
-            heartfelt service.
+           {{ 'app.order.confirmTip' | translate }}
         </div>
     </div>
 
     <div class="menu store_info">
         <div class="menu_top">
-            <div class="menu_top_left">5 items in total</div>
+            <div class="menu_top_left">
+                {{ 'app.order.total' | translate: { num: cartTotalCount() } }}
+            </div>
             <div class="addTip" (click)="addTip()">
                 <img src="/assets/image/fee.png" alt="" />
-                <span>{{'page.addtip' | translate}}</span>
+                <span>{{ 'page.addtip' | translate }}</span>
             </div>
         </div>
 
         <div class="menu_list">
-            <div class="left">
-                <div class="dishName">RedWineBarbecueBeefRibsBeefRibssss</div>
-                <div class="num">x 1</div>
-            </div>
+            @for (item of cartList(); track item.cartId) {
+                <div class="menu-item">
+                    <div class="left">
+                        <div class="dishName">{{ item.productName }}</div>
+                        <div class="num">x {{ item.quantity }}</div>
+                    </div>
 
-            <div class="right">
-                <div class="price">$18.00</div>
-            </div>
+                    <div class="right">
+                        <div class="price">{{ item.subtotal | priceI18n }}</div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 
     <div class="bottom">
-        <div class="total">合计： $89.00</div>
+        <div class="total">
+            {{ 'app.common.total' | translate }}： {{ cartTotalPrice() | priceI18n }}
+        </div>
 
-        <div class="continue">Continue</div>
+        <div class="continue" (click)="orderConfirm()">{{ 'app.common.order' | translate }}</div>
     </div>
 </div>

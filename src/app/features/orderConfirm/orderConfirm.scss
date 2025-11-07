@@ -79,9 +79,11 @@
         }
 
         .menu_list {
-            display: flex;
-            justify-content: space-between;
-
+            .menu-item {
+                display: flex;
+                justify-content: space-between;
+            }
+            
             .price {
                 font-size: 18px;
             }
