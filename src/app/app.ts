@@ -18,13 +18,13 @@ import { Subscription } from 'rxjs';
 import { BarcodeService } from './core/services/barcode.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { triggerAnimation } from './core/animations/route-animations';
-import { AppUrl } from './core/constants/app.url';
+// import { AppUrl } from './core/constants/app.url';
 import { AbstractAppPage } from './shared/abstracts/abstract.app.page';
 import { Platform } from '@ionic/angular';
-import { Capacitor } from '@capacitor/core';
-import { DATABASE_SERVICE } from './core/tokens/database.token';
-import type { IDatabaseService } from './core/interfaces/database.interface';
-import { MigrationService } from './core/services/migration.service';
+// import { Capacitor } from '@capacitor/core';
+// import { DATABASE_SERVICE } from './core/tokens/database.token';
+// import type { IDatabaseService } from './core/interfaces/database.interface';
+// import { MigrationService } from './core/services/migration.service';
 import { IdleTimeoutService } from '@/app/core/services/timeout.service';
 
 @Component({
@@ -58,11 +58,12 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         private readonly barcodeService: BarcodeService,
         private platform: Platform,
         @Inject(IdleTimeoutService) private idleTimeoutService: IdleTimeoutService,
-        @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
-        private readonly migrationService: MigrationService,
+        // @Inject(DATABASE_SERVICE) private readonly databaseService: IDatabaseService,
+        // private readonly migrationService: MigrationService,
     ) {
         super();
         this.initializeApp();
+
         this.idleTimeoutService.startMonitoring();
     }
 
@@ -80,72 +81,72 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
             .ready()
             .then(async () => {
                 console.log('Platform ready');
-                this.databaseService
-                    .initializePlugin()
-                    .then(async (ret) => {
-                        this.initPlugin = ret;
-                        console.log(`Database plugin initialized: ${ret}`);
-
-                        if (this.databaseService.getPlatform() === 'web') {
-                            this.isWeb = true;
-                            console.log('Web platform detected, initializing jeep-sqlite...');
-
-                            try {
-                                // 等待 Stencil 完全准备好
-                                console.log('Waiting for jeep-sqlite custom element definition...');
-                                await customElements.whenDefined('jeep-sqlite');
-                                console.log('jeep-sqlite custom element is defined');
-
-                                // 检查 jeep-sqlite 元素是否存在
-                                const jeepSqliteEl = document.querySelector('jeep-sqlite') as any;
-                                if (!jeepSqliteEl) {
-                                    throw new Error('jeep-sqlite element not found in DOM');
-                                }
-                                console.log('jeep-sqlite element found in DOM');
-
-                                // 等待元素完全连接和初始化
-                                await new Promise((resolve) => {
-                                    const checkConnection = () => {
-                                        if (jeepSqliteEl.isConnected) {
-                                            console.log('jeep-sqlite element is connected');
-                                            // 再等待一小段时间确保元素完全初始化
-                                            setTimeout(() => {
-                                                console.log(
-                                                    'jeep-sqlite element initialization completed',
-                                                );
-                                                resolve(void 0);
-                                            }, 200);
-                                        } else {
-                                            console.log(
-                                                'Waiting for jeep-sqlite element connection...',
-                                            );
-                                            setTimeout(checkConnection, 50);
-                                        }
-                                    };
-                                    checkConnection();
-                                });
-
-                                console.log(
-                                    'jeep-sqlite element is ready, database already initialized in initializePlugin()',
-                                );
-                                console.log(`>>>> isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
-                                console.log('Database initialization completed successfully');
-                                await this.migrationService.run();
-                            } catch (error) {
-                                console.error('Database initialization failed:', error);
-                                console.error('Error stack:', error);
-                            }
-                        } else {
-                            console.log(
-                                `Non-web platform detected: ${this.databaseService.getPlatform()}`,
-                            );
-                        }
-
-                        console.log(`>>>> in App  this.initPlugin ${this.initPlugin}`);
-                    })
-                    .catch((error) => {
-                        console.error('Database plugin initialization failed:', error);
-                    });
+                // this.databaseService
+                //     .initializePlugin()
+                //     .then(async (ret) => {
+                //         this.initPlugin = ret;
+                //         console.log(`Database plugin initialized: ${ret}`);
+                //
+                //         if (this.databaseService.getPlatform() === 'web') {
+                //             this.isWeb = true;
+                //             console.log('Web platform detected, initializing jeep-sqlite...');
+                //
+                //             try {
+                //                 // 等待 Stencil 完全准备好
+                //                 console.log('Waiting for jeep-sqlite custom element definition...');
+                //                 await customElements.whenDefined('jeep-sqlite');
+                //                 console.log('jeep-sqlite custom element is defined');
+                //
+                //                 // 检查 jeep-sqlite 元素是否存在
+                //                 const jeepSqliteEl = document.querySelector('jeep-sqlite') as any;
+                //                 if (!jeepSqliteEl) {
+                //                     throw new Error('jeep-sqlite element not found in DOM');
+                //                 }
+                //                 console.log('jeep-sqlite element found in DOM');
+                //
+                //                 // 等待元素完全连接和初始化
+                //                 await new Promise((resolve) => {
+                //                     const checkConnection = () => {
+                //                         if (jeepSqliteEl.isConnected) {
+                //                             console.log('jeep-sqlite element is connected');
+                //                             // 再等待一小段时间确保元素完全初始化
+                //                             setTimeout(() => {
+                //                                 console.log(
+                //                                     'jeep-sqlite element initialization completed',
+                //                                 );
+                //                                 resolve(void 0);
+                //                             }, 200);
+                //                         } else {
+                //                             console.log(
+                //                                 'Waiting for jeep-sqlite element connection...',
+                //                             );
+                //                             setTimeout(checkConnection, 50);
+                //                         }
+                //                     };
+                //                     checkConnection();
+                //                 });
+                //
+                //                 console.log(
+                //                     'jeep-sqlite element is ready, database already initialized in initializePlugin()',
+                //                 );
+                //                 console.log(`>>>> isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
+                //                 console.log('Database initialization completed successfully');
+                //                 await this.migrationService.run();
+                //             } catch (error) {
+                //                 console.error('Database initialization failed:', error);
+                //                 console.error('Error stack:', error);
+                //             }
+                //         } else {
+                //             console.log(
+                //                 `Non-web platform detected: ${this.databaseService.getPlatform()}`,
+                //             );
+                //         }
+                //
+                //         console.log(`>>>> in App  this.initPlugin ${this.initPlugin}`);
+                //     })
+                //     .catch((error) => {
+                //         console.error('Database plugin initialization failed:', error);
+                //     });
             })
             .catch((error) => {
                 console.error('Platform ready failed:', error);
@@ -158,7 +159,6 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
             this.lastScan.set(value);
         } catch (err) {
             this.lastScan.set(null);
-            // Avoid throwing to keep UI simple
         }
     }
 
@@ -170,6 +170,6 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
         return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
     }
 
-    protected readonly AppUrl = AppUrl;
-    protected readonly Capacitor = Capacitor;
+    // protected readonly AppUrl = AppUrl;
+    // protected readonly Capacitor = Capacitor;
 }

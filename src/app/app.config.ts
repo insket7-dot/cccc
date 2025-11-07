@@ -7,12 +7,12 @@ import {
     LOCALE_ID,
 } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
-import { MigrationService } from './core/services/migration.service';
+// import { MigrationService } from './core/services/migration.service';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { DATABASE_SERVICE } from './core/tokens/database.token';
-import { DatabaseService } from './core/services/database.service';
-import { WebDatabaseService } from './core/services/web-database.service';
-import { Capacitor } from '@capacitor/core';
+// import { DATABASE_SERVICE } from './core/tokens/database.token';
+// import { DatabaseService } from './core/services/database.service';
+// import { WebDatabaseService } from './core/services/web-database.service';
+// import { Capacitor } from '@capacitor/core';
 import { registerLocaleData } from '@angular/common';
 import localeZh from '@angular/common/locales/zh-Hans';
 import localeEn from '@angular/common/locales/en';
@@ -96,19 +96,19 @@ export const appConfig: ApplicationConfig = {
         // ...provideMock(), // 本地mock 拦截器
         { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
         // 显式提供两种实现，供 EnvironmentInjector 动态解析
-        WebDatabaseService,
-        DatabaseService,
-        MigrationService,
+        // WebDatabaseService,
+        // DatabaseService,
+        // MigrationService,
         LanguageService,
-        {
-            provide: DATABASE_SERVICE,
-            useFactory: () => {
-                const injector = inject(EnvironmentInjector);
-                return Capacitor.getPlatform() === 'web'
-                    ? injector.get(WebDatabaseService)
-                    : injector.get(DatabaseService);
-            },
-        },
+        // {
+        //     provide: DATABASE_SERVICE,
+        //     useFactory: () => {
+        //         const injector = inject(EnvironmentInjector);
+        //         return Capacitor.getPlatform() === 'web'
+        //             ? injector.get(WebDatabaseService)
+        //             : injector.get(DatabaseService);
+        //     },
+        // },
         // Angular Material 国际化配置
         {
             provide: LOCALE_ID,
