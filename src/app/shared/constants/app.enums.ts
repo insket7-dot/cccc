@@ -37,3 +37,20 @@ export enum CartUpdateResult {
     /** 到达最大数量限制 */
     LimitReached = 'limit-reached',
 }
+
+/**
+ * @desc 设备ID加载状态枚举
+ */
+export enum DeviceIdLoadStatus {
+    /** 已加载 */
+    LOADED = 'loaded',
+
+    /** 加载中 */
+    LOADING = 'loading',
+
+    /** 跳过 */
+    SKIPPED = 'skipped',
+
+    /** 加载失败 */
+    FAILED = 'failed',
+}
