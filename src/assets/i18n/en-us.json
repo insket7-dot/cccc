@@ -137,6 +137,11 @@
             "total": "{{num}} item in total.",
             "confirmTip": "Welcome to Yaki! We are ready and look forward to servingyou delicious food and heartfelt service.",
             "confirmPlaceOrder": "Are you sure you want to place the order?"
+        },
+        "login": {
+            "pleaseEnterStoreCode": "Please enter the store code",
+            "pleaseEnterAuthCode": "Please enter the authorization code",
+            "pleaseEnter8DigitAuthCode": "Please enter the 8-digit authorization code."
         }
     },
     "page": {

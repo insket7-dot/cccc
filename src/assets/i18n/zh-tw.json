@@ -137,6 +137,11 @@
             "total": "總數量{{num}}個",
             "confirmTip": "歡迎來到 Yaki！我們已經準備就緒，期待為您奉上美味的食物和貼心的服務。",
             "confirmPlaceOrder": "確認下單嘛？"
+        },
+        "login": {
+            "pleaseEnterStoreCode": "請輸入門店編碼",
+            "pleaseEnterAuthCode": "請輸入授權碼",
+            "pleaseEnter8DigitAuthCode": "請輸入8位授權碼"
         }
     },
     "page": {
