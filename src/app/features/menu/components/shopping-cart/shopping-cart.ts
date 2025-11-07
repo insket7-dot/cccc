@@ -1,5 +1,5 @@
 import { Component, computed, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CartDetailsBottomSheetComponent } from '../cart-details-bottom-sheet.component';
@@ -16,7 +16,7 @@ import { AppUrlService } from '@app/shared/services/app.url.service';
     standalone: true,
     templateUrl: './shopping-cart.html',
     styleUrl: './shopping-cart.scss',
-    imports: [MatListModule, CommonModule, TranslateModule, PriceI18nPipe],
+    imports: [MatListModule, CommonModule, TranslateModule, PriceI18nPipe, NgOptimizedImage],
 })
 export class ShoppingCartComponent extends AbstractAppPage {
     @Input() visible = false;

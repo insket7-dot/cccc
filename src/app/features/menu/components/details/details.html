@@ -1,6 +1,8 @@
 <div class="details">
     <div class="image">
-        <img [src]="item()?.imageUrl" alt="" />
+        @if (item()?.imageUrl) {
+            <img [src]="item()!.imageUrl" alt="" />
+        }
     </div>
 
     <div class="info">
@@ -32,19 +34,19 @@
 
             <div>
                 <span class="add" (click)="decreaseQuantity()">
-                    <img src="/assets/image/minus.png" alt="" />
+                    <img ngSrc="/assets/image/minus.png" alt="" height="30" width="30"/>
                 </span>
                 <span>{{ addQuantity() }}</span>
 
                 <span class="add" (click)="increaseQuantity()">
-                    <img src="/assets/image/add.png" alt="" />
+                    <img ngSrc="/assets/image/add.png" alt="" height="30" width="30"/>
                 </span>
             </div>
         </div>
     </div>
 
     <div class="add_button" (click)="addToCart()">
-        <img src="/assets/image/cart.png" alt="" />
+        <img ngSrc="/assets/image/cart.png" alt="" height="56" width="61"/>
         <span>{{ 'menu.detail.addCart' | translate }}</span>
     </div>
 </div>

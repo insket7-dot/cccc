@@ -8,7 +8,7 @@ import {
     ViewChild,
     signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
@@ -26,7 +26,15 @@ import { DetailsService } from '@app/features/menu/components/details/details.se
     templateUrl: './details.html',
     styleUrl: './details.scss',
 
-    imports: [CommonModule, TranslateModule, I18nFieldPipe, SingleItem, ComboItem, PriceI18nPipe],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        I18nFieldPipe,
+        SingleItem,
+        ComboItem,
+        PriceI18nPipe,
+        NgOptimizedImage,
+    ],
 })
 export class DetailsComponent extends AbstractAppPage {
     appMenuService = inject(AppMenuService);
