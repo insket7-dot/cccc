@@ -1,97 +1,102 @@
 <div class="login-container">
     <div class="top-bg">
-        <img src="/assets/image/logo.png" alt="yaki Logo" class="logo" />
+        <img ngSrc="/assets/image/logo.png" alt="yaki Logo" class="logo" fill/>
     </div>
 
-    @if(currentState === deviceState.BIND_DEVICE) {
+    @if (currentState === deviceState.BIND_DEVICE) {
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
+            <span class="title"> {{ 'page.storeCode' | translate }}</span>
+            <mat-form-field class="field">
+                <!-- <mat-label>Store code</mat-label> -->
+                <input
+                    matInput
+                    formControlName="storeCode"
+                    [placeholder]="'app.login.pleaseEnterStoreCode' | translate"
+                    minlength="5"
+                    maxlength="30"
+                />
+                <mat-hint></mat-hint>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
-        <span class="title"> {{ 'page.storeCode' | translate }}</span>
-        <mat-form-field class="field">
-            <!-- <mat-label>Store code</mat-label> -->
-            <input matInput formControlName="storeCode" placeholder="Type Store code" />
-            <mat-hint></mat-hint>
+                @if (loginForm.controls['storeCode'].hasError('required')) {
+                    <mat-error>
+                        {{ 'page.storeCodeRequired' | translate }}
+                    </mat-error>
+                }
+                @if (loginForm.controls['storeCode'].hasError('minlength')) {
+                    <mat-error> Store code must be at least 5 characters </mat-error>
+                }
+            </mat-form-field>
 
-            @if(loginForm.get('storeCode')?.hasError('required')) {
-            <mat-error>
-                {{ 'page.storeCodeRequired' | translate }}
-            </mat-error>
-            } @if(loginForm.get('storeCode')?.hasError('minlength')) {
+            <!-- Auth Code -->
+            <span class="title">{{ 'page.authCode' | translate }}</span>
 
-            <mat-error> Store code must be at least 5 characters </mat-error>
-            }
-        </mat-form-field>
+            <mat-form-field>
+                <!-- <mat-label>Auth code</mat-label> -->
+                <input
+                    matInput
+                    formControlName="authCode"
+                    [placeholder]="'app.login.pleaseEnterAuthCode' | translate"
+                    type="password"
+                    minlength="8"
+                    maxlength="8"
+                />
+                <!-- <mat-icon matSuffix>vpn_key</mat-icon> -->
+                <mat-hint></mat-hint>
+                @if (loginForm.controls['authCode'].hasError('required')) {
+                    <mat-error>
+                        {{ 'page.authCodeRequired' | translate }}
+                    </mat-error>
+                }
+                @if (loginForm.controls['authCode'].hasError('minlength')) {
+                    <mat-error> {{ 'app.login.pleaseEnter8DigitAuthCode' | translate }} </mat-error>
+                }
+            </mat-form-field>
 
-        <!-- Auth Code -->
-        <span class="title">{{ 'page.authCode' | translate }}</span>
-
-        <mat-form-field>
-            <!-- <mat-label>Auth code</mat-label> -->
-            <input
-                matInput
-                formControlName="authCode"
-                placeholder="Type Auth code"
-                type="password"
-            />
-            <!-- <mat-icon matSuffix>vpn_key</mat-icon> -->
-            <mat-hint></mat-hint>
-            @if(loginForm.get('authCode')?.hasError('required')) {
-
-            <mat-error>
-                {{ 'page.authCodeRequired' | translate }}
-            </mat-error>
-            } @if(loginForm.get('authCode')?.hasError('minlength')) {
-
-            <mat-error> Auth code must be at least 5 characters </mat-error>
-            }
-        </mat-form-field>
-
-        <!-- 环境选择 -->
-        <!-- <div class="environment-selection">
+            <!-- 环境选择 -->
+            <!-- <div class="environment-selection">
           <mat-radio-group formControlName="environment">
             <mat-radio-button value="production">Production Environment</mat-radio-button>
             <mat-radio-button value="test">Test Environment</mat-radio-button>
           </mat-radio-group>
         </div> -->
-    </form>
-    } @if(currentState === deviceState.LOGIN) {
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
-        <span class="title"> {{ 'page.password' | translate }}</span>
-        <mat-form-field class="field">
-            <input matInput formControlName="password" placeholder="password" />
-            <mat-hint></mat-hint>
-            @if(loginForm.get('password')?.hasError('required')) {
-
-            <mat-error>
-                {{ 'page.passwordRequired' | translate }}
-            </mat-error>
-            }
-        </mat-form-field>
-    </form>
-    } @if(currentState === deviceState.RESET) {
-
-    <div class="admin">
-        <button class="button submit-btn">
-            {{ 'page.resetConfig' | translate }}
+        </form>
+    }
+    @if (currentState === deviceState.LOGIN) {
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
+            <span class="title"> {{ 'page.password' | translate }}</span>
+            <mat-form-field class="field">
+                <input matInput formControlName="password" placeholder="password" />
+                <mat-hint></mat-hint>
+                @if (loginForm.controls['password'].hasError('required')) {
+                    <mat-error>
+                        {{ 'page.passwordRequired' | translate }}
+                    </mat-error>
+                }
+            </mat-form-field>
+        </form>
+    }
+    @if (currentState === deviceState.RESET) {
+        <div class="admin">
+            <button class="button submit-btn">
+                {{ 'page.resetConfig' | translate }}
+            </button>
+            <button class="button submit-btn">
+                {{ 'page.resetSystem' | translate }}
+            </button>
+            <button class="button submit-btn">
+                {{ 'page.loginOut' | translate }}
+            </button>
+        </div>
+    }
+    @if (currentState !== deviceState.RESET) {
+        <button
+            class="button submit-btn"
+            type="submit"
+            [disabled]="!loginForm.valid"
+            (click)="onSubmitHandler()"
+        >
+            {{ 'app.common.confirm' | translate }}
         </button>
-        <button class="button submit-btn">
-            {{ 'page.resetSystem' | translate }}
-        </button>
-        <button class="button submit-btn">
-            {{ 'page.loginOut' | translate }}
-        </button>
-    </div>
-    } @if(currentState !== deviceState.RESET) {
-
-    <button
-        class="button submit-btn"
-        type="submit"
-        [disabled]="!loginForm.valid"
-        (click)="onSubmitHandler()"
-    >
-        {{ 'app.common.confirm' | translate }}
-    </button>
     }
 
     <!-- 版本和设备编码 -->
