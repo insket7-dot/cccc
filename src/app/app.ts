@@ -49,7 +49,7 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
     protected readonly lastScan = signal<string | null>(null);
     protected readonly loading = signal<boolean>(false);
     public isWeb: boolean = false;
-    private initPlugin: boolean = false;
+    // private initPlugin: boolean = false;
 
     private readonly subscriptions: Subscription[] = [];
 
