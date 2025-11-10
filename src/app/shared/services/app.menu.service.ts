@@ -109,7 +109,7 @@ export class AppMenuService extends AbstractAppService {
                         if (!grillItem) {
                             return null;
                         }
-                        const targetProductIds = grillItem?.itemList.map((t) => t.productId);
+                        const targetProductIds = grill?.itemList.map((t) => t.productId);
                         grillItem.itemList =
                             grillItem?.itemList?.filter((t) =>
                                 targetProductIds?.includes(t.productId),
@@ -130,11 +130,10 @@ export class AppMenuService extends AbstractAppService {
                     if (!roundItem) {
                         return null;
                     }
-                    const targetProductIds = roundItem?.itemList.map((t) => t.productId);
+                    const targetProductIds = t?.itemList.map((i) => i.skuId);
                     roundItem.itemList =
-                        roundItem?.itemList?.filter((t) =>
-                            targetProductIds?.includes(t.productId),
-                        ) ?? [];
+                        roundItem?.itemList?.filter((x) => targetProductIds?.includes(x.skuId)) ??
+                        [];
                     return roundItem;
                 });
 
