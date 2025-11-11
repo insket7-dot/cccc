@@ -10,6 +10,7 @@ import { AppVoiceService } from '@app/shared/services/app.voice.service';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { CartService } from '@app/shared/services/cart.service';
 import { AppUrlService } from '@app/shared/services/app.url.service';
+import { SerialNumberService } from '@app/shared/services/serial-number.service';
 
 @Component({
     selector: 'app-screen',
@@ -47,9 +48,11 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
         private voiceService: AppVoiceService,
         private cartService: CartService,
         private readonly appUrlService: AppUrlService,
+        private serialNumberService: SerialNumberService,
     ) {
         super();
         void this.printOrderService; // 确保依赖注入
+        void this.serialNumberService; // 确保流水号依赖注入
         effect(() => {
             const images = this.appStoreService.carouselImagesValue();
             if (images && images.length > 0) {

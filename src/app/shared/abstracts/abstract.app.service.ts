@@ -11,8 +11,8 @@ import { ModelStateService } from '@app/shared/services/model-state.service';
 import { DeviceIdLoadStatus } from '@app/shared/constants/app.enums';
 
 export abstract class AbstractAppService extends AbstractService {
-    private readonly eventManager = inject(EventManager);
-    private readonly modelStateService = inject(ModelStateService);
+    protected readonly eventManager = inject(EventManager);
+    protected readonly modelStateService = inject(ModelStateService);
 
     protected constructor() {
         super();
