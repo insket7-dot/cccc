@@ -1,5 +1,5 @@
 .shop-layout {
-    padding: 0 20px 10px 60px;
+    padding: 0 20px 10px 40px;
 }
 .shopping-cart {
     background-color: var(--app-primary-color);
@@ -16,6 +16,31 @@
             position: absolute;
             top: -39px;
             left: -13px;
+        }
+
+        .count{
+            position: absolute;
+            top: -39px;
+            left: 30px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+            background-color: var(--app-primary-color);
+            border-radius: 50%;
+        }
+
+        .length {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            position: absolute;
+            top: -30px;
+            left: 35px;
+            background-color: var(--app-primary-color);
+            text-align: center;
+            line-height: 25px;
+            color: #fff;
         }
     }
 

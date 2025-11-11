@@ -170,7 +170,10 @@
         "continueText": "Continue",
         "addtip": "Add Tip",
         "percentage": "percentage",
-        "fixed": "fixed"
+        "fixed": "fixed",
+        "clear": "Clear",
+        "items": "items in total"
+
     },
     "menu": {
         "detail": {

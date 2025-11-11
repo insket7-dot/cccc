@@ -29,19 +29,19 @@
         }
 
         <!-- 价格 步进器-->
-        <div class="add_price">
-            <span class="price">{{ totalPrice() | priceI18n }}</span>
+    </div>
+    <div class="add_price">
+        <span class="price">{{ totalPrice() | priceI18n }}</span>
 
-            <div>
-                <span class="add" (click)="decreaseQuantity()">
-                    <img ngSrc="/assets/image/minus.png" alt="" height="30" width="30"/>
-                </span>
-                <span>{{ addQuantity() }}</span>
+        <div class="quantity">
+            <span class="add" (click)="decreaseQuantity()">
+                <img ngSrc="/assets/image/minus.png" alt="" height="30" width="30"/>
+            </span>
+            <span>{{ addQuantity() }}</span>
 
-                <span class="add" (click)="increaseQuantity()">
-                    <img ngSrc="/assets/image/add.png" alt="" height="30" width="30"/>
-                </span>
-            </div>
+            <span class="add" (click)="increaseQuantity()">
+                <img ngSrc="/assets/image/add.png" alt="" height="30" width="30"/>
+            </span>
         </div>
     </div>
 

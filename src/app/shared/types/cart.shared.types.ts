@@ -59,6 +59,7 @@ export interface ShopCartProduct extends CartExtra {
     productId: string; // 商品ID
     quantity: number;
     subtotal?: number; // 用于缓存小计
+    price: number; 
 }
 
 /**

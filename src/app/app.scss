@@ -26,3 +26,6 @@
     overflow-y: visible !important;
 }
 
+::ng-deep .cdk-overlay-container{
+     pointer-events:auto !important;
+}

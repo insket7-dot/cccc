@@ -1,6 +1,7 @@
 .details {
     width: 100%;
     height: 100vh;
+    background-color: #fff;
 
     .image {
         width: 100%;
@@ -18,6 +19,8 @@
         border-top-right-radius: 20px;
         padding: 20px 20px 60px;
         box-sizing: border-box;
+        height: 510px;
+    overflow-y: auto;
 
         &-top {
             margin-bottom: 40px;
@@ -31,8 +34,26 @@
             color: #999999;
         }
 
-        .add_price {
-            padding: 40px 0 20px;
+    }
+    .add_price {
+        // padding: 40px 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+         width: 80%;
+         margin: 0 auto;
+
+        .price{
+            color: var(--app-primary-color);
+            font-size: 30px;
+        }
+
+        .quantity{
+            width: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
         }
     }
 

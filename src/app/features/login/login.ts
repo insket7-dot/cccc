@@ -79,6 +79,8 @@ export class Login extends AbstractAppPage implements OnInit {
                     this.router
                         .navigate([this.appUrlService.getPageUrlValue('PAGE_SCREEN')], {})
                         .catch((error) => console.error(error));
+                } else {
+this.error(result.msg);
                 }
             }
         } else {

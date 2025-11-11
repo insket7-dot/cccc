@@ -223,6 +223,7 @@
                             font-weight: 500;
                             display: flex;
                             justify-content: space-between;
+                            text-align: right;
                             &-starting {
                                 font-size: 12px;
                                 margin-left: 4px;
@@ -252,4 +253,5 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+        z-index: 9999999;
 }

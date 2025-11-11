@@ -58,7 +58,7 @@
                         </p>
 
                         @for (item of entry.menuVoList; track item.productId) {
-                            <div class="dish">
+                            <div class="dish" (click)="openDetail(item)">
                                 <div class="dish_left"><img [src]="item.imageUrl" alt="" /></div>
                                 <div class="dish_right">
                                     <div class="dish_name">
@@ -76,13 +76,17 @@
                                         </span>
                                         <div>
                                             @if (item.quantity > 0) {
-                                                <span class="add" (click)="openCart()">
+                                                <span class="add" (click)="openCart(); $event.stopPropagation()">
                                                     <img src="/assets/image/minus.png" alt="" />
                                                 </span>
                                                 <span>{{ item.quantity || 0 }}</span>
+                                            } @else{
+                                                 <span class="add">
+                                                </span>
+                                                <span></span>
                                             }
 
-                                            <span class="add" (click)="openDetail(item)">
+                                            <span class="add" >
                                                 <img src="/assets/image/add.png" alt="" />
                                             </span>
                                         </div>
@@ -95,7 +99,7 @@
             </div>
         </div>
 
-        <menu-shopping-cart class="shop-cart" [(visible)]="cartVisible"></menu-shopping-cart>
+        <menu-shopping-cart class="shop-cart" #ShoppingCartComponent ></menu-shopping-cart>
     </div>
 }
 

@@ -87,6 +87,7 @@ export class IdleTimeoutService {
         this.dialogRef = this.dialog.open(TimeoutWarningComponent, {
             width: '300px',
             disableClose: true,
+            backdropClass: 'timeout-backdrop',
             data: {
                 countdown: this.countdown.asObservable(),
             },

@@ -20,6 +20,7 @@ export class DetailsService {
             productType: item?.productType ?? '',
             productId: item?.productId ?? '',
             quantity: addQuantity ?? 1,
+            price: item?.price ?? 0,
         };
         // 单品数据组装
         if (item?.productType === ProductType.PRODUCT) {

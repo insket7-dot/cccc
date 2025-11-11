@@ -2,7 +2,7 @@
     <div class="shopping-cart">
         <div class="cart" (click)="showDetails()">
             <img class="shop" ngSrc="/assets/image/shop.png" alt="" height="133" width="96" />
-            <span>{{ 'menu.count' | translate }}: {{ cartTotalCount() }}</span>
+            <span class="count">{{ cartTotalCount() }}</span>
         </div>
         <div class="price">
             <div class="text">{{ cartTotalPrice() | priceI18n }}</div>
@@ -13,15 +13,4 @@
     </div>
 </div>
 
-<mat-nav-list>
-    @for (item of cartList(); track item.cartId) {
-        <mat-list-item>
-            <div>{{ item.cartId }}</div>
-            <div class="cart-control">
-                <span class="cart-icon" (click)="itemSubtraction(item.cartId)">-</span>
-                <span>{{ item.quantity }}</span>
-                <span class="cart-icon" (click)="itemAdd(item.cartId)">+</span>
-            </div>
-        </mat-list-item>
-    }
-</mat-nav-list>
+

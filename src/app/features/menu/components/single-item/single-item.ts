@@ -28,17 +28,20 @@ export class SingleItem extends AbstractAppPage {
 
     constructor() {
         super();
+
     }
 
     item = computed(() => this.data);
     // 当前选中的规格（单选）
     readonly selectedSpec = signal<string | null>(null);
+    readonly selectedSpecName = signal<string | null>(null);
 
     // 当前选中的加料（多选）
     readonly selectedGrills = signal<MenuGrillItem[]>([]);
 
     onSpecChange(value: string) {
         this.selectedSpec.set(value);
+        this.selectedSpecName.set(this.item()?.specList?.find((x) => x.skuId === value)?.skuNameCn ?? null);
         this.getSelection();
     }
 
@@ -72,11 +75,13 @@ export class SingleItem extends AbstractAppPage {
         const specItem = this.item()?.specList?.find((x) => x.skuId === this.selectedSpec());
         const result = {
             skuId: this.selectedSpec() ?? undefined,
+            skuNameCn: this.selectedSpecName() ?? undefined,
             skuPrice: specItem?.price ?? 0,
             grillList: this.selectedGrills().map((t) => ({
                 grillId: t.grillCode,
                 itemList: t.itemList.map((x) => ({
                     productId: x.productId,
+                    productNameCn: x.productNameCn,
                     price: x.price,
                     quantity: 1,
                 })),

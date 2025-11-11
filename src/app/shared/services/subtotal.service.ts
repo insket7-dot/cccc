@@ -27,7 +27,9 @@ export class SubtotalService {
                     return this.priceService.add(sum, groupTotal);
                 }, this.priceService.zero());
 
-                subtotal = this.priceService.add(subtotal, grillTotal);
+                subtotal = this.priceService.add(subtotal, grillTotal, item.price);
+            } else {
+                subtotal = this.priceService.add(item.price);
             }
         }
         // 套餐价格
@@ -44,7 +46,9 @@ export class SubtotalService {
                     return this.priceService.add(sum, groupTotal);
                 }, this.priceService.zero());
 
-                subtotal = this.priceService.add(subtotal, roundTotal);
+                subtotal = this.priceService.add(subtotal, roundTotal, item.price);
+            } else {
+                subtotal = this.priceService.add(item.price);
             }
         }
 
