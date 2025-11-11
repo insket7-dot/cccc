@@ -102,16 +102,16 @@ export class SingleItem extends AbstractAppPage {
             return false;
         }
         // 存在加料
-        if (this.item()?.grillList?.length) {
-            for (const g of this.item()?.grillList ?? []) {
-                if (!this.getSelectedSku(g.grillCode)) {
-                    this.error(this.translate.instant('menu.detail.grill.required')).catch(
-                        (error) => console.error(error),
-                    );
-                    return false;
-                }
-            }
-        }
+        // if (this.item()?.grillList?.length) {
+        //     for (const g of this.item()?.grillList ?? []) {
+        //         if (!this.getSelectedSku(g.grillCode)) {
+        //             this.error(this.translate.instant('menu.detail.grill.required')).catch(
+        //                 (error) => console.error(error),
+        //             );
+        //             return false;
+        //         }
+        //     }
+        // }
         return true;
     }
 }

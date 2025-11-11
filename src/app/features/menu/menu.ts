@@ -82,6 +82,8 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     ) {
         super();
+
+
     }
 
     ngAfterViewInit() {
@@ -185,7 +187,6 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         });
 
         bottomSheetRef.afterDismissed().subscribe((result) => {
-            console.log('面板已关闭，返回结果：', result);
         });
     }
 }

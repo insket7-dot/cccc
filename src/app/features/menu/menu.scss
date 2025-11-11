@@ -255,3 +255,9 @@
     width: 100%;
         z-index: 9999999;
 }
+
+
+::ng-deep .mat-elevation-z2{
+    position: fixed !important;
+        bottom: 100px !important;
+}
