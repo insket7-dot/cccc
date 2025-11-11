@@ -30,6 +30,8 @@ export enum ProductType {
     PRODUCT = '1',
     // 套餐
     COMBO = '2',
+    // 餐盒费
+    BOX = '11',
 }
 
 /**
