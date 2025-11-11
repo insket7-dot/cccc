@@ -87,7 +87,6 @@ export class ShoppingCartComponent extends AbstractAppPage {
         });
 
         bottomSheetRef.afterDismissed().subscribe((result) => {
-            console.log('面板已关闭，返回结果：', result);
         });
     }
 

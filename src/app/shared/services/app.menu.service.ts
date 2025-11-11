@@ -80,14 +80,16 @@ export class AppMenuService extends AbstractAppService {
     readonly cartListValue = computed(() => {
         const menuMap = this.menuIdMap();
         const cartList = this.cartService.cartList();
+
         const cartListResult = cartList.map((item) => {
             const productInfo = menuMap.get(item.productId);
+            const copiedProductInfo = (JSON.parse(JSON.stringify(productInfo)) as menuListItem)
             const result: cartViewItem = {
                 cartId: item.cartId,
                 productId: item.productId,
-                productName: this.i18nTextService.get(productInfo, 'productName'),
-                imageUrl: productInfo?.imageUrl ?? '',
-                productType: productInfo?.productType ?? ProductType.PRODUCT,
+                productName: this.i18nTextService.get(copiedProductInfo, 'productName'),
+                imageUrl: copiedProductInfo?.imageUrl ?? '',
+                productType: copiedProductInfo?.productType ?? ProductType.PRODUCT,
                 quantity: item.quantity,
                 subtotal: item.subtotal ?? 0,
             };
@@ -96,14 +98,14 @@ export class AppMenuService extends AbstractAppService {
             if (item.productType === ProductType.PRODUCT) {
                 // 规格
                 if (item.skuId) {
-                    result.spec = (productInfo?.specList || []).find(
+                    result.spec = (copiedProductInfo?.specList || []).find(
                         (sku) => sku.skuId === item.skuId,
                     );
                 }
                 // 加料
                 if (item.grillList) {
                     const list = item.grillList.map((grill) => {
-                        const grillItem = (productInfo?.grillList || []).find(
+                        const grillItem = (copiedProductInfo?.grillList || []).find(
                             (t) => t.grillCode === grill.grillId,
                         );
                         if (!grillItem) {
@@ -124,7 +126,7 @@ export class AppMenuService extends AbstractAppService {
             // 套餐-轮次
             if (item.productType === ProductType.COMBO) {
                 const list = (item?.rounds ?? []).map((t) => {
-                    const roundItem = (productInfo?.setMealList || []).find(
+                    const roundItem = (copiedProductInfo?.setMealList || []).find(
                         (x) => x.round === t.roundId,
                     );
                     if (!roundItem) {

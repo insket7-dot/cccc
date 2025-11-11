@@ -60,6 +60,8 @@ export class DetailsComponent extends AbstractAppPage {
     // 菜品详情数据
     item = computed(() => {
         const menuMap = this.appMenuService.menuIdMapValue();
+
+
         return this.id ? menuMap.get(this.id) : null;
     });
 
@@ -107,6 +109,8 @@ export class DetailsComponent extends AbstractAppPage {
     }
 
     close() {
+
         this.onClose.emit();
+
     }
 }
