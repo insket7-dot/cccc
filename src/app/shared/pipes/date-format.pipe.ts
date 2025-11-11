@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform, inject, LOCALE_ID } from '@angular/core';
-import { formatDate } from '@angular/common';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DateUtils } from '@app/shared/services/date-utils.service';
 
 @Pipe({
     name: 'dateFormat',
@@ -8,33 +8,16 @@ import { TranslateService } from '@ngx-translate/core';
     pure: false, // 语言切换时需要重新计算
 })
 export class DateFormatPipe implements PipeTransform {
-    private readonly locale = inject(LOCALE_ID);
     private readonly translate = inject(TranslateService);
-    private resolveLocale(): string {
-        const lang = (this.translate.getCurrentLang() || '').toLowerCase();
-        switch (lang) {
-            case 'en-us':
-            case 'en':
-                return 'en-US';
-            case 'zh-tw':
-            case 'zh-hant':
-                return 'zh-TW';
-            case 'zh-cn':
-            case 'zh':
-            case 'zh-hans':
-                return 'zh-CN';
-            default:
-                return this.locale || 'en-US';
-        }
-    }
+    private readonly dateUtils = inject(DateUtils);
 
     transform(value: string | Date | null | undefined, format?: string): string {
         if (!value) return '';
         const date = value instanceof Date ? value : new Date(value);
         if (isNaN(date.getTime())) return '';
         const fmt = format || this.translate.instant('app.common.dateFormat') || 'yyyy-MM-dd';
-        const effectiveLocale = this.resolveLocale();
-        return formatDate(date, fmt, effectiveLocale);
+
+        return this.dateUtils.formatDate(date, fmt);
     }
 }
 
@@ -44,33 +27,15 @@ export class DateFormatPipe implements PipeTransform {
     pure: false, // 语言切换时需要重新计算
 })
 export class DateTimeFormatPipe implements PipeTransform {
-    private readonly locale = inject(LOCALE_ID);
     private readonly translate = inject(TranslateService);
-    private resolveLocale(): string {
-        const lang = (this.translate.currentLang || '').toLowerCase();
-        switch (lang) {
-            case 'en-us':
-            case 'en':
-                return 'en-US';
-            case 'zh-tw':
-            case 'zh-hant':
-                return 'zh-TW';
-            case 'zh-cn':
-            case 'zh':
-            case 'zh-hans':
-                return 'zh-CN';
-            default:
-                return this.locale || 'en-US';
-        }
-    }
+    private readonly dateUtils = inject(DateUtils);
 
     transform(value: string | Date | null | undefined, format?: string): string {
         if (!value) return '';
         const date = value instanceof Date ? value : new Date(value);
         if (isNaN(date.getTime())) return '';
-        const fmt = format || this.translate.instant('app.common.dateTimeFormat') || 'yyyy-MM-dd HH:mm:ss';
-        const effectiveLocale = this.resolveLocale();
-        return formatDate(date, fmt, effectiveLocale);
+        const fmt =
+            format || this.translate.instant('app.common.dateTimeFormat') || 'yyyy-MM-dd HH:mm:ss';
+        return this.dateUtils.formatDateTime(date, fmt);
     }
 }
-
