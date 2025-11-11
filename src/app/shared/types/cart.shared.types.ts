@@ -59,7 +59,7 @@ export interface ShopCartProduct extends CartExtra {
     productId: string; // 商品ID
     quantity: number;
     subtotal?: number; // 用于缓存小计
-    price: number; 
+    price: number;
 }
 
 /**
@@ -71,23 +71,10 @@ export interface cartViewItem {
     productName: string;
     imageUrl: string;
     productType: string | ProductType;
+    price: number; // 商品单价
     subtotal?: number; // 用于缓存小计
     quantity: number;
     spec?: MenuSpecItem; // 单品规格
     grill?: MenuGrillItem[]; // 单品加料
     rounds?: MenuRoundItem[]; // 套餐轮次
-}
-
-/**
- * @desc 购物车价格报文
- */
-export interface ShopCartPrice {
-    [key: string]: any;
-}
-
-/**
- * @desc 购物车订单生成报文结构
- */
-export interface ShopCartOrder {
-    [key: string]: any;
 }

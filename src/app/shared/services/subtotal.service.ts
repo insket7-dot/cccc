@@ -8,7 +8,7 @@ export class SubtotalService {
     constructor(private priceService: PriceService) {}
 
     subtotalComputed(item: Partial<ShopCartProduct>) {
-        let subtotal = this.priceService.zero();
+        let subtotal = this.priceService.init(item.price ?? 0);
         // 单品价格
         if (item.productType === ProductType.PRODUCT) {
             // 规格
@@ -27,9 +27,7 @@ export class SubtotalService {
                     return this.priceService.add(sum, groupTotal);
                 }, this.priceService.zero());
 
-                subtotal = this.priceService.add(subtotal, grillTotal, item.price);
-            } else {
-                subtotal = this.priceService.add(item.price);
+                subtotal = this.priceService.add(subtotal, grillTotal);
             }
         }
         // 套餐价格
@@ -46,12 +44,10 @@ export class SubtotalService {
                     return this.priceService.add(sum, groupTotal);
                 }, this.priceService.zero());
 
-                subtotal = this.priceService.add(subtotal, roundTotal, item.price);
-            } else {
-                subtotal = this.priceService.add(item.price);
+                subtotal = this.priceService.add(subtotal, roundTotal);
             }
         }
 
-        return this.priceService.toNumber(this.priceService.mul(subtotal, item.quantity));
+        return this.priceService.toNumber(this.priceService.mul(subtotal, item.quantity ?? 1));
     }
 }

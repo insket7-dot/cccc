@@ -22,7 +22,7 @@ export class CartService {
     // 购物车总价
     readonly cartTotal = computed(() => {
         const total = this.priceService.toNumber(
-            this.priceService.sumList(this.cartList().map((item) => item.subtotal)),
+            this.priceService.sumList(this.cartList().map((item) => item.subtotal ?? 0)),
         );
         const totalCount = this.cartList().reduce((acc, item) => acc + item.quantity, 0);
         return {
