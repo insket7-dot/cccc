@@ -52,6 +52,6 @@ export class DetailsService {
     }
 
     detailSubtotal(data: BuildCartData): number {
-        return this.subtotalService.subtotalComputed(this.buildCartProduct(data));
+        return this.subtotalService.subtotalComputed(this.buildCartProduct(data)).subtotal ?? 0;
     }
 }

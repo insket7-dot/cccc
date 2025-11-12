@@ -49,23 +49,87 @@ export interface CartExtra {
 }
 
 /**
- * @desc 购物车菜品子项
+ * @desc 税费字段
+ */
+export interface CartTaxTypes {
+    /* ------------------ 🧾 税费与金额相关（计算后生成，可选） ------------------ */
+    /** 页面展示总价（已含内含税 + 外税） */
+    subtotal?: number;
+
+    /** 菜单显示小计（含内含税，但不含外税） */
+    displaySubtotal?: number;
+
+    /** 税前金额（未含任何消费税） */
+    priceExcludingInternalTax?: number;
+
+    /** 内含税金额（该菜品本身价格中已含的消费税部分） */
+    internalTax?: number;
+
+    /** 外含税金额（需额外加在价格上的消费税部分） */
+    externalTax?: number;
+
+    /** 行级总价（计算用，内含税 + 外税） */
+    lineTotal?: number;
+
+    /** 基础单价（未含税） */
+    unitBasePrice?: number;
+
+    /** 单品内含税金额 */
+    unitInternalTax?: number;
+
+    /** 单品外含税金额 */
+    unitExternalTax?: number;
+
+    /* ------------------ 💰 附加费（如果存在） ------------------ */
+
+    /** 附加费金额 */
+    surchargeAmount?: number;
+
+    /** 附加费对应消费税 */
+    surchargeTaxAmount?: number;
+
+    /* ------------------ 💳 支付相关 ------------------ */
+
+    /** 支付手续费（如信用卡） */
+    paymentFee?: number;
+
+    /** 最终应支付金额（含所有税费） */
+    totalPayable?: number;
+
+    /* ------------------ 📊 辅助信息 ------------------ */
+
+    /** 适用税种类型：'exclusive' | 'inclusive' | 'exempt' */
+    taxType?: 'exclusive' | 'inclusive' | 'exempt';
+
+    /** 消费税税率 */
+    taxRate?: number;
+
+    /** 计算时间戳，用于缓存或追踪 */
+    computedAt?: number;
+}
+
+/**
+ * @desc 购物车菜品子项 - 原始数据
  * 单品唯一ID设计： productType + productId + skuId + (n * (grillId + n * productId))
  * 组合唯一ID设计： productType + productId + (n * (roundId + n * skuId))
  */
-export interface ShopCartProduct extends CartExtra {
+export interface ShopCartProductOrigin {
     cartId: string; // 购物车组合唯一ID
     productType: ProductType | string; // 商品类型(单品、套餐）
     productId: string; // 商品ID
     quantity: number;
-    subtotal?: number; // 用于缓存小计
     price: number;
+    subtotal?: number;
+    taxData?: CartTaxTypes;
 }
+/** @desc 购物车菜品子项 - 包含扩展字段与税费字段 */
+export type ShopCartProduct = ShopCartProductOrigin & CartExtra;
 
 /**
  * @desc 购物车展示列表Item
  */
-export interface cartViewItem {
+export type cartViewItem = {
+    taxData?: CartTaxTypes; // 税费数据
     cartId: string;
     productId: string;
     productName: string;
@@ -77,4 +141,4 @@ export interface cartViewItem {
     spec?: MenuSpecItem; // 单品规格
     grill?: MenuGrillItem[]; // 单品加料
     rounds?: MenuRoundItem[]; // 套餐轮次
-}
+};

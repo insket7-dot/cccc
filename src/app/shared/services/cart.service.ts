@@ -49,12 +49,22 @@ export class CartService {
     }
 
     /**
-     * @desc 更新小计价格
+     * @desc 计算并更新购物车商品的小计价格
+     * @param item 购物车商品项
+     * @returns 更新后的购物车商品项（新对象）
      */
     private updateSubtotal(item: ShopCartProduct) {
-        item.subtotal = this.subtotalService.subtotalComputed(item);
+        // 计算小计相关数据
+        const computedData = this.subtotalService.subtotalComputed(item);
 
-        return item;
+        // 创建包含计算结果的新对象
+        const updatedItem = { ...item, subtotal: computedData.subtotal, taxData: computedData };
+
+        // 更新购物车中的商品数据
+        this._cartMap.set(item.cartId, updatedItem);
+
+        // 返回更新后的新对象，保持API一致性
+        return updatedItem;
     }
 
     /**

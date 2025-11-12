@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { PriceService } from '@app/shared/services/price.service';
-import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
+import { CartTaxTypes, ShopCartProduct } from '@app/shared/types/cart.shared.types';
 import { ProductType } from '@app/shared/constants/menu.constants';
 
 @Injectable({ providedIn: 'root' })
 export class SubtotalService {
     constructor(private priceService: PriceService) {}
 
-    subtotalComputed(item: Partial<ShopCartProduct>) {
+    subtotalComputed(item: ShopCartProduct) {
         let subtotal = this.priceService.init(item.price ?? 0);
         // 单品价格
         if (item.productType === ProductType.PRODUCT) {
@@ -48,6 +48,50 @@ export class SubtotalService {
             }
         }
 
-        return this.priceService.toNumber(this.priceService.mul(subtotal, item.quantity ?? 1));
+        const qty = item.quantity ?? 1;
+
+        // ---------- 税种处理 ----------
+        const taxType = (item as any).taxType ?? 'NONE';
+        const taxRate = (item as any).taxRate ?? 0;
+
+        // 按单价（单件）计算，再乘以 qty。也可以先乘 qty 再算，取决于你的四舍五入策略。
+        let internalTaxSingle = this.priceService.zero();
+        let externalTaxSingle = this.priceService.zero();
+        let priceExclInternalSingle = subtotal;
+
+        if (taxType === 'INTERNAL' && taxRate > 0) {
+            // 内含税：从 base 中剥离税额
+            internalTaxSingle = this.priceService.sub(
+                subtotal,
+                this.priceService.div(subtotal, this.priceService.add(1, taxRate)),
+            );
+            priceExclInternalSingle = this.priceService.sub(subtotal, internalTaxSingle);
+        } else if (taxType === 'EXTERNAL' && taxRate > 0) {
+            // 外含税：需要额外计算
+            externalTaxSingle = this.priceService.mul(subtotal, taxRate);
+        }
+
+        // 按 quantity 计算行级金额（并在这里做四舍五入到分）
+        const displaySubtotal = this.priceService.mul(subtotal, qty); // 菜单上显示的合计（含内含税）
+        const internalTax = this.priceService.mul(internalTaxSingle, qty);
+        const externalTax = this.priceService.mul(externalTaxSingle, qty);
+        const priceExcludingInternalTax = this.priceService.mul(priceExclInternalSingle, qty);
+
+        // lineTotal: 顾客应付该菜目小计（注意：内含税已包含在 displaySubtotal；外含税需加上）
+        const lineTotal = this.priceService.add(displaySubtotal, externalTax);
+
+        const data: CartTaxTypes = {
+            displaySubtotal: this.priceService.toNumber(displaySubtotal),
+            priceExcludingInternalTax: this.priceService.toNumber(priceExcludingInternalTax),
+            internalTax: this.priceService.toNumber(internalTax),
+            externalTax: this.priceService.toNumber(externalTax),
+            lineTotal: this.priceService.toNumber(lineTotal),
+            // 可保留原始 base 单价便于 UI 展示:
+            subtotal: this.priceService.toNumber(lineTotal),
+            unitBasePrice: this.priceService.toNumber(subtotal),
+            unitInternalTax: this.priceService.toNumber(internalTaxSingle),
+            unitExternalTax: this.priceService.toNumber(externalTaxSingle),
+        };
+        return data;
     }
 }

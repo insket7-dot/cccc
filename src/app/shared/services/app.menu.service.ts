@@ -83,6 +83,7 @@ export class AppMenuService extends AbstractAppService {
         const cartListResult = cartList.map((item) => {
             const productInfo = structuredClone(menuMap.get(item.productId));
             const result: cartViewItem = {
+                taxData: item.taxData ?? {}, // 税费数据
                 cartId: item.cartId,
                 productId: item.productId,
                 productName: this.i18nTextService.get(productInfo, 'productName'),

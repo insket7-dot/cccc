@@ -54,3 +54,41 @@ export enum DeviceIdLoadStatus {
     /** 加载失败 */
     FAILED = 'failed',
 }
+
+/** 渠道枚举 */
+export enum OrderChannelEnums {
+    /** 订单渠道 */
+    ORDER_CHANNEL = '201',
+}
+
+/** 订单类型枚举 */
+export enum OrderTypeEnums {
+    /** 订单类型-自取 */
+    ORDER_TYPE_TAKE_IN = 2,
+    /** 订单类型-外送 */
+    ORDER_TYPE_DELIVERY = 1,
+}
+
+/** 支付模式枚举 */
+export enum OrderPayModeEnums {
+    /** 支付模式-在线支付 */
+    ORDER_PAY_MODE_ONLINE = 2,
+    /** 支付模式-线下支付 */
+    ORDER_PAY_MODE_PAC = 1,
+}
+
+/** 是否是预约单 */
+export enum OrderBookingFlagEnums {
+    /** 是否是预约单 0：即时单 */
+    ORDER_BOOKING_FLAG_INSTANT = 0,
+    /** 是否是预约单 1:预约单 */
+    ORDER_BOOKING_FLAG_RESERVATION = 1,
+}
+
+/** 是否开发票 */
+export enum OrderNeedInvoiceEnums {
+    /** 是否开发票 0：不开发票 */
+    ORDER_NEED_INVOICE_NO = 0,
+    /** 是否开发票 1：开发票 */
+    ORDER_NEED_INVOICE_YES = 1,
+}

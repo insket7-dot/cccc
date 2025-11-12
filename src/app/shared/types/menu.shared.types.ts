@@ -115,7 +115,7 @@ export interface MenuRoundItemSku {
     defaultQuantity: number;
     end_date: string;
     freeFlag: string;
-    lQuantity: number;
+    quantity: number;
     lowerStatus: string;
     originalPrice: number;
     price: number;
@@ -146,6 +146,7 @@ interface GrillItem {
     maxQuantity: number;
     minQuantity: number;
     price: number;
+    quantity?: number;
     priceThreshold: number;
     productId: string;
     productNameCn: string;
