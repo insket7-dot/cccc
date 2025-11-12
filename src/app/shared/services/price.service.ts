@@ -74,7 +74,12 @@ export class PriceService {
 
     /** 输出安全的两位小数 Number */
     toNumber(value: number | string | Decimal, digits = 2): number {
-        return Number(this.d(value).toFixed(digits));
+        return this.d(value).toDecimalPlaces(digits).toNumber();
+    }
+
+    /** 输出安全的固定小数位数字符串 */
+    toFixed(value: number | string | Decimal, digits = 2): string {
+        return this.d(value).toFixed(digits);
     }
 
     /** 格式化成货币 */
@@ -88,6 +93,6 @@ export class PriceService {
      * @returns 分
      */
     toFen(value: number | string | Decimal): number {
-        return Number(this.mul(value, 100));
+        return this.mul(value, 100).toDecimalPlaces(0).toNumber();
     }
 }
