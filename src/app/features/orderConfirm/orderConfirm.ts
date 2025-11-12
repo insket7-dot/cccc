@@ -12,6 +12,7 @@ import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { ModelStateService } from '@app/shared/services/model-state.service';
+import { SerialNumberService } from '@app/shared/services/serial-number.service';
 
 @Component({
     selector: 'app-orderConfirm',
@@ -29,6 +30,7 @@ export class OrderConfirm extends AbstractAppPage {
         private appMenuService: AppMenuService,
         private readonly appUrlService: AppUrlService,
         private readonly modelStateService: ModelStateService,
+        private readonly serialNumberService: SerialNumberService,
     ) {
         super();
     }
@@ -77,6 +79,8 @@ export class OrderConfirm extends AbstractAppPage {
                         this.cartService.clearCart();
                         // 清空选择状态
                         this.modelStateService.clearUserSelectState();
+                        // 流水号增加
+                        this.serialNumberService.generateNextSerialNumber().catch(console.error);
                         this.router
                             .navigate([this.appUrlService.getPageUrlValue('PAGE_HOME')])
                             .catch(console.error);
