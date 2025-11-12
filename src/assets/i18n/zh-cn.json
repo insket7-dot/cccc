@@ -196,5 +196,12 @@
             "deleteTip": "确定删除商品嘛？",
             "addRequired": "请加购商品"
         }
+    },
+    "submit":{
+        "backToHome": "返回首页",
+        "success_text1":"订单提交成功",
+        "success_text2":"请到前台付款",
+        "totalTip":"小费合计",
+        "tip":"小费"
     }
 }

@@ -1,31 +1,39 @@
 <div class="orderConfirm">
-    <div class="back" (click)="back()">
-        <img class="back_icon" src="/assets/image/back.png" alt="" />
-        <span class="text">{{ 'page.orderDetails' | translate }}</span>
-    </div>
-
-    <div class="store_info">
-        <div class="storeName">{{ 'app.common.title' | translate }}({{ storeBaseInfo()?.storeCode }})</div>
-
-        <div class="text">
-           {{ 'app.order.confirmTip' | translate }}
+    <div class="top_bg">
+        <img class="bg" src="/assets/image/orderBG.png" alt="" />
+        <img class="success" src="/assets/image/success.png" alt="" />
+        <div class="text_div">
+            <div class="text">{{ 'submit.success_text1' | translate }}</div>
+            <div class="text2">{{ 'submit.success_text2' | translate }}</div>
         </div>
     </div>
 
-    <div class="menu store_info">
-        <div class="menu_top">
+    <div class="order_info">
+        <div class="line">
+            <div class="line_name">Order Number</div>
+            <div class="line_value">123123123</div>
+        </div>
+        <div class="line">
+            <div class="line_name">Retrieval Code</div>
+            <div class="line_value">66</div>
+        </div>
+        <div class="line">
+            <div class="line_name">Order Amount</div>
+            <div class="line_value">123</div>
+        </div>
+    </div>
+
+    <div class="order_cart">
+         <div class="menu_top">
             <div class="menu_top_left">
                 {{ 'app.order.total' | translate: { num: cartTotalCount() } }}
             </div>
-            <div class="addTip" (click)="addTip()">
-                <img src="/assets/image/fee.png" alt="" />
-                <span>{{ 'page.addtip' | translate }}</span>
-            </div>
+
         </div>
 
         <div class="menu_list">
             @for (item of cartList(); track item.cartId) {
-                <div class="menu-item">
+               <div class="menu-item">
                     <div class="left">
                         <div class="dishName">{{ item.productName }}</div>
                          @if (item.productType === ProductType.PRODUCT) {
@@ -55,11 +63,7 @@
         </div>
     </div>
 
-    <div class="bottom">
-        <div class="total">
-            {{ 'app.common.total' | translate }}： {{ cartTotalPrice() | priceI18n }}
-        </div>
-
-        <div class="continue" (click)="orderConfirm()">{{ 'app.common.order' | translate }}</div>
+    <div class="back_to_home" (click)="goHome()">
+        {{ 'submit.backToHome' | translate }}
     </div>
 </div>

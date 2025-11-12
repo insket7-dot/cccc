@@ -82,8 +82,20 @@
             .menu-item {
                 display: flex;
                 justify-content: space-between;
+                margin-top: 10px;
+                max-height: 450px;
+                overflow-y: auto;
+
             }
-            
+
+            .dishName{
+                font-size: 18px;
+            }
+
+            .spec,.num{
+                color: #9c9c9c;
+            }
+
             .price {
                 font-size: 18px;
             }

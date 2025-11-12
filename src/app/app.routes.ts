@@ -36,4 +36,9 @@ export const routes: Routes = [
         loadComponent: () => import('./features/orderConfirm/orderConfirm').then((m) => m.OrderConfirm),
         data: { animation: 'screen' },
     },
+    {
+        path: 'submitOrder',
+        loadComponent: () => import('./features/submitOrder/submitOrder').then((m) => m.SubmitOrder),
+        data: { animation: 'screen' },
+    },
 ];

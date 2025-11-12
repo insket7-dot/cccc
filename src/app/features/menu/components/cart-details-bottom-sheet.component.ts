@@ -13,9 +13,7 @@ import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe'
 import { CartService } from '@app/shared/services/cart.service';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
 import { AbstractAppPage } from '@/app/shared/abstracts/abstract.app.page';
-import { DetailsService } from '@app/features/menu/components/details/details.service';
-import { SubtotalService } from '@app/shared/services/subtotal.service';
-import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
+
 
 
 
@@ -37,8 +35,8 @@ import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
                 @for (item of cartList(); track item.cartId) {
                     <div class="item-div">
                         <div class="text-div">
+                            <div class="productName">{{ item.productName }}</div>
                             @if (item.productType === ProductType.PRODUCT) {
-                                <div class="productName">{{ item.productName }}</div>
                                 <div class="spec">
                                     {{ item.spec?.skuNameCn }} /
                                     @for (
@@ -55,7 +53,6 @@ import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
                                 </div>
                             }
                             @if (item.productType === ProductType.COMBO) {
-                                <div class="productName">{{ item?.productName }}</div>
                                 <div class="spec">
                                     @for (
                                         grillList of item.rounds || [];

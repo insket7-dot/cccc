@@ -6,7 +6,7 @@
 
     <div class="type">
         @for (item of tipTypeList; track item.value) {
-        <span [class.active]="item.value === tipType" (click)="changeType(item.value)">{{
+        <span [class.active]="item.value === tipType()" (click)="changeType(item.value)">{{
             item.name | translate
         }}</span>
 
@@ -14,28 +14,28 @@
     </div>
 
     <div class="fee">
-        @if(tipType === 'percentage') {
+        @if(tipType() === 'percentage') {
         <div class="percentage">
             <div class="percentage_list">
                 @for (item of percentages; track item) {
                 <span
                     class="percentage_item"
-                    [class.active]="item === selectedPercentage"
-                    (click)="selectedPercentage = item"
+                    [class.active]="item === selectedPercentage()"
+                    (click)="selectedPercentage.set(item)"
                     >{{ item }}%</span
                 >
                 }
             </div>
 
-            <p>Custom Tip</p>
+            <p>{{"submit.tip" | translate}}</p>
             <mat-form-field class="example-full-width">
                 <input type="tel" matInput [(ngModel)]="selectedPercentage" placeholder="" />
                 <span matSuffix>% &nbsp;</span>
             </mat-form-field>
         </div>
-        } @if(tipType === 'fixed') {
+        } @if(tipType() === 'fixed') {
         <div class="percentage">
-            <p>Custom Tip</p>
+            <p>{{"submit.tip" | translate}}</p>
             <mat-form-field class="example-full-width">
                 <input type="tel" matInput [(ngModel)]="fixedAmount" placeholder="" />
                 <span matSuffix>$ &nbsp;</span>
@@ -45,10 +45,10 @@
     </div>
 
     <div class="bottom">
-        <p class="total">Total Tip</p>
+        <p class="total">{{"submit.totalTip" |translate }} ${{totalTip()}}</p>
 
-        <div class="confirm">
-            Confirm
+        <div class="confirm" (click)="tipConfirm()">
+            {{"app.common.confirm" | translate}}
         </div>
     </div>
 </div>

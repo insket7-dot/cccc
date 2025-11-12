@@ -10,6 +10,7 @@ export interface PageUrls {
     PAGE_SCREEN: Url;
     PAGE_LOGIN: Url;
     PAGE_ORDER_CONFIRM: Url;
+    PAGE_ORDER_SUBMIT: Url;
 }
 
 /**

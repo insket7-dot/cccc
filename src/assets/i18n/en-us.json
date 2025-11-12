@@ -196,5 +196,15 @@
             "deleteTip": "Are you sure you want to delete this product?",
             "addRequired": "Please add products to the cart."
         }
+    },
+     "submit":{
+        "backToHome":"Back to Home Page",
+        "success_text1":"Order submitted successfully",
+        "success_text2":"Please go to the front desk to pay",
+        "totalTip":"Total Tip",
+        "tip":"Tip"
+
+
+
     }
 }

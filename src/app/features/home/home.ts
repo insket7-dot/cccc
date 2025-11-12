@@ -8,6 +8,8 @@ import { modeList, wayList } from '@app/shared/constants/menu.constants';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { DeviceStateEnum } from '@app/shared/constants/login.constants';
 import { NgOptimizedImage } from '@angular/common';
+import { CartService } from '@app/shared/services/cart.service';
+
 
 @Component({
     selector: 'app-home',
@@ -27,7 +29,7 @@ export class Home extends AbstractAppPage implements OnDestroy {
 
     private clickCount = 0; // 点击次数
 
-    constructor(private readonly appUrlService: AppUrlService) {
+    constructor(private readonly appUrlService: AppUrlService,private readonly cartService: CartService) {
         super();
     }
 
@@ -50,6 +52,8 @@ export class Home extends AbstractAppPage implements OnDestroy {
             );
             return;
         } else {
+            this.cartService.clearCart();
+            this.modelStateService.clearUserSelectState();
             this.router
                 .navigate([this.appUrlService.getPageUrlValue('PAGE_MENU')])
                 .catch((error) => console.error(error));

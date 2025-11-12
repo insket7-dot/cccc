@@ -23,6 +23,11 @@ export class AppUrl {
         'orderConfirm',
         Method.NAVIGATOR,
     );
+    public static readonly PAGE_ORDER_SUBMIT: Url = new Url(
+        'PAGE_ORDER_SUBMIT',
+        'submitOrder',
+        Method.NAVIGATOR,
+    );
 
     /**
      * @desc 拼接完整请求url方法

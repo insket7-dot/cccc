@@ -9,15 +9,18 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AppStoreService } from '@/app/shared/services/app.store.service';
 import { CartService } from '@app/shared/services/cart.service';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
-import { PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
+import { PriceI18nPipe,I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { ModelStateService } from '@app/shared/services/model-state.service';
+import {  ProductType } from '@app/shared/constants/menu.constants';
+
+
 
 @Component({
     selector: 'app-orderConfirm',
     templateUrl: './orderConfirm.html',
     styleUrls: ['./orderConfirm.scss'],
-    imports: [TranslateModule, CommonModule, PriceI18nPipe],
+    imports: [TranslateModule, CommonModule, PriceI18nPipe,I18nFieldPipe],
 })
 export class OrderConfirm extends AbstractAppPage {
     constructor(
@@ -32,6 +35,7 @@ export class OrderConfirm extends AbstractAppPage {
     ) {
         super();
     }
+     protected readonly ProductType = ProductType;
 
     storeBaseInfo = computed(() => this.appStoreService.storeBaseInfoValue());
 
@@ -71,17 +75,20 @@ export class OrderConfirm extends AbstractAppPage {
     orderConfirm() {
         this.confirm('app.order.confirmPlaceOrder', {}, async (res) => {
             if (res.role === 'ok') {
-                this.orderConfirmService.orderConfirmRequest().then((res) => {
-                    if (res.success) {
-                        // 清空购物车
-                        this.cartService.clearCart();
-                        // 清空选择状态
-                        this.modelStateService.clearUserSelectState();
-                        this.router
-                            .navigate([this.appUrlService.getPageUrlValue('PAGE_HOME')])
+                 this.router
+                            .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_SUBMIT')])
                             .catch(console.error);
-                    }
-                });
+                // this.orderConfirmService.orderConfirmRequest().then((res) => {
+                //     if (res.success) {
+                //         // 清空购物车
+                //         this.cartService.clearCart();
+                //         // 清空选择状态
+                //         this.modelStateService.clearUserSelectState();
+                //         this.router
+                //             .navigate([this.appUrlService.getPageUrlValue('PAGE_HOME')])
+                //             .catch(console.error);
+                //     }
+                // });
             }
             return true;
         }).catch(console.error);
