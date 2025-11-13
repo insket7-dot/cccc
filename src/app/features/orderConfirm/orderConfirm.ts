@@ -12,13 +12,8 @@ import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { PriceI18nPipe,I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { ModelStateService } from '@app/shared/services/model-state.service';
-<<<<<<< HEAD
 import {  ProductType } from '@app/shared/constants/menu.constants';
-
-
-=======
 import { SerialNumberService } from '@app/shared/services/serial-number.service';
->>>>>>> 620428cd4863ec7ce9f5926a3a98084977184c94
 
 @Component({
     selector: 'app-orderConfirm',
@@ -80,33 +75,10 @@ export class OrderConfirm extends AbstractAppPage {
     orderConfirm() {
         this.confirm('app.order.confirmPlaceOrder', {}, async (res) => {
             if (res.role === 'ok') {
-<<<<<<< HEAD
+                 this.serialNumberService.generateNextSerialNumber().catch(console.error);
                  this.router
                             .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_SUBMIT')])
-=======
-                this.orderConfirmService.orderConfirmRequest().then((res) => {
-                    if (res.success) {
-                        // 清空购物车
-                        this.cartService.clearCart();
-                        // 清空选择状态
-                        this.modelStateService.clearUserSelectState();
-                        // 流水号增加
-                        this.serialNumberService.generateNextSerialNumber().catch(console.error);
-                        this.router
-                            .navigate([this.appUrlService.getPageUrlValue('PAGE_HOME')])
->>>>>>> 620428cd4863ec7ce9f5926a3a98084977184c94
                             .catch(console.error);
-                // this.orderConfirmService.orderConfirmRequest().then((res) => {
-                //     if (res.success) {
-                //         // 清空购物车
-                //         this.cartService.clearCart();
-                //         // 清空选择状态
-                //         this.modelStateService.clearUserSelectState();
-                //         this.router
-                //             .navigate([this.appUrlService.getPageUrlValue('PAGE_HOME')])
-                //             .catch(console.error);
-                //     }
-                // });
             }
             return true;
         }).catch(console.error);
