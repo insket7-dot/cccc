@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, effect } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,7 +20,7 @@ import { SerialNumberService } from '@app/shared/services/serial-number.service'
         <div class="splash-container">
             <div class="logo-container">
                 <div class="carousel">
-                    @for (img of images; track $index) {
+                    @for (img of images(); track $index) {
                         <img
                             [src]="img.image"
                             [alt]="'image'"
@@ -35,7 +35,7 @@ import { SerialNumberService } from '@app/shared/services/serial-number.service'
     `,
 })
 export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
-    images: CarouselImage[] = [];
+    images = computed<CarouselImage[]>(() => this.appStoreService.carouselImagesValue() || []);
 
     currentIndex = 0;
     private carouselInterval: any;
@@ -54,9 +54,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
         void this.printOrderService; // 确保依赖注入
         void this.serialNumberService; // 确保流水号依赖注入
         effect(() => {
-            const images = this.appStoreService.carouselImagesValue();
-            if (images && images.length > 0) {
-                this.images = images;
+            if (this.images().length > 0) {
                 this.startCarousel();
             }
         });
@@ -76,14 +74,20 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        this.stopCarousel();
+    }
+
+    private stopCarousel() {
         if (this.carouselInterval) {
             clearInterval(this.carouselInterval);
+            this.currentIndex = 0;
         }
     }
 
     private startCarousel() {
+        this.stopCarousel();
         this.carouselInterval = setInterval(() => {
-            this.currentIndex = (this.currentIndex + 1) % this.images.length;
+            this.currentIndex = (this.currentIndex + 1) % this.images().length;
         }, 5000);
     }
 

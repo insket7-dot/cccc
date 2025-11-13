@@ -17,6 +17,8 @@ export class IdleTimeoutService {
     private countdownSubscription: any;
     private countdown = new BehaviorSubject<number>(0);
     private dialogRef: any;
+    // 跳过超时警告页面
+    private isPassPage = false;
 
     // 用于检测是否正在倒计时
     isCountingDown = new BehaviorSubject<boolean>(false);
@@ -26,15 +28,14 @@ export class IdleTimeoutService {
         private router: Router,
         private ngZone: NgZone,
     ) {
-        let isScreenPage = false;
         this.router.events
             .pipe(rxFilter((event) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => {
                 // 检查当前路由是否为screen页面
                 console.log('NavigationEnd Url', event.url);
                 const cleanUrl = event.url.replace(/^\/#/, '');
-                isScreenPage = ['/', '/screen', '/login'].includes(cleanUrl);
-                if (!isScreenPage && !this.countdownTimer$) {
+                this.isPassPage = ['/', '/screen', '/login'].includes(cleanUrl);
+                if (!this.isPassPage && !this.countdownTimer$) {
                     this.countdownTimer$ = timer(0, 1000).pipe(
                         tap((value) => {
                             const remaining = Math.floor(this.COUNTDOWN_TIME / 1000) - value;
@@ -79,7 +80,7 @@ export class IdleTimeoutService {
 
     // 显示超时警告并开始倒计时
     private showTimeoutWarning() {
-        if (!this.countdownTimer$) return;
+        if (this.isPassPage || !this.countdownTimer$) return;
 
         this.isCountingDown.next(true);
 
