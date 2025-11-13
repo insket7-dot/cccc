@@ -46,7 +46,7 @@ export class Home extends AbstractAppPage implements OnDestroy {
     }
 
     startOrder() {
-        if (!this.curWay) {
+        if (!this.curWay()) {
             this.error(this.translate.instant('page.selectWay')).catch((error) =>
                 console.error(error),
             );

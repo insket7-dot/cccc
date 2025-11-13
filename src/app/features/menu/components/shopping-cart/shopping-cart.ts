@@ -69,7 +69,7 @@ export class ShoppingCartComponent extends AbstractAppPage {
         }
         await this.confirm('page.continue', {}, async (result) => {
             if (result.role === 'ok') {
-                this.close()
+                 this.bottomSheet.dismiss({ closed: true });
                 this.router
                     .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_CONFIRM')])
                     .catch((error) => console.error(error));
