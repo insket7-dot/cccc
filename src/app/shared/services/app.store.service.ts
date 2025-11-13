@@ -7,6 +7,7 @@ import {
     StoreBusTimeInterface,
     CarouselImage,
     StoreBaseInfoInterface,
+    CarouselImageResponseVO,
 } from '@app/shared/types/store.shared.types';
 import { DateUtils } from '@app/shared/services/date-utils.service';
 import { MqttService } from '@app/core/services/mqtt.service';
@@ -19,6 +20,7 @@ export class AppStoreService extends AbstractAppService {
     private carouselImages = signal<CarouselImage[]>([]);
     private storeBusTime = signal<StoreBusTimeInterface | null>(null);
     private storeBaseInfo = signal<StoreBaseInfoInterface | null>(null);
+    private initialized = false;
 
     constructor(
         private dateUtils: DateUtils,
@@ -55,6 +57,8 @@ export class AppStoreService extends AbstractAppService {
     readonly storeBaseInfoValue = computed(() => this.storeBaseInfo());
 
     async init() {
+        if (this.initialized) return;
+
         await this.readPersistence();
 
         await Promise.allSettled([
@@ -62,21 +66,23 @@ export class AppStoreService extends AbstractAppService {
             this.getRemoteCarouselImages(),
             this.getRemoteStoreBaseInfo(),
         ]);
+
+        this.initialized = true;
     }
 
     /**
      * @desc 远程门店轮播图列表
      */
     async getRemoteCarouselImages() {
-        const res = await this.request<any>(AppUrl.GET_RESOURCE, {
+        const res = await this.request<CarouselImageResponseVO[]>(AppUrl.GET_RESOURCE, {
             pageCode: 'page001',
             operationAreaCode: 'oper001',
             nowDate: this.dateUtils.formatDateTime(new Date()),
         });
-        if (res.success && res.data?.length) {
-            const newImages = JSON.parse(res.data[0].pics) as CarouselImage[];
-            const currentImages = this.carouselImages();
-            if (JSON.stringify(newImages) !== JSON.stringify(currentImages)) {
+        const data = res.data[0] || {};
+        if (res.success && data?.pics) {
+            const newImages: CarouselImage[] = data.pics ? JSON.parse(data.pics) : [];
+            if (JSON.stringify(newImages) !== JSON.stringify(this.carouselImages())) {
                 this.carouselImages.set(newImages);
             }
         }
@@ -88,8 +94,9 @@ export class AppStoreService extends AbstractAppService {
     async getRemoteStoreBusTime() {
         const res = await this.request<StoreBusTimeInterface>(AppUrl.STORE_BUS_TIME);
         console.log('营业时间:', JSON.stringify(res));
-        if (res.success) {
-            this.storeBusTime.set(res.data);
+        const data = res.data;
+        if (res.success && JSON.stringify(data) !== JSON.stringify(this.storeBusTime())) {
+            this.storeBusTime.set(data);
         }
     }
 
@@ -97,12 +104,11 @@ export class AppStoreService extends AbstractAppService {
      * @desc 远程门店基础数据
      */
     async getRemoteStoreBaseInfo() {
-        const res = await this.request<{ storeInfo: StoreBaseInfoInterface[] }>(
-            AppUrl.STORE_BASE_INFO,
-        );
+        const res = await this.request<StoreBaseInfoInterface>(AppUrl.STORE_BASE_INFO);
         console.log('门店基础数据:', JSON.stringify(res));
-        if (res.success) {
-            this.storeBaseInfo.set(res.data.storeInfo[0]);
+        const data = res.data;
+        if (res.success && JSON.stringify(data) !== JSON.stringify(this.storeBaseInfo())) {
+            this.storeBaseInfo.set(data);
         }
     }
 

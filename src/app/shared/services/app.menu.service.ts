@@ -29,6 +29,10 @@ export class AppMenuService extends AbstractAppService {
     private categoryList = signal<MenuCategoryItem[]>([]);
     private currentCategory = signal<string>('');
     private menu = signal<MenuResponseVo[]>([]);
+    // 菜单全量数据
+    private _menuData = signal<Menu | null>(null);
+    // 是否初始化完成
+    private initialized = false;
 
     constructor(
         private mqttService: MqttService,
@@ -216,12 +220,17 @@ export class AppMenuService extends AbstractAppService {
     }
 
     async init() {
+        if (this.initialized) return;
+
         // 优先读取缓存
         const hasMenu = await LocalStorage.isExist(CacheKey.MENU_LIST);
         if (hasMenu) {
-            void this.readPersistence();
+            await this.readPersistence();
         }
-        this.getRemoteMenu().catch((error) => console.error(error));
+
+        await this.getRemoteMenu().catch((error) => console.error(error));
+
+        this.initialized = true;
     }
 
     private getCurrentCategory(): string {
@@ -289,7 +298,10 @@ export class AppMenuService extends AbstractAppService {
     async getRemoteMenu() {
         let res = await this.request<Menu>(AppUrl.STORE_MENU);
         console.log('获取门店菜单成功:', JSON.stringify(res));
-        if (res.success) {
+        if (res.success && JSON.stringify(res.data) !== JSON.stringify(this._menuData())) {
+            // 更新菜单全量数据
+            this._menuData.set(res.data);
+
             // 先清空map数据
             this.menuMap.set(new Map());
             this.menuIdMap.set(new Map());
