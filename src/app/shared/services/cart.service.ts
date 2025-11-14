@@ -1,15 +1,34 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { ShopCartProduct } from '@app/shared/types/cart.shared.types';
+import { ShopCartProduct, ShopCartSummary } from '@app/shared/types/cart.shared.types';
 import { debounceTime, Subject } from 'rxjs';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
 import { SubtotalService } from '@app/shared/services/subtotal.service';
 import { PriceService } from '@app/shared/services/price.service';
 import { ProductLimit } from '@app/shared/constants/menu.constants';
+import { AppStoreService } from '@app/shared/services/app.store.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CartService {
+    constructor(
+        private subtotalService: SubtotalService,
+        private priceService: PriceService,
+        private readonly appStoreService: AppStoreService,
+    ) {
+        this.cartChanges$
+            .pipe(
+                debounceTime(200), // 防抖 200ms
+            )
+            .subscribe(() => {
+                this.cartMapSignal.set(new Map(this._cartMap));
+            });
+    }
+    // 附加费列表
+    extraChange = computed(() => this.appStoreService.extraChangeValue());
+    // 门店信息
+    storeInfo = computed(() => this.appStoreService.storeBaseInfoValue());
+
     private maxCartCount = ProductLimit.LIMIT_MAX;
     private _cartMap: Map<string, ShopCartProduct> = new Map();
     private cartMapSignal = signal<Map<string, ShopCartProduct>>(new Map());
@@ -25,24 +44,39 @@ export class CartService {
             this.priceService.sumList(this.cartList().map((item) => item.subtotal ?? 0)),
         );
         const totalCount = this.cartList().reduce((acc, item) => acc + item.quantity, 0);
-        return {
-            total,
-            count: totalCount,
-        };
-    });
+        const storeInfo = this.appStoreService.storeBaseInfoValue();
+        // 消费税税率
+        const taxRate = storeInfo?.taxRate;
+        // 订单附加费税率
+        let extraChargeFee = this.priceService.zero();
+        // 附加费消费税
+        let orderFee = this.priceService.zero();
 
-    constructor(
-        private subtotalService: SubtotalService,
-        private priceService: PriceService,
-    ) {
-        this.cartChanges$
-            .pipe(
-                debounceTime(200), // 防抖 200ms
-            )
-            .subscribe(() => {
-                this.cartMapSignal.set(new Map(this._cartMap));
-            });
-    }
+        // 附加费
+        if (this.extraChange().length > 0) {
+            extraChargeFee = this.priceService.sumList(
+                this.extraChange().map((item) => this.priceService.mul(total, item.number ?? 0)),
+            );
+            console.log('extraChargeFee', extraChargeFee);
+        }
+
+        // 附加费消费税
+        if (taxRate) {
+            orderFee = this.priceService.mul(orderFee, taxRate);
+        }
+
+        // 订单附加费
+        return {
+            total: this.priceService.toNumber(
+                this.priceService.add(total, extraChargeFee, orderFee),
+            ),
+            surchargeAmount: this.priceService.toNumber(extraChargeFee),
+            surchargeTaxAmount: this.priceService.toNumber(orderFee),
+            count: totalCount,
+            orderTotal: total,
+            taxRate,
+        } as ShopCartSummary;
+    });
 
     private emitChange() {
         this.cartChanges$.next();

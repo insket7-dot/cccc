@@ -45,13 +45,13 @@ export enum MenuType {
 }
 
 /**
- * @desc 点餐模式枚举
+ * @desc 点餐模式枚举 1 堂食 2 外卖
  */
 export enum OrderMode {
     // 堂食
-    DINE_IN = 'DineIn',
+    DINE_IN = '1',
     // 外带
-    TAKE_OUT = 'TakeOut',
+    TAKE_OUT = '2',
 }
 
 /**

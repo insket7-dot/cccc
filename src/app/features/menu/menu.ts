@@ -6,7 +6,6 @@ import {
     computed,
     AfterViewInit,
     OnDestroy,
-    ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -23,12 +22,10 @@ import { LanguageService } from '@app/core/services/language.service';
 import { fromEvent, Subscription, throttleTime } from 'rxjs';
 import { CategoryOperation, MenuType } from '@app/shared/constants/menu.constants';
 import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
-import {ShoppingCartComponent} from "./components/shopping-cart/shopping-cart"
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart';
 import { CartDetailsBottomSheetComponent } from './components/cart-details-bottom-sheet.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-
-
-
+import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
 
 @Component({
     selector: 'app-menu',
@@ -53,11 +50,10 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     // 菜品数据
     protected readonly categoryList = computed(() => this.appMenuService.categoryListValue());
     protected readonly currentCategoryValue = computed(() =>
-        this.appMenuService.currentCategoryValue(),
+        this.menuFacadeService.currentCategoryValue(),
     );
-    protected readonly currentMenuValue = computed(() => this.appMenuService.currentMenuValue());
-    protected readonly menuComputed = computed(() => this.appMenuService.menuValue());
-
+    protected readonly currentMenuValue = computed(() => this.menuFacadeService.currentMenuValue());
+    protected readonly menuComputed = computed(() => this.menuFacadeService.menuValue());
 
     protected readonly items = signal<MenuData[]>([]);
 
@@ -72,18 +68,13 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     MenuType = MenuType;
     CategoryOperation = CategoryOperation;
 
-
-
-
     constructor(
         private voiceService: AppVoiceService,
         private languageService: LanguageService,
         private bottomSheet: MatBottomSheet,
-
+        private readonly menuFacadeService: MenuFacadeService,
     ) {
         super();
-
-
     }
 
     ngAfterViewInit() {
@@ -91,7 +82,7 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         if (!rightBlock) return;
 
         this.scrollSub = fromEvent(rightBlock, 'scroll')
-            .pipe(throttleTime(100)) // 节流避免频繁触发
+            .pipe(throttleTime(300)) // 节流避免频繁触发
             .subscribe(() => {
                 const titles = rightBlock.querySelectorAll<HTMLParagraphElement>('.title');
                 const scrollTop = rightBlock.scrollTop;
@@ -103,14 +94,9 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
                         currentId = title.id.replace('category-', '');
                     }
                 });
-                if (currentId) {
-                    this.appMenuService.setCurrentCategory(currentId); // 左侧高亮
-                    // 可选：让左侧滚动到可视区域
-                    const leftCate = document.querySelector('.left_cate');
-                    const leftItem = leftCate?.querySelector(`.cate_item[data-id="${currentId}"]`);
-                    if (leftItem) {
-                        leftItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
-                    }
+                if (currentId && !this.menuFacadeService.scrollSyncLockedValue()) {
+                    this.menuFacadeService.setCurrentCategory(currentId); // 左侧高亮
+                    this.leftScroll(currentId);
                 }
             });
     }
@@ -138,10 +124,21 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         const textKey = this.languageService.getCurrentLanguageKey('categoryName');
         const voiceText = item[textKey];
         this.voiceService.speak(voiceText).catch((err) => console.error('语音播放失败:', err));
+        this.menuFacadeService.setCurrentCategoryByClick(item.categoryId);
 
-        this.appMenuService.setCurrentCategory(item.categoryId);
-
+        this.leftScroll(item.categoryId);
         this.scrollToCategory(item.categoryId);
+    }
+
+    /**
+     * @desc 左侧滚动
+     */
+    private leftScroll(categoryId: string) {
+        const leftCate = document.querySelector('.left_cate');
+        const leftItem = leftCate?.querySelector(`.cate_item[data-id="${categoryId}"]`);
+        if (leftItem) {
+            leftItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
     }
 
     // 滚动到指定分类
@@ -156,16 +153,17 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
             const rect = targetElement.getBoundingClientRect();
             const containerRect = rightBlock.getBoundingClientRect();
             rightBlock.scrollTo({
-            top: rect.top - containerRect.top + rightBlock.scrollTop,
-            behavior: 'smooth'
-            })
+                top: rect.top - containerRect.top + rightBlock.scrollTop,
+                behavior: 'smooth',
+            });
         });
     }
     // 切换分类
     changeCurCategory(type: CategoryOperation) {
-        this.appMenuService.categoryUpDown(type);
+        this.menuFacadeService.categoryUpDown(type);
 
         this.scrollToCategory(this.currentCategoryValue());
+        this.leftScroll(this.currentCategoryValue());
     }
 
     // 打开详情页
@@ -181,12 +179,13 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
 
     // 打开购物车
     openCart() {
-         const bottomSheetRef = this.bottomSheet.open(CartDetailsBottomSheetComponent, {
+        const bottomSheetRef = this.bottomSheet.open(CartDetailsBottomSheetComponent, {
             panelClass: 'cart-details-sheet',
             disableClose: false,
         });
 
         bottomSheetRef.afterDismissed().subscribe((result) => {
+            console.log('bottomSheetRef', result);
         });
     }
 }

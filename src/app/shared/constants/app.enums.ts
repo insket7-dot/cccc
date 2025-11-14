@@ -92,3 +92,20 @@ export enum OrderNeedInvoiceEnums {
     /** 是否开发票 1：开发票 */
     ORDER_NEED_INVOICE_YES = 1,
 }
+
+/**
+ * @desc 是否枚举
+ */
+export enum YesNoNumberEnums {
+    /** 是否-否 */
+    NO = 0,
+    /** 是否-是 */
+    YES = 1,
+}
+
+export enum YesNoStringEnums {
+    /** 是否-否 */
+    NO = '0',
+    /** 是否-是 */
+    YES = '1',
+}

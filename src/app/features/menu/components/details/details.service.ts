@@ -21,6 +21,7 @@ export class DetailsService {
             productId: item?.productId ?? '',
             quantity: addQuantity ?? 1,
             price: item?.price ?? 0,
+            taxGroupCode: item?.taxGroupCode,
         };
         // 单品数据组装
         if (item?.productType === ProductType.PRODUCT) {

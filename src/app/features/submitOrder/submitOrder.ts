@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { CartService } from '@app/shared/services/cart.service';
-import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 
 import { PriceI18nPipe, I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { ProductType } from '@app/shared/constants/menu.constants';
+import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
 
 @Component({
     selector: 'app-orderConfirm',
@@ -18,7 +18,7 @@ import { ProductType } from '@app/shared/constants/menu.constants';
 export class SubmitOrder extends AbstractAppPage {
     constructor(
         private cartService: CartService,
-        private appMenuService: AppMenuService,
+        private menuFacadeService: MenuFacadeService,
         private readonly appUrlService: AppUrlService,
     ) {
         super();
@@ -28,7 +28,7 @@ export class SubmitOrder extends AbstractAppPage {
 
     // 购物车列表UI数据
     cartList = computed(() => {
-        return this.appMenuService.cartListValue();
+        return this.menuFacadeService.cartListValue();
     });
 
     // 总价

@@ -4,12 +4,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CartDetailsBottomSheetComponent } from '../cart-details-bottom-sheet.component';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
-import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { MatListModule } from '@angular/material/list';
 import { PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { CartService } from '@app/shared/services/cart.service';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
 import { AppUrlService } from '@app/shared/services/app.url.service';
+import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
 
 @Component({
     selector: 'menu-shopping-cart',
@@ -23,16 +23,16 @@ export class ShoppingCartComponent extends AbstractAppPage {
     @Output() visibleChange = new EventEmitter<boolean>();
     constructor(
         private bottomSheet: MatBottomSheet,
-        private appMenuService: AppMenuService,
         private cartService: CartService,
         private readonly appUrlService: AppUrlService,
+        private readonly menuFaceService: MenuFacadeService,
     ) {
         super();
     }
 
     // 购物车列表UI数据
     cartList = computed(() => {
-        return this.appMenuService.cartListValue();
+        return this.menuFaceService.cartListValue();
     });
 
     // 总价
@@ -69,7 +69,7 @@ export class ShoppingCartComponent extends AbstractAppPage {
         }
         await this.confirm('page.continue', {}, async (result) => {
             if (result.role === 'ok') {
-                 this.bottomSheet.dismiss({ closed: true });
+                this.bottomSheet.dismiss({ closed: true });
                 this.router
                     .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_CONFIRM')])
                     .catch((error) => console.error(error));
@@ -88,6 +88,7 @@ export class ShoppingCartComponent extends AbstractAppPage {
         });
 
         bottomSheetRef.afterDismissed().subscribe((result) => {
+            console.log('afterDismissed:', result);
         });
     }
 

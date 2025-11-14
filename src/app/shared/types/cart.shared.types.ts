@@ -80,6 +80,25 @@ export interface CartTaxTypes {
     /** 单品外含税金额 */
     unitExternalTax?: number;
 
+    /* ------------------ 📊 辅助信息 ------------------ */
+
+    /** 适用税种类型：'exclusive' | 'inclusive' | 'exempt' */
+    taxType?: 'exclusive' | 'inclusive' | 'exempt';
+
+    /** 消费税税率 */
+    taxRate?: number;
+}
+
+/**
+ * @desc 购物车汇总数据
+ */
+export interface ShopCartSummary {
+    /** 订单总价（已含内含税 + 外税） */
+    orderTotal?: number;
+
+    /** 商品数量 */
+    count: number;
+
     /* ------------------ 💰 附加费（如果存在） ------------------ */
 
     /** 附加费金额 */
@@ -94,18 +113,12 @@ export interface CartTaxTypes {
     paymentFee?: number;
 
     /** 最终应支付金额（含所有税费） */
-    totalPayable?: number;
+    total: number;
 
     /* ------------------ 📊 辅助信息 ------------------ */
 
-    /** 适用税种类型：'exclusive' | 'inclusive' | 'exempt' */
-    taxType?: 'exclusive' | 'inclusive' | 'exempt';
-
     /** 消费税税率 */
     taxRate?: number;
-
-    /** 计算时间戳，用于缓存或追踪 */
-    computedAt?: number;
 }
 
 /**
@@ -120,7 +133,8 @@ export interface ShopCartProductOrigin {
     quantity: number;
     price: number;
     subtotal?: number;
-    taxData?: CartTaxTypes;
+    taxData?: CartTaxTypes; // 税费数据
+    taxGroupCode?: string; // 税率组编码
 }
 /** @desc 购物车菜品子项 - 包含扩展字段与税费字段 */
 export type ShopCartProduct = ShopCartProductOrigin & CartExtra;

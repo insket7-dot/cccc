@@ -147,7 +147,7 @@ export interface StoreBaseInfoInterface {
      */
     taxGroupCode?: string;
 
-    taxGroup?: StoreTaxGroupVO;
+    taxGroup?: StoreTaxGroupVO[];
 
     /**
      * 附加费
@@ -184,11 +184,11 @@ export interface TaxInfo {
      */
     taxValue?: string;
     /**
-     * 试用于
+     * 适用于 1 堂食 2 外卖
      */
     useType?: string[];
     /**
-     * 试用于
+     * 适用于 1 堂食 2 外卖
      */
     useTypeStr?: string;
     /**
@@ -200,11 +200,11 @@ export interface TaxInfo {
      */
     dutyFreeMax?: number;
     /**
-     * 税类型
+     * 税率方式 1 百分比税率 2 固定金额
      */
     taxType?: string;
     /**
-     * 税种类
+     * 税分类 1 内含税 2 外加税
      */
     taxCategory?: string;
     /**
@@ -217,7 +217,7 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     id?: number;
 
     /**
-     * 类别
+     * 类别 1:内含税  2:外加税
      */
     extraChargeType?: string;
 
@@ -227,7 +227,7 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     extraChargeName?: string;
 
     /**
-     * 计算类型
+     * 计算类型 1 金额 2 百分比
      */
     numberCountType?: string;
 
@@ -242,7 +242,7 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     taxGroup?: string;
 
     /**
-     * 计算方式
+     * 计算方式 1: 折扣前计算 2: 折扣后计算
      */
     countType?: string;
 
@@ -271,9 +271,18 @@ export interface TrdMasterStoreExtraChangeInfoVo {
      */
     usePayTypes?: string;
 
+    /**
+     * 适用的订单类型 1 堂食 2 外卖
+     */
     useOrderTypes?: string;
 
+    /**
+     * 适用的支付方式 1 现金支付 2 VISA支付 3 信用卡支付
+     */
     usePayType?: string[];
+    /**
+     * 适用的订单类型 1 堂食 2 外卖
+     */
     useOrderType?: string[];
 
     changeNumber?: number;
@@ -285,6 +294,6 @@ export interface TrdMasterStoreExtraChangeInfoVo {
 }
 
 export interface ChangeTime {
-    startTime?: string;
-    endTime?: string;
+    startTime: string;
+    endTime: string;
 }
