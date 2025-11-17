@@ -78,27 +78,26 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     }
 
     ngAfterViewInit() {
-        const rightBlock = document.querySelector('.right_block');
-        if (!rightBlock) return;
-
-        this.scrollSub = fromEvent(rightBlock, 'scroll')
-            .pipe(throttleTime(300)) // 节流避免频繁触发
-            .subscribe(() => {
-                const titles = rightBlock.querySelectorAll<HTMLParagraphElement>('.title');
-                const scrollTop = rightBlock.scrollTop;
-                let currentId = '';
-                titles.forEach((title) => {
-                    const offset = title.offsetTop;
-                    if (scrollTop >= offset - 20) {
-                        // 20px 偏移可调整
-                        currentId = title.id.replace('category-', '');
-                    }
-                });
-                if (currentId && !this.menuFacadeService.scrollSyncLockedValue()) {
-                    this.menuFacadeService.setCurrentCategory(currentId); // 左侧高亮
-                    this.leftScroll(currentId);
-                }
-            });
+        // const rightBlock = document.querySelector('.right_block');
+        // if (!rightBlock) return;
+        // this.scrollSub = fromEvent(rightBlock, 'scroll')
+        //     .pipe(throttleTime(300)) // 节流避免频繁触发
+        //     .subscribe(() => {
+        //         const titles = rightBlock.querySelectorAll<HTMLParagraphElement>('.title');
+        //         const scrollTop = rightBlock.scrollTop;
+        //         let currentId = '';
+        //         titles.forEach((title) => {
+        //             const offset = title.offsetTop;
+        //             if (scrollTop >= offset - 20) {
+        //                 // 20px 偏移可调整
+        //                 currentId = title.id.replace('category-', '');
+        //             }
+        //         });
+        //         if (currentId && !this.menuFacadeService.scrollSyncLockedValue()) {
+        //             this.menuFacadeService.setCurrentCategory(currentId); // 左侧高亮
+        //             this.leftScroll(currentId);
+        //         }
+        //     });
     }
 
     ngOnDestroy() {
@@ -136,9 +135,20 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
     private leftScroll(categoryId: string) {
         const leftCate = document.querySelector('.left_cate');
         const leftItem = leftCate?.querySelector(`.cate_item[data-id="${categoryId}"]`);
-        if (leftItem) {
-            leftItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
-        }
+
+        if (!leftCate || !leftItem) return;
+
+        const containerRect = leftCate.getBoundingClientRect();
+        const itemRect = leftItem.getBoundingClientRect();
+
+        const itemOffsetTop = itemRect.top - containerRect.top + leftCate.scrollTop;
+
+        const scrollTarget = itemOffsetTop - containerRect.height / 2 + itemRect.height / 2;
+
+        leftCate.scrollTo({
+            top: scrollTarget,
+            behavior: 'smooth',
+        });
     }
 
     // 滚动到指定分类
@@ -184,8 +194,6 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
             disableClose: false,
         });
 
-        bottomSheetRef.afterDismissed().subscribe((result) => {
-            console.log('bottomSheetRef', result);
-        });
+        bottomSheetRef.afterDismissed().subscribe((result) => {});
     }
 }
