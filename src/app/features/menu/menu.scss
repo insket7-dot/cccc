@@ -114,6 +114,7 @@
                     .cate_name {
                         font-size: 18px;
                         color: #a4b0b7;
+                        padding: 0 5px;
                     }
                     .active {
                         background-color: #f37e01;
@@ -153,6 +154,8 @@
             width: calc(100% - 130px);
 
             .right_block {
+                padding-bottom: 150px;
+
                 padding: 10px;
                 flex: 1;
                 min-height: 0;
@@ -165,7 +168,7 @@
                     display: none;
                 }
                 &.child-mode-right {
-                    max-height: calc(100vh - 360px);
+                    max-height: calc(100vh - 390px);
                 }
                 .title {
                     width: 100%;
@@ -179,6 +182,8 @@
                     display: flex;
                     height: 100px;
                     margin-top: 20px;
+                    border-bottom: 1px solid #eceaea;
+                    padding-bottom: 10px;
                     .dish_left {
                         width: 100px;
                         height: 100%;
@@ -188,8 +193,10 @@
                         }
                     }
                     .dish_right {
-                        padding: 0 10px;
+                        padding: 5px 10px;
                         width: calc(100% - 150px);
+                        height: 100%;
+                        box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
@@ -253,11 +260,10 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-        z-index: 1001;
+    z-index: 1001;
 }
 
-
-::ng-deep .mat-elevation-z2{
+::ng-deep .mat-elevation-z2 {
     position: fixed !important;
-        bottom: 100px !important;
+    bottom: 100px !important;
 }

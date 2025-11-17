@@ -90,29 +90,29 @@ export class Menu extends AbstractAppPage implements OnInit, AfterViewInit, OnDe
         const rightBlock = document.querySelector('.right_block');
         if (!rightBlock) return;
 
-        this.scrollSub = fromEvent(rightBlock, 'scroll')
-            .pipe(throttleTime(100)) // 节流避免频繁触发
-            .subscribe(() => {
-                const titles = rightBlock.querySelectorAll<HTMLParagraphElement>('.title');
-                const scrollTop = rightBlock.scrollTop;
-                let currentId = '';
-                titles.forEach((title) => {
-                    const offset = title.offsetTop;
-                    if (scrollTop >= offset - 20) {
-                        // 20px 偏移可调整
-                        currentId = title.id.replace('category-', '');
-                    }
-                });
-                if (currentId) {
-                    this.appMenuService.setCurrentCategory(currentId); // 左侧高亮
-                    // 可选：让左侧滚动到可视区域
-                    const leftCate = document.querySelector('.left_cate');
-                    const leftItem = leftCate?.querySelector(`.cate_item[data-id="${currentId}"]`);
-                    if (leftItem) {
-                        leftItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
-                    }
-                }
-            });
+        // this.scrollSub = fromEvent(rightBlock, 'scroll')
+        //     .pipe(throttleTime(100)) // 节流避免频繁触发
+        //     .subscribe(() => {
+        //         const titles = rightBlock.querySelectorAll<HTMLParagraphElement>('.title');
+        //         const scrollTop = rightBlock.scrollTop;
+        //         let currentId = '';
+        //         titles.forEach((title) => {
+        //             const offset = title.offsetTop;
+        //             if (scrollTop >= offset - 20) {
+        //                 // 20px 偏移可调整
+        //                 currentId = title.id.replace('category-', '');
+        //             }
+        //         });
+        //         if (currentId) {
+        //             this.appMenuService.setCurrentCategory(currentId); // 左侧高亮
+        //             // 可选：让左侧滚动到可视区域
+        //             const leftCate = document.querySelector('.left_cate');
+        //             const leftItem = leftCate?.querySelector(`.cate_item[data-id="${currentId}"]`);
+        //             if (leftItem) {
+        //                 leftItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        //             }
+        //         }
+        //     });
     }
 
     ngOnDestroy() {
