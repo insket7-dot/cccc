@@ -2,25 +2,22 @@ import { Component, Inject, OnInit, OnDestroy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, NavigationStart } from '@angular/router';
+import { NavigationStart } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AppUrlService } from '@app/shared/services/app.url.service';
-import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProductLimit, ProductType } from '@app/shared/constants/menu.constants';
+import { ProductType } from '@app/shared/constants/menu.constants';
 import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { CartService } from '@app/shared/services/cart.service';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
 import { AbstractAppPage } from '@/app/shared/abstracts/abstract.app.page';
-
-
-
+import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
 
 @Component({
     selector: 'app-cart-details-bottom-sheet',
     standalone: true,
-    imports: [CommonModule, MatButtonModule, TranslateModule, I18nFieldPipe,PriceI18nPipe],
+    imports: [CommonModule, MatButtonModule, TranslateModule, I18nFieldPipe, PriceI18nPipe],
     template: `
         <div class="bottom-sheet-content">
             <div class="top">
@@ -28,7 +25,7 @@ import { AbstractAppPage } from '@/app/shared/abstracts/abstract.app.page';
                     <span class="num">{{ cartList().length }}</span
                     >{{ 'page.items' | translate }}
                 </div>
-                <div class="clear" (click)="clearCart()" >{{ 'page.clear' | translate }}</div>
+                <div class="clear" (click)="clearCart()">{{ 'page.clear' | translate }}</div>
             </div>
 
             <div class="list">
@@ -109,7 +106,7 @@ import { AbstractAppPage } from '@/app/shared/abstracts/abstract.app.page';
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    margin-top:10px;
+                    margin-top: 10px;
 
                     .text-div {
                         width: 280px;
@@ -149,7 +146,7 @@ export class CartDetailsBottomSheetComponent extends AbstractAppPage implements 
     constructor(
         private bottomSheetRef: MatBottomSheetRef<CartDetailsBottomSheetComponent>,
         @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
-        private appMenuService: AppMenuService,
+        private menuFacadeService: MenuFacadeService,
         private appUrlService: AppUrlService,
         private cartService: CartService,
     ) {
@@ -157,9 +154,8 @@ export class CartDetailsBottomSheetComponent extends AbstractAppPage implements 
     }
     protected readonly ProductType = ProductType;
     cartList = computed(() => {
-        return this.appMenuService.cartListValue();
+        return this.menuFacadeService.cartListValue();
     });
-
 
     ngOnInit(): void {
         this.router.events
@@ -206,7 +202,6 @@ export class CartDetailsBottomSheetComponent extends AbstractAppPage implements 
     }
 
     clearCart() {
-
         this.cartService.clearCart();
     }
 }

@@ -11,10 +11,7 @@ import { CacheKey } from '@app/shared/constants/cache.key';
 import { AppUrl } from '@app/core/constants/app.url';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
-import { CartService } from '@app/shared/services/cart.service';
-import { I18nTextService } from '@app/shared/services/i18n-text.service';
-import { CategoryOperation, ProductType } from '@app/shared/constants/menu.constants';
-import { cartViewItem } from '@app/shared/types/cart.shared.types';
+import { StoreTaxGroupVO } from '@app/shared/types/store.shared.types';
 
 @Injectable({
     providedIn: 'root',
@@ -26,19 +23,17 @@ export class AppMenuService extends AbstractAppService {
     private menuIdMap = signal<Map<string, menuListItem>>(new Map());
     // 分类ID-分类信息
     private menuCategory = signal<Map<string, MenuCategoryItem>>(new Map());
+    // 税率组- 税率组编码 - 税率组信息
+    private _taxGroupMap = signal<Map<string, StoreTaxGroupVO>>(new Map());
+    private taxGroup = signal<StoreTaxGroupVO[]>([]);
     private categoryList = signal<MenuCategoryItem[]>([]);
-    private currentCategory = signal<string>('');
     private menu = signal<MenuResponseVo[]>([]);
     // 菜单全量数据
     private _menuData = signal<Menu | null>(null);
     // 是否初始化完成
     private initialized = false;
 
-    constructor(
-        private mqttService: MqttService,
-        private cartService: CartService,
-        private i18nTextService: I18nTextService,
-    ) {
+    constructor(private mqttService: MqttService) {
         super();
 
         this.mqttService.getMessageObservable().subscribe((message) => {
@@ -72,151 +67,14 @@ export class AppMenuService extends AbstractAppService {
     readonly categoryListValue = computed(() =>
         this.categoryList().filter((t) => t.categoryId !== '-1'),
     );
-    // 当前选择的分类
-    readonly currentCategoryValue = computed(() => this.getCurrentCategory());
-    // 当前分类下得菜品列表
-    readonly currentMenuValue = computed(() => this.getCurrentMenu());
-    // 菜品整体渲染列表（分类-菜单列表）
-    readonly menuValue = computed(() =>
-        this.getMenusAsResponse().filter((t) => t.categoryId !== '-1'),
-    );
-    // 已加购的商品列表
-    readonly cartListValue = computed(() => {
-        const menuMap = this.menuIdMap();
-        const cartList = this.cartService.cartList();
-        const cartListResult = cartList.map((item) => {
-            const productInfo = structuredClone(menuMap.get(item.productId));
-            const result: cartViewItem = {
-                taxData: item.taxData ?? {}, // 税费数据
-                cartId: item.cartId,
-                productId: item.productId,
-                productName: this.i18nTextService.get(productInfo, 'productName'),
-                imageUrl: productInfo?.imageUrl ?? '',
-                price: productInfo?.price ?? 0,
-                productType: productInfo?.productType ?? ProductType.PRODUCT,
-                quantity: item.quantity,
-                subtotal: item.subtotal ?? 0,
-            };
-
-            // 单品
-            if (item.productType === ProductType.PRODUCT) {
-                // 规格
-                if (item.skuId) {
-                    result.spec = (productInfo?.specList || []).find(
-                        (sku) => sku.skuId === item.skuId,
-                    );
-                }
-                // 加料
-                if (item.grillList) {
-                    const list = item.grillList.map((grill) => {
-                        const grillItem = (productInfo?.grillList || []).find(
-                            (t) => t.grillCode === grill.grillId,
-                        );
-                        if (!grillItem) {
-                            return null;
-                        }
-                        const targetProductIds = grill?.itemList.map((t) => t.productId);
-                        grillItem.itemList =
-                            grillItem?.itemList?.filter((t) =>
-                                targetProductIds?.includes(t.productId),
-                            ) ?? [];
-                        // 后期放开数量限制后，可添加数量字段
-                        return grillItem;
-                    });
-                    result.grill = list.filter((t) => t !== null);
-                }
-            }
-
-            // 套餐-轮次
-            if (item.productType === ProductType.COMBO) {
-                const list = (item?.rounds ?? []).map((t) => {
-                    const roundItem = (productInfo?.setMealList || []).find(
-                        (x) => x.round === t.roundId,
-                    );
-                    if (!roundItem) {
-                        return null;
-                    }
-                    const targetProductIds = t?.itemList.map((i) => i.skuId);
-                    roundItem.itemList =
-                        roundItem?.itemList?.filter((x) => targetProductIds?.includes(x.skuId)) ??
-                        [];
-                    return roundItem;
-                });
-
-                result.rounds = list.filter((t) => t !== null);
-            }
-
-            return result;
-        });
-        console.log('-------------------- cart list result ------------------', cartListResult);
-        return cartListResult;
-    });
+    // 分类Map
+    readonly categoryMapValue = computed(() => this.menuCategory());
 
     /**
-     * @desc 结合购物车重新组装页面渲染数据
+     * @desc 通过编码获取税率组信息
      */
-    getMenusAsResponse(): MenuResponseVo[] {
-        const categoryMap = this.menuCategory();
-        const menuMap = this.menuMapValue();
-        const cartList = this.cartService.cartList();
-
-        const result: MenuResponseVo[] = [];
-
-        for (const [categoryId, list] of menuMap.entries()) {
-            const categoryInfo = categoryMap.get(categoryId);
-            const mergedMenuList = list.map((menuItem) => {
-                // 查询整个列表中同商品的总数量
-                const sameProductQuantity = cartList
-                    .filter((t) => t.productId === menuItem.productId)
-                    .map((t) => t.quantity)
-                    .reduce((acc, cur) => acc + cur, 0);
-                return {
-                    ...menuItem,
-                    quantity: sameProductQuantity,
-                };
-            });
-
-            result.push({
-                categoryId,
-                categoryName: this.i18nTextService.get(categoryInfo, 'categoryName'),
-                id: categoryInfo?.id ?? 0,
-                parentId: categoryInfo?.parentId ?? 0,
-                menuVoList: mergedMenuList,
-            });
-        }
-        return result;
-    }
-
-    /**
-     * @desc 更新分类ID
-     */
-    setCurrentCategory(categoryId: string) {
-        this.currentCategory.set(categoryId);
-    }
-
-    /**
-     * @desc 分类操作上下
-     * @param type
-     * @param loop 是否循环
-     */
-    categoryUpDown(type: CategoryOperation, loop: boolean = true) {
-        const categoryList = this.categoryListValue();
-        const index = this.categoryIndexMap().get(this.currentCategoryValue());
-
-        // 如果找不到 index，直接返回
-        if (index === undefined || categoryList.length === 0) return;
-
-        // 计算新的索引
-        const offset = type === CategoryOperation.PREV ? -1 : 1;
-        const newIndex = loop
-            ? (index + offset + categoryList.length) % categoryList.length
-            : Math.min(Math.max(index + offset, 0), categoryList.length - 1);
-
-        // 切换分类
-        const target = categoryList[newIndex];
-        if (target) {
-            this.setCurrentCategory(target.categoryId);
-        }
+    getTaxGroupByCode(taxCode: string | undefined) {
+        return this._taxGroupMap().get(taxCode ?? '');
     }
 
     async init() {
@@ -231,27 +89,6 @@ export class AppMenuService extends AbstractAppService {
         await this.getRemoteMenu().catch((error) => console.error(error));
 
         this.initialized = true;
-    }
-
-    private getCurrentCategory(): string {
-        const explicitCategory = this.currentCategory();
-        const categories = this.categoryList();
-        const menuMap = this.menuMap();
-
-        // 如果明确设置了且存在，就使用
-        if (explicitCategory && menuMap.has(explicitCategory)) {
-            return explicitCategory;
-        }
-
-        // 否则找第一个有菜单的分类
-        const firstValidCategory = categories.find((cat) => menuMap.has(cat.categoryId));
-
-        return firstValidCategory?.categoryId || '';
-    }
-
-    private getCurrentMenu(): menuListItem[] {
-        const categoryId = this.getCurrentCategory();
-        return this.menuMap().get(categoryId) || [];
     }
 
     // 设置map
@@ -301,20 +138,12 @@ export class AppMenuService extends AbstractAppService {
         if (res.success && JSON.stringify(res.data) !== JSON.stringify(this._menuData())) {
             // 更新菜单全量数据
             this._menuData.set(res.data);
-
-            // 先清空map数据
-            this.menuMap.set(new Map());
-            this.menuIdMap.set(new Map());
-            this.menuCategory.set(new Map());
-
-            const menuList = res.data.menuResponseVo || [];
-            this.menu.set(menuList);
-
-            const categories = res.data.categoriesVos || [];
-            this.categoryList.set(categories);
-
-            this.updateMenuCategory(categories);
-            this.updateMenuMap(menuList);
+            // 更新菜单列表
+            this.menu.set(res.data.menuResponseVo || []);
+            // 更新分类列表
+            this.categoryList.set(res.data.categoriesVos || []);
+            // 更新税率组列表
+            this.taxGroup.set(res.data.taxGroupVos || []);
         }
     }
 
@@ -323,17 +152,37 @@ export class AppMenuService extends AbstractAppService {
      */
     private setupPersistence() {
         effect(() => {
+            const taxGroup = this.taxGroup();
+            if (taxGroup.length > 0) {
+                LocalStorage.setItem(CacheKey.MENU_TAX_GROUP, JSON.stringify(taxGroup)).catch(
+                    (err) => console.error('存储税率组失败:', err),
+                );
+                // 更新税率组map
+                this._taxGroupMap.set(
+                    new Map(taxGroup.map((item) => [item.groupCode || '', item])),
+                );
+            }
+        });
+        effect(() => {
             const categories = this.categoryList();
-            LocalStorage.setItem(CacheKey.MENU_CATEGORY, JSON.stringify(categories)).catch((err) =>
-                console.error('存储分类失败:', err),
-            );
+            if (categories.length > 0) {
+                LocalStorage.setItem(CacheKey.MENU_CATEGORY, JSON.stringify(categories)).catch(
+                    (err) => console.error('存储分类失败:', err),
+                );
+                // 更新分类map
+                this.updateMenuCategory(categories);
+            }
         });
 
         effect(() => {
             const menu = this.menu();
-            LocalStorage.setItem(CacheKey.MENU, JSON.stringify(menu)).catch((err) =>
-                console.error('存储菜单失败:', err),
-            );
+            if (menu.length > 0) {
+                LocalStorage.setItem(CacheKey.MENU, JSON.stringify(menu)).catch((err) =>
+                    console.error('存储菜单失败:', err),
+                );
+                // 更新菜单map
+                this.updateMenuMap(menu);
+            }
         });
 
         effect(() => {
@@ -353,14 +202,24 @@ export class AppMenuService extends AbstractAppService {
      */
     private async readPersistence() {
         try {
-            const [categories, menuMap] = (await Promise.all([
+            const [categories, menuMap, taxGroup] = (await Promise.all([
                 LocalStorage.getItem(CacheKey.MENU_CATEGORY),
                 LocalStorage.getItem(CacheKey.MENU_LIST),
-            ])) as [string | null, string | null];
-            if (categories) this.categoryList.set(JSON.parse(categories) as MenuCategoryItem[]);
+                LocalStorage.getItem(CacheKey.MENU_TAX_GROUP),
+            ])) as [string | null, string | null, string | null];
+
+            if (categories) {
+                this.categoryList.set(JSON.parse(categories) as MenuCategoryItem[]);
+            }
+
             if (menuMap) {
                 const data: MenuResponseVo[] = JSON.parse(menuMap);
                 this.updateMenuMap(data);
+            }
+
+            if (taxGroup) {
+                const data: StoreTaxGroupVO[] = JSON.parse(taxGroup);
+                this.taxGroup.set(data);
             }
         } catch (error) {
             console.error('从缓存加载失败:', error);

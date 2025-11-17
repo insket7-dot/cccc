@@ -8,6 +8,8 @@ export const CacheKey = {
     MENU_LIST: 'menuList',
     /** 菜单分类 */
     MENU_CATEGORY: 'menuCategory',
+    /** 税率组 */
+    MENU_TAX_GROUP: 'menuTaxGroup',
     /** 门店营业时间*/
     STORE_BUS_TIMES: 'storeTimes',
     /** 设备ID */

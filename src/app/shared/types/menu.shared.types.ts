@@ -1,3 +1,5 @@
+import { StoreTaxGroupVO } from '@app/shared/types/store.shared.types';
+
 export interface MenuModel {
     id: string;
     name: string;
@@ -35,6 +37,7 @@ export interface MenuData {
  * @desc 菜单子项
  */
 export interface menuListItem {
+    taxGroupCode?: string; // 税率组编码
     quantity: number; // 购物车中数量
     crossedOutPrice: number;
     dataFrom: string;
@@ -202,6 +205,7 @@ export interface Menu {
     categoriesVos: MenuCategoryItem[] | [] | null;
     channelId: string;
     menuResponseVo: Array<MenuResponseVo>;
+    taxGroupVos: StoreTaxGroupVO[];
 }
 
 /**

@@ -2,13 +2,22 @@ import { Injectable } from '@angular/core';
 import { PriceService } from '@app/shared/services/price.service';
 import { CartTaxTypes, ShopCartProduct } from '@app/shared/types/cart.shared.types';
 import { ProductType } from '@app/shared/constants/menu.constants';
+import { AppMenuService } from '@app/shared/services/app.menu.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubtotalService {
-    constructor(private priceService: PriceService) {}
+    constructor(
+        private priceService: PriceService,
+        private appMenuService: AppMenuService,
+    ) {}
 
+    /**
+     * @desc 菜品小计计算
+     */
     subtotalComputed(item: ShopCartProduct) {
         let subtotal = this.priceService.init(item.price ?? 0);
+        const taxInfo = this.appMenuService.getTaxGroupByCode(item.taxGroupCode);
+        console.log('taxInfo', taxInfo);
         // 单品价格
         if (item.productType === ProductType.PRODUCT) {
             // 规格

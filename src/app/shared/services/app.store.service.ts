@@ -8,10 +8,14 @@ import {
     CarouselImage,
     StoreBaseInfoInterface,
     CarouselImageResponseVO,
+    ChangeTime,
+    StoreTaxGroupVO,
+    TrdMasterStoreExtraChangeInfoVo,
 } from '@app/shared/types/store.shared.types';
 import { DateUtils } from '@app/shared/services/date-utils.service';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
+import { ModelStateService } from '@app/shared/services/model-state.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +25,10 @@ export class AppStoreService extends AbstractAppService {
     private storeBusTime = signal<StoreBusTimeInterface | null>(null);
     private storeBaseInfo = signal<StoreBaseInfoInterface | null>(null);
     private initialized = false;
+    // 税率组Map - 键为税率组编码，值为税率组对象
+    private _taxGroup = signal<Map<string, StoreTaxGroupVO>>(new Map());
+    // 附加费税率组Map - 键为税率组编码，值为税率组对象
+    private _extraChange = signal<Map<string, TrdMasterStoreExtraChangeInfoVo>>(new Map());
 
     constructor(
         private dateUtils: DateUtils,
@@ -52,9 +60,26 @@ export class AppStoreService extends AbstractAppService {
         this.setupPersistence();
     }
 
+    // 轮播图
     readonly carouselImagesValue = computed(() => this.carouselImages());
+    // 营业时间
     readonly storeBusTimeValue = computed(() => this.storeBusTime());
+    // 门店全量信息
     readonly storeBaseInfoValue = computed(() => this.storeBaseInfo());
+    // 附件费税率组 - 已过滤
+    readonly extraChangeValue = computed(() => {
+        const list = (this.storeBaseInfo()?.extraChange || []).filter((t) =>
+            this.isNowInValidity(t.validityTime ?? []),
+        );
+        // 当前点餐模式
+        const type = this.modelStateService.curModelValue();
+        if (type) {
+            return list.filter((t) => t.useOrderType?.includes(type));
+        }
+        return list;
+    });
+    // 税率组
+    readonly taxGroupValue = computed(() => this.storeBaseInfo()?.taxGroup || []);
 
     async init() {
         if (this.initialized) return;
@@ -68,6 +93,29 @@ export class AppStoreService extends AbstractAppService {
         ]);
 
         this.initialized = true;
+    }
+
+    /**
+     * @desc 根据税率组编码获取税率组
+     */
+    getGroupByCode(code: string) {
+        return this._taxGroup().get(code);
+    }
+
+    /**
+     * @desc 过滤附加费税率组是否在当前时间范围内
+     */
+    isNowInValidity(validityTime: ChangeTime[]): boolean {
+        // 没有有效期，默认有效
+        if (!validityTime || validityTime.length === 0) return true;
+
+        const now = new Date();
+        return validityTime.some((item) => {
+            const start = new Date(item.startTime);
+            const end = new Date(item.endTime);
+
+            return now >= start && now <= end;
+        });
     }
 
     /**
@@ -162,6 +210,18 @@ export class AppStoreService extends AbstractAppService {
                 LocalStorage.setItem(CacheKey.STORE_BASE_INFO, JSON.stringify(baseInfo)).catch(
                     (err) => console.error('存储门店基础信息失败:', err),
                 );
+                // 设置税率组Map
+                if (baseInfo.taxGroup && baseInfo.taxGroup.length) {
+                    this._taxGroup.set(
+                        new Map(baseInfo.taxGroup.map((t) => [t.groupCode ?? '', t])),
+                    );
+                }
+                // 设置附加费税率组Map
+                if (baseInfo.extraChange && baseInfo.extraChange.length) {
+                    this._extraChange.set(
+                        new Map(baseInfo.extraChange.map((t) => [t.id?.toString() ?? '', t])),
+                    );
+                }
             }
         });
 
