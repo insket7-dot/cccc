@@ -1,7 +1,7 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { ShopCartProduct, ShopCartSummary } from '@app/shared/types/cart.shared.types';
 import { debounceTime, Subject } from 'rxjs';
-import { CartUpdateResult } from '@app/shared/constants/app.enums';
+import { CartUpdateResult, TipTypeEnums } from '@app/shared/constants/app.enums';
 import { SubtotalService } from '@app/shared/services/subtotal.service';
 import { PriceService } from '@app/shared/services/price.service';
 import { ProductLimit } from '@app/shared/constants/menu.constants';
@@ -29,11 +29,19 @@ export class CartService {
     // 门店信息
     storeInfo = computed(() => this.appStoreService.storeBaseInfoValue());
 
+    // 最大购物车商品数量
     private maxCartCount = ProductLimit.LIMIT_MAX;
+    // 购物车商品项Map
     private _cartMap: Map<string, ShopCartProduct> = new Map();
+    // 购物车商品项信号量
     private cartMapSignal = signal<Map<string, ShopCartProduct>>(new Map());
+    // 购物车商品项变更流
     private cartChanges$ = new Subject<void>();
+    // 小费
+    private _tip = signal<number>(0);
 
+    // 小费信号量
+    readonly tip = computed(() => this._tip());
     // 购物车列表
     readonly cartList = computed(() => Array.from(this.cartMapSignal().values()));
     // 唯一ID -> 商品勾选参数
@@ -68,16 +76,37 @@ export class CartService {
         // 订单附加费
         return {
             total: this.priceService.toNumber(
-                this.priceService.add(total, extraChargeFee, orderFee),
+                this.priceService.add(total, extraChargeFee, orderFee, this._tip()),
             ),
             surchargeAmount: this.priceService.toNumber(extraChargeFee),
             surchargeTaxAmount: this.priceService.toNumber(orderFee),
             count: totalCount,
             orderTotal: total,
             taxRate,
+            tip: this._tip() ?? 0,
         } as ShopCartSummary;
     });
 
+    /**
+     * @desc 设置小费
+     * @param tip 小费金额
+     * @param type 小费类型
+     */
+    setTip(tip: number, type: TipTypeEnums) {
+        let total = this.priceService.zero();
+        if (type === TipTypeEnums.PERCENT) {
+            // 税总价计算？ 包含附加费吗？
+            total = this.priceService.mul(this.cartTotal()?.orderTotal ?? 0, tip / 100);
+        }
+        if (type === TipTypeEnums.FIXED) {
+            total = this.priceService.add(tip);
+        }
+        this._tip.set(this.priceService.toNumber(total));
+    }
+
+    /**
+     * @desc 触发购物车商品项变更事件
+     */
     private emitChange() {
         this.cartChanges$.next();
     }
@@ -199,7 +228,10 @@ export class CartService {
      * @desc 清空
      */
     clearCart() {
+        // 清空购物车商品项Map
         this._cartMap.clear();
+        // 清空小费
+        this._tip.set(0);
         this.emitChange();
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy, signal, computed } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +10,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { CartService } from '@app/shared/services/cart.service';
-import { PriceService } from '@/app/shared/services/price.service';
+import { TipTypeEnums } from '@app/shared/constants/app.enums';
 
 @Component({
     selector: 'app-add-tips',
@@ -23,13 +23,26 @@ export class AddTipsComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
     tipTypeList = [
-        { name: 'page.percentage', value: 'percentage' },
-        { name: 'page.fixed', value: 'fixed' },
+        { name: 'page.percentage', value: TipTypeEnums.PERCENT },
+        { name: 'page.fixed', value: TipTypeEnums.FIXED },
     ];
-    percentages = [30, 50, 80];
-    tipType = signal<'percentage' | 'fixed'>('percentage');
-    selectedPercentage = signal<number | null>(null);
-    fixedAmount = signal<number | null>(null);
+    tipType = signal<TipTypeEnums>(TipTypeEnums.PERCENT);
+
+    private tipModes = {
+        [TipTypeEnums.PERCENT]: {
+            suffix: '%',
+            storage: signal<number | null>(null), // 该模式下的实际值
+            quickSelect: [30, 50, 80], // 可选百分比
+        },
+        [TipTypeEnums.FIXED]: {
+            suffix: '$',
+            storage: signal<number | null>(null), // 该模式下的实际值
+            quickSelect: [], // 可选固定金额
+        },
+    };
+    inputValue = signal<number | null>(null);
+
+    currentMode = computed(() => this.tipModes[this.tipType()]);
 
     constructor(
         private bottomSheetRef: MatBottomSheetRef<AddTipsComponent>,
@@ -37,8 +50,36 @@ export class AddTipsComponent implements OnInit, OnDestroy {
         private router: Router,
         private appUrlService: AppUrlService,
         private cartService: CartService,
-        private priceService: PriceService,
-    ) {}
+    ) {
+        // 监听当前模式变化，同步更新输入框值
+        effect(() => {
+            const mode = this.currentMode();
+            this.inputValue.set(mode.storage());
+            this.cartService.setTip(mode.storage() ?? 0, this.tipType());
+        });
+
+        // 监听输入框值变化，同步更新购物车小费
+        effect(() => {
+            const val = this.inputValue();
+            const mode = this.currentMode();
+
+            // 写入本模式缓存
+            mode.storage.set(val);
+
+            // 推进给 service
+            if (val !== null && val >= 0) {
+                this.cartService.setTip(val, this.tipType());
+            }
+        });
+    }
+
+    /**
+     * @desc 小费总价展示
+     */
+    totalTip = computed(() => {
+        return this.cartService.tip();
+    });
+
     ngOnInit(): void {
         this.router.events
             .pipe(
@@ -62,20 +103,16 @@ export class AddTipsComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    cartTotalPrice = computed(() => {
-        return this.cartService.cartTotal().total;
-    });
+    /**
+     * @desc 快速选择小费金额
+     */
+    onQuickSelect(val: number) {
+        this.inputValue.set(val);
+    }
 
-    totalTip = computed(() => {
-        if (this.tipType() === 'percentage') {
-            const percentage = this.selectedPercentage() ?? 0;
-            const total = this.cartTotalPrice() ?? 0;
-            return this.priceService.toNumber((percentage / 100) * total);
-        } else {
-            return this.fixedAmount() ?? 0;
-        }
-    });
-
+    /**
+     * @desc 切换小费类型
+     */
     changeType(type: any) {
         this.tipType.set(type);
     }
@@ -86,6 +123,5 @@ export class AddTipsComponent implements OnInit, OnDestroy {
 
     tipConfirm() {
         this.bottomSheetRef.dismiss({ closed: true });
-
     }
 }

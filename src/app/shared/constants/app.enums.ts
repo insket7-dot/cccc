@@ -109,3 +109,13 @@ export enum YesNoStringEnums {
     /** 是否-是 */
     YES = '1',
 }
+
+/**
+ * @desc 小费类型
+ */
+export enum TipTypeEnums {
+    /** 小费类型-固定金额 */
+    FIXED = 'fixed',
+    /** 小费类型-百分比 */
+    PERCENT = 'percent',
+}

@@ -93,6 +93,9 @@ export interface CartTaxTypes {
  * @desc 购物车汇总数据
  */
 export interface ShopCartSummary {
+    /** 小费金额 */
+    tip?: number;
+
     /** 订单总价（已含内含税 + 外税） */
     orderTotal?: number;
 
@@ -112,7 +115,7 @@ export interface ShopCartSummary {
     /** 支付手续费（如信用卡） */
     paymentFee?: number;
 
-    /** 最终应支付金额（含所有税费） */
+    /** 最终应支付金额（含所有税费, 包含小费） */
     total: number;
 
     /* ------------------ 📊 辅助信息 ------------------ */

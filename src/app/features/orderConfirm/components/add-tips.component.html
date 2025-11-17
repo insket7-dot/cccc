@@ -1,54 +1,45 @@
 <div class="add-tips">
     <div class="top">
-        <h3>{{'page.addtip' | translate}}</h3>
-        <span (click)="cancel()">{{"app.common.cancel"| translate}}</span>
+        <h3>{{ 'page.addtip' | translate }}</h3>
+        <span (click)="cancel()">{{ 'app.common.cancel' | translate }}</span>
     </div>
 
     <div class="type">
         @for (item of tipTypeList; track item.value) {
-        <span [class.active]="item.value === tipType()" (click)="changeType(item.value)">{{
-            item.name | translate
-        }}</span>
-
+            <span [class.active]="item.value === tipType()" (click)="changeType(item.value)">{{
+                item.name | translate
+            }}</span>
         }
     </div>
 
     <div class="fee">
-        @if(tipType() === 'percentage') {
-        <div class="percentage">
-            <div class="percentage_list">
-                @for (item of percentages; track item) {
+        <!-- 快速选择 -->
+        <div class="percentage_list">
+            @for (val of currentMode().quickSelect; track val) {
                 <span
                     class="percentage_item"
-                    [class.active]="item === selectedPercentage()"
-                    (click)="selectedPercentage.set(item)"
-                    >{{ item }}%</span
+                    [class.active]="val === inputValue()"
+                    (click)="onQuickSelect(val)"
                 >
-                }
-            </div>
+                    {{ val }}{{ currentMode().suffix }}
+                </span>
+            }
+        </div>
 
-            <p>{{"submit.tip" | translate}}</p>
-            <mat-form-field class="example-full-width">
-                <input type="tel" matInput [(ngModel)]="selectedPercentage" placeholder="" />
-                <span matSuffix>% &nbsp;</span>
-            </mat-form-field>
-        </div>
-        } @if(tipType() === 'fixed') {
-        <div class="percentage">
-            <p>{{"submit.tip" | translate}}</p>
-            <mat-form-field class="example-full-width">
-                <input type="tel" matInput [(ngModel)]="fixedAmount" placeholder="" />
-                <span matSuffix>$ &nbsp;</span>
-            </mat-form-field>
-        </div>
-        }
+        <p>{{ 'submit.tip' | translate }}</p>
+
+        <!-- 唯一的 input -->
+        <mat-form-field class="example-full-width">
+            <input type="tel" matInput [(ngModel)]="inputValue" />
+            <span matSuffix>{{ currentMode().suffix }} &nbsp;</span>
+        </mat-form-field>
     </div>
 
     <div class="bottom">
-        <p class="total">{{"submit.totalTip" |translate }} ${{totalTip()}}</p>
+        <p class="total">{{ 'submit.totalTip' | translate }} ${{ totalTip() }}</p>
 
         <div class="confirm" (click)="tipConfirm()">
-            {{"app.common.confirm" | translate}}
+            {{ 'app.common.confirm' | translate }}
         </div>
     </div>
 </div>
