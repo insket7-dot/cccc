@@ -11,15 +11,15 @@
     <div class="order_info">
         <div class="line">
             <div class="line_name">Order Number</div>
-            <div class="line_value">123123123</div>
+            <div class="line_value">{{thirdOrderId()}}</div>
         </div>
         <div class="line">
             <div class="line_name">Retrieval Code</div>
-            <div class="line_value">66</div>
+            <div class="line_value">{{takeNo()}}</div>
         </div>
         <div class="line">
             <div class="line_name">Order Amount</div>
-            <div class="line_value">123</div>
+            <div class="line_value">{{userRealPrice() | priceI18n}}</div>
         </div>
     </div>
 

@@ -107,7 +107,7 @@ export class AppUrl {
      */
     public static readonly API_ORDER_CONFIRM: Url = new Url(
         'API_ORDER_CONFIRM',
-        AppUrl.requestFullUrl('/submitOrder'),
+        AppUrl.requestFullUrl('/order/submitOrder'),
         Method.POST,
     );
 }

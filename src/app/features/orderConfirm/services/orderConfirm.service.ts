@@ -134,6 +134,7 @@ export class OrderConfirmService extends AbstractAppService {
             orderDetails: this.reformatOrderDetails(),
         };
         const url = this.appUrlService.getApiUrl('API_ORDER_CONFIRM');
-        return this.request<void>(url, updateData);
+        const res = await this.request<void>(url, updateData);
+        return res.data
     }
 }

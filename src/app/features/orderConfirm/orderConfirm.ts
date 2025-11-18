@@ -12,6 +12,10 @@ import { AppUrlService } from '@app/shared/services/app.url.service';
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { SerialNumberService } from '@app/shared/services/serial-number.service';
 import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
+import { OrderConfirmService} from "./services/orderConfirm.service"
+
+
+
 
 @Component({
     selector: 'app-orderConfirm',
@@ -28,6 +32,7 @@ export class OrderConfirm extends AbstractAppPage {
         private menuFacadeService: MenuFacadeService,
         private readonly appUrlService: AppUrlService,
         private readonly serialNumberService: SerialNumberService,
+        private orderConfirmService: OrderConfirmService,
     ) {
         super();
     }
@@ -68,15 +73,24 @@ export class OrderConfirm extends AbstractAppPage {
     /**
      * @desc 订单确认
      */
-    orderConfirm() {
+    async orderConfirm() {
         this.confirm('app.order.confirmPlaceOrder', {}, async (res) => {
             if (res.role === 'ok') {
                 this.serialNumberService.generateNextSerialNumber().catch(console.error);
+                const res:any = await this.orderConfirmService.orderConfirmRequest()
+                console.log('%c [ res ]-78', 'font-size:13px; background:#25c021; color:#69ff65;', res);
                 this.router
-                    .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_SUBMIT')])
+                    .navigate([this.appUrlService.getPageUrlValue('PAGE_ORDER_SUBMIT')],{
+                        queryParams: {
+                            takeNo: res.takeNo,
+                            userRealPrice: res.userRealPrice,
+                            thirdOrderId: res.thirdOrderId,
+                        },
+                    })
                     .catch(console.error);
             }
             return true;
+
         }).catch(console.error);
     }
 }
