@@ -202,7 +202,10 @@
         "success_text1":"Order submitted successfully",
         "success_text2":"Please go to the front desk to pay",
         "totalTip":"Total Tip",
-        "tip":"Tip"
+        "tip":"Tip",
+         "orderNumber":"Order Number",
+        "takeNo":"Take No",
+        "orderAmount":"Order Amount"
 
 
 

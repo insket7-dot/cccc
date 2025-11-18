@@ -1,5 +1,5 @@
 import { LoginService } from './services/login.service';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
@@ -35,7 +35,7 @@ export class Login extends AbstractAppPage implements OnInit {
 
     loginForm: FormGroup;
     deviceState = DeviceStateEnum;
-    currentState: DeviceStateEnum = DeviceStateEnum.BIND_DEVICE;
+    currentState = signal<DeviceStateEnum>(DeviceStateEnum.BIND_DEVICE);
 
     constructor(
         private fb: NonNullableFormBuilder,
@@ -55,20 +55,20 @@ export class Login extends AbstractAppPage implements OnInit {
 
     ngOnInit() {
         const queryParams = this.route.snapshot.queryParams;
-        this.currentState = queryParams['state'] as DeviceStateEnum;
+        this.currentState.set(queryParams['state'] as DeviceStateEnum);
 
-        if (this.currentState === DeviceStateEnum.BIND_DEVICE) {
+        if (this.currentState() === DeviceStateEnum.BIND_DEVICE) {
             this.loginForm.controls['storeCode'].addValidators([Validators.required]);
             this.loginForm.controls['authCode'].addValidators([Validators.required]);
         }
-        if (this.currentState === DeviceStateEnum.LOGIN) {
+        if (this.currentState() === DeviceStateEnum.LOGIN) {
             this.loginForm.controls['password'].addValidators([Validators.required]);
         }
     }
 
     async onSubmitHandler() {
         if (this.loginForm.valid) {
-            if (this.currentState === DeviceStateEnum.BIND_DEVICE) {
+            if (this.currentState() === DeviceStateEnum.BIND_DEVICE) {
                 const result = await this.LoginService.bingDevice({
                     storeCode: this.loginForm.value.storeCode.trim(),
                     authCode: this.loginForm.value.authCode.trim(),
@@ -80,13 +80,31 @@ export class Login extends AbstractAppPage implements OnInit {
                         .navigate([this.appUrlService.getPageUrlValue('PAGE_SCREEN')], {})
                         .catch((error) => console.error(error));
                 } else {
-this.error(result.msg);
+                    this.error(result.msg);
                 }
             }
         } else {
             Object.values(this.loginForm.controls).forEach((control) => {
                 control.markAsTouched();
             });
+        }
+    }
+
+    async resetConfig() {
+        try {
+            await LocalStorage.clear();
+
+            this.modelStateService.clearUserSelectState();
+
+            this.router
+                .navigate([this.appUrlService.getPageUrlValue('PAGE_LOGIN')], {
+                    queryParams: { state: DeviceStateEnum.BIND_DEVICE },
+                })
+                .catch((error) => console.error(error));
+
+                this.currentState.set(DeviceStateEnum.BIND_DEVICE)
+        } catch (error) {
+            this.error('清除设置失败，请重试');
         }
     }
 }

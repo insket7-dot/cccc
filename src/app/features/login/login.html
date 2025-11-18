@@ -3,7 +3,7 @@
         <img ngSrc="/assets/image/logo.png" alt="yaki Logo" class="logo" width="180" height="180"/>
     </div>
 
-    @if (currentState === deviceState.BIND_DEVICE) {
+    @if (currentState() === deviceState.BIND_DEVICE) {
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
             <span class="title"> {{ 'page.storeCode' | translate }}</span>
             <mat-form-field class="field">
@@ -61,7 +61,7 @@
         </div> -->
         </form>
     }
-    @if (currentState === deviceState.LOGIN) {
+    @if (currentState() === deviceState.LOGIN) {
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
             <span class="title"> {{ 'page.password' | translate }}</span>
             <mat-form-field class="field">
@@ -75,9 +75,9 @@
             </mat-form-field>
         </form>
     }
-    @if (currentState === deviceState.RESET) {
+    @if (currentState() === deviceState.RESET) {
         <div class="admin">
-            <button class="button submit-btn">
+            <button class="button submit-btn" (click)="resetConfig()">
                 {{ 'page.resetConfig' | translate }}
             </button>
             <button class="button submit-btn">
@@ -88,7 +88,7 @@
             </button>
         </div>
     }
-    @if (currentState !== deviceState.RESET) {
+    @if (currentState() !== deviceState.RESET) {
         <button
             class="button submit-btn"
             type="submit"

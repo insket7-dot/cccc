@@ -10,15 +10,15 @@
 
     <div class="order_info">
         <div class="line">
-            <div class="line_name">Order Number</div>
+            <div class="line_name">{{"submit.orderNumber" | translate}}</div>
             <div class="line_value">{{thirdOrderId()}}</div>
         </div>
         <div class="line">
-            <div class="line_name">Retrieval Code</div>
+            <div class="line_name">{{"submit.takeNo" | translate}}</div>
             <div class="line_value">{{takeNo()}}</div>
         </div>
         <div class="line">
-            <div class="line_name">Order Amount</div>
+            <div class="line_name">{{"submit.orderAmount" | translate}}</div>
             <div class="line_value">{{userRealPrice() | priceI18n}}</div>
         </div>
     </div>
