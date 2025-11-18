@@ -15,7 +15,7 @@ import {
 import { DateUtils } from '@app/shared/services/date-utils.service';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
-import { ModelStateService } from '@app/shared/services/model-state.service';
+import { ExtraChargeTypeEnum } from '@app/shared/constants/tax.enums';
 
 @Injectable({
     providedIn: 'root',
@@ -66,11 +66,12 @@ export class AppStoreService extends AbstractAppService {
     readonly storeBusTimeValue = computed(() => this.storeBusTime());
     // 门店全量信息
     readonly storeBaseInfoValue = computed(() => this.storeBaseInfo());
-    // 附件费税率组 - 已过滤
+    // 附加费税率组 - 已过滤
     readonly extraChangeValue = computed(() => {
-        const list = (this.storeBaseInfo()?.extraChange || []).filter((t) =>
-            this.isNowInValidity(t.validityTime ?? []),
-        );
+        // 过滤订单附加费
+        const list = (this.storeBaseInfo()?.extraChange || [])
+            .filter((t) => t.extraChargeType === ExtraChargeTypeEnum.ORDER)
+            .filter((t) => this.isNowInValidity(t.validityTime ?? []));
         // 当前点餐模式
         const type = this.modelStateService.curModelValue();
         if (type) {

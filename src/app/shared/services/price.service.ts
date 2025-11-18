@@ -95,4 +95,11 @@ export class PriceService {
     toFen(value: number | string | Decimal): number {
         return this.mul(value, 100).toDecimalPlaces(0).toNumber();
     }
+
+    /**
+     * @desc 百分比转换为小数
+     */
+    toPercentage(value: number | string | Decimal): number {
+        return this.div(value, 100).toNumber();
+    }
 }

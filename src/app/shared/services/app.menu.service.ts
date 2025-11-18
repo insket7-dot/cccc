@@ -73,8 +73,17 @@ export class AppMenuService extends AbstractAppService {
     /**
      * @desc 通过编码获取税率组信息
      */
-    getTaxGroupByCode(taxCode: string | undefined) {
-        return this._taxGroupMap().get(taxCode ?? '');
+    getTaxGroupByCode(taxCode: string) {
+        const group = this._taxGroupMap().get(taxCode ?? '');
+        if (group) {
+            const tax = group.taxList?.[0];
+            const type = this.modelStateService.curModelValue();
+            if (tax && type) {
+                return tax.useType?.some((t) => t === type) ? tax : undefined;
+            }
+            return tax;
+        }
+        return undefined;
     }
 
     async init() {

@@ -111,6 +111,14 @@ export enum YesNoStringEnums {
 }
 
 /**
+ * @desc Y/N 枚举
+ */
+export enum YOrNEnum {
+    Y = 'Y',
+    N = 'N',
+}
+
+/**
  * @desc 小费类型
  */
 export enum TipTypeEnums {

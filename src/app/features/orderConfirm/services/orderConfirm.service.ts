@@ -29,6 +29,7 @@ export class OrderConfirmService extends AbstractAppService {
     cartList = computed(() => this.cartService.cartList());
     menuCartList = computed(() => this.menuFacadeService.cartListValue());
     storeBaseInfo = computed(() => this.appStoreService.storeBaseInfoValue());
+    cartTotalInfo = computed(() => this.cartService.cartTotal());
 
     /**
      * @desc 补零操作
@@ -121,6 +122,7 @@ export class OrderConfirmService extends AbstractAppService {
     async orderConfirmRequest() {
         const updateData: OrderRequestVO = {
             thirdOrderId: this.orderId(),
+            takeNo: `K${this.serialNumberService.currentSerialNumberValue()}`,
             brandCode: this.storeBaseInfo()?.brandCode ?? '',
             channelId: OrderConstants.ORDER_CHANNEL,
             orderType: OrderConstants.ORDER_TYPE_TAKE_IN,
@@ -128,13 +130,13 @@ export class OrderConfirmService extends AbstractAppService {
             storeName: this.storeBaseInfo()?.storeName ?? '',
             createTime: this.dateService.formatDateTime(new Date()),
             orderTime: this.dateService.formatDateTime(new Date()),
-            userRealPrice: this.priceService.toFen(this.cartService.cartTotal()?.total ?? 0),
+            userRealPrice: this.priceService.toFen(this.cartTotalInfo()?.total ?? 0),
             bookFlag: OrderConstants.ORDER_BOOKING_FLAG_INSTANT,
             payMode: OrderConstants.ORDER_BOOKING_FLAG_PAC,
             orderDetails: this.reformatOrderDetails(),
+            originalPrice: this.priceService.toFen(this.cartTotalInfo()?.total ?? 0),
         };
         const url = this.appUrlService.getApiUrl('API_ORDER_CONFIRM');
-        const res = await this.request<void>(url, updateData);
-        return res.data
+        return this.request<OrderRequestVO>(url, updateData);
     }
 }

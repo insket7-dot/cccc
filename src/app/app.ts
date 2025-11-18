@@ -7,10 +7,6 @@ import {
     signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppEvent } from './core/constants/app.event';
@@ -18,10 +14,8 @@ import { Subscription } from 'rxjs';
 import { BarcodeService } from './core/services/barcode.service';
 import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { triggerAnimation } from './core/animations/route-animations';
-// import { AppUrl } from './core/constants/app.url';
 import { AbstractAppPage } from './shared/abstracts/abstract.app.page';
 import { Platform } from '@ionic/angular';
-// import { Capacitor } from '@capacitor/core';
 // import { DATABASE_SERVICE } from './core/tokens/database.token';
 // import type { IDatabaseService } from './core/interfaces/database.interface';
 // import { MigrationService } from './core/services/migration.service';
@@ -29,16 +23,7 @@ import { IdleTimeoutService } from '@/app/core/services/timeout.service';
 
 @Component({
     selector: 'app-root',
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSnackBarModule,
-        MatDialogModule,
-        MatProgressSpinnerModule,
-        TranslateModule,
-    ],
+    imports: [CommonModule, RouterOutlet, MatProgressSpinnerModule, TranslateModule],
     templateUrl: './app.html',
     styleUrl: './app.scss',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -169,7 +154,4 @@ export class App extends AbstractAppPage implements OnDestroy, OnInit {
     getRouteAnimationData() {
         return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
     }
-
-    // protected readonly AppUrl = AppUrl;
-    // protected readonly Capacitor = Capacitor;
 }

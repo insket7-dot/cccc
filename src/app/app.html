@@ -1,36 +1,3 @@
-<!-- <mat-toolbar color="primary">
-    <span>{{ title() }}</span>
-    <span class="toolbar-spacer"></span>
-    <button
-        type="button"
-        mat-button
-        [color]="getRouteAnimationData() === 'index' ? 'accent' : undefined"
-        (click)="navigateByUrl(AppUrl.PAGE_HOME)"
-    >
-        {{ 'app.navigation.home' | translate }}
-    </button>
-    <button
-        type="button"
-        mat-button
-        [color]="getRouteAnimationData() === 'menu' ? 'accent' : undefined"
-        (click)="navigateByUrl(AppUrl.PAGE_MENU)"
-    >
-        {{ 'app.navigation.menu' | translate }}
-    </button>
-    <button
-        type="button"
-        mat-button
-        [color]="getRouteAnimationData() === 'users' ? 'accent' : undefined"
-        (click)="navigateByUrl(AppUrl.PAGE_USERS)"
-    >
-        {{ 'app.navigation.users' | translate }}
-    </button>
-    <button type="button" mat-flat-button color="accent" (click)="onScanClicked()">
-        {{ 'app.navigation.scan' | translate }}
-    </button>
-    <app-language-selector></app-language-selector>
-</mat-toolbar> -->
-
 <main class="main" [@routeAnimations]="getRouteAnimationData()">
     <router-outlet #outlet="outlet" />
 </main>

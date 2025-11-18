@@ -3,9 +3,9 @@
  */
 export enum TaxTypeEnums {
     /** 税率方式-百分比税率 */
-    PERCENTAGE = 1,
+    PERCENTAGE = '1',
     /** 税率方式-固定金额 */
-    FIXED_AMOUNT = 2,
+    FIXED_AMOUNT = '2',
 }
 
 /**
@@ -13,9 +13,9 @@ export enum TaxTypeEnums {
  */
 export enum TaxCategoryEnum {
     /** 税别分类-内含税 */
-    INCLUSIVE = 1,
+    INCLUSIVE = '1',
     /** 税别分类-外加税 */
-    EXCLUSIVE = 2,
+    EXCLUSIVE = '2',
 }
 
 /**
@@ -61,4 +61,14 @@ export enum UsePayTypesEnum {
     VISA = '2',
     /** 支付方式-信用卡支付 */
     CREDIT_CARD = '3',
+}
+
+/**
+ * @desc 服务费计算方式
+ */
+export enum ServiceChargeTypeEnum {
+    /** BEFORE_TAX*/
+    BEFORE_TAX = 'BEFORE_TAX',
+    /** INCLUDE_TAX */
+    INCLUDE_TAX = 'INCLUDE_TAX',
 }

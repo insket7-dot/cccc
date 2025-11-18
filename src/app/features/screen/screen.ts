@@ -8,9 +8,9 @@ import { CarouselImage } from '@app/shared/types/store.shared.types';
 import { PrintOrderService } from '@app/shared/services/print-order.service';
 import { AppVoiceService } from '@app/shared/services/app.voice.service';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
-import { CartService } from '@app/shared/services/cart.service';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { SerialNumberService } from '@app/shared/services/serial-number.service';
+import { ClearService } from '@app/shared/services/ui/clear.service';
 
 @Component({
     selector: 'app-screen',
@@ -46,9 +46,9 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
         private appStoreService: AppStoreService,
         private mqttService: MqttService,
         private voiceService: AppVoiceService,
-        private cartService: CartService,
         private readonly appUrlService: AppUrlService,
         private serialNumberService: SerialNumberService,
+        private clearService: ClearService,
     ) {
         super();
         void this.printOrderService; // 确保依赖注入
@@ -69,8 +69,7 @@ export class Screen extends AbstractAppPage implements OnInit, OnDestroy {
             this.voiceService.initialize(),
         ]).catch((error) => console.error('初始化失败', error));
 
-        // 进入首屏时清空购物车
-        this.cartService.clearCart();
+        this.clearService.clearAll();
     }
 
     ngOnDestroy() {

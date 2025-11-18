@@ -1,5 +1,6 @@
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { MenuGrillItem, MenuRoundItem, MenuSpecItem } from '@app/shared/types/menu.shared.types';
+import { TaxCategoryEnum, TaxTypeEnums } from '@app/shared/constants/tax.enums';
 
 /**
  * @desc 套餐轮次组
@@ -68,25 +69,13 @@ export interface CartTaxTypes {
     /** 外含税金额（需额外加在价格上的消费税部分） */
     externalTax?: number;
 
-    /** 行级总价（计算用，内含税 + 外税） */
-    lineTotal?: number;
-
-    /** 基础单价（未含税） */
-    unitBasePrice?: number;
-
-    /** 单品内含税金额 */
-    unitInternalTax?: number;
-
-    /** 单品外含税金额 */
-    unitExternalTax?: number;
-
     /* ------------------ 📊 辅助信息 ------------------ */
 
-    /** 适用税种类型：'exclusive' | 'inclusive' | 'exempt' */
-    taxType?: 'exclusive' | 'inclusive' | 'exempt';
+    /** 适用税种类型 */
+    taxType?: TaxTypeEnums | string;
 
     /** 消费税税率 */
-    taxRate?: number;
+    taxRate?: number | string;
 }
 
 /**

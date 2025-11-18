@@ -3,6 +3,7 @@ import { PriceService } from '@app/shared/services/price.service';
 import { CartTaxTypes, ShopCartProduct } from '@app/shared/types/cart.shared.types';
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
+import { TaxCategoryEnum } from '@app/shared/constants/tax.enums';
 
 @Injectable({ providedIn: 'root' })
 export class SubtotalService {
@@ -16,8 +17,7 @@ export class SubtotalService {
      */
     subtotalComputed(item: ShopCartProduct) {
         let subtotal = this.priceService.init(item.price ?? 0);
-        const taxInfo = this.appMenuService.getTaxGroupByCode(item.taxGroupCode);
-        console.log('taxInfo', taxInfo);
+
         // 单品价格
         if (item.productType === ProductType.PRODUCT) {
             // 规格
@@ -60,24 +60,34 @@ export class SubtotalService {
         const qty = item.quantity ?? 1;
 
         // ---------- 税种处理 ----------
-        const taxType = (item as any).taxType ?? 'NONE';
-        const taxRate = (item as any).taxRate ?? 0;
+        const targetTax = this.appMenuService.getTaxGroupByCode(item.taxGroupCode ?? '');
 
         // 按单价（单件）计算，再乘以 qty。也可以先乘 qty 再算，取决于你的四舍五入策略。
         let internalTaxSingle = this.priceService.zero();
         let externalTaxSingle = this.priceService.zero();
         let priceExclInternalSingle = subtotal;
 
-        if (taxType === 'INTERNAL' && taxRate > 0) {
-            // 内含税：从 base 中剥离税额
-            internalTaxSingle = this.priceService.sub(
-                subtotal,
-                this.priceService.div(subtotal, this.priceService.add(1, taxRate)),
-            );
+        if (
+            targetTax &&
+            targetTax.taxCategory === TaxCategoryEnum.INCLUSIVE &&
+            targetTax.taxValue
+        ) {
+            // 内含税：从 subtotal 中剥离税额
+            const taxRate = this.priceService.toPercentage(targetTax.taxValue);
+            internalTaxSingle = this.priceService
+                .mul(subtotal, taxRate)
+                .div(this.priceService.add(1, taxRate));
             priceExclInternalSingle = this.priceService.sub(subtotal, internalTaxSingle);
-        } else if (taxType === 'EXTERNAL' && taxRate > 0) {
+        } else if (
+            targetTax &&
+            targetTax.taxCategory === TaxCategoryEnum.EXCLUSIVE &&
+            targetTax.taxValue
+        ) {
             // 外含税：需要额外计算
-            externalTaxSingle = this.priceService.mul(subtotal, taxRate);
+            externalTaxSingle = this.priceService.mul(
+                subtotal,
+                this.priceService.toPercentage(targetTax.taxValue),
+            );
         }
 
         // 按 quantity 计算行级金额（并在这里做四舍五入到分）
@@ -94,13 +104,11 @@ export class SubtotalService {
             priceExcludingInternalTax: this.priceService.toNumber(priceExcludingInternalTax),
             internalTax: this.priceService.toNumber(internalTax),
             externalTax: this.priceService.toNumber(externalTax),
-            lineTotal: this.priceService.toNumber(lineTotal),
-            // 可保留原始 base 单价便于 UI 展示:
             subtotal: this.priceService.toNumber(lineTotal),
-            unitBasePrice: this.priceService.toNumber(subtotal),
-            unitInternalTax: this.priceService.toNumber(internalTaxSingle),
-            unitExternalTax: this.priceService.toNumber(externalTaxSingle),
+            taxType: targetTax?.taxType,
+            taxRate: targetTax?.taxValue,
         };
+        console.log('subtotal', data);
         return data;
     }
 }

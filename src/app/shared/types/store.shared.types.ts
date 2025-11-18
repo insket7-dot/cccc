@@ -1,3 +1,15 @@
+import {
+    CountTypeEnum,
+    ExtraChargeTypeEnum,
+    NumberCountTypeEnum,
+    ServiceChargeTypeEnum,
+    TaxCategoryEnum,
+    TaxTypeEnums,
+    UsePayTypesEnum,
+} from '@app/shared/constants/tax.enums';
+import { YesNoNumberEnums, YOrNEnum } from '@app/shared/constants/app.enums';
+import { OrderMode } from '@app/shared/constants/menu.constants';
+
 /**
  * @desc 门店营业时间
  */
@@ -117,12 +129,12 @@ export interface StoreBaseInfoInterface {
     /**
      * 服务费计算方式 scCalcMode（BEFORE_TAX、 INCLUDE_TAX 两个选项）
      */
-    scCalcMode?: string;
+    scCalcMode?: ServiceChargeTypeEnum | string;
 
     /**
      * 菜品价格是否包含消费税 （Y/N）
      */
-    menuTaxRate?: string;
+    menuTaxRate?: YOrNEnum | string;
 
     /**
      * 消费税名称
@@ -186,11 +198,11 @@ export interface TaxInfo {
     /**
      * 适用于 1 堂食 2 外卖
      */
-    useType?: string[];
+    useType?: (OrderMode | string)[];
     /**
      * 适用于 1 堂食 2 外卖
      */
-    useTypeStr?: string;
+    useTypeStr?: OrderMode | string;
     /**
      * 免税最小
      */
@@ -202,11 +214,11 @@ export interface TaxInfo {
     /**
      * 税率方式 1 百分比税率 2 固定金额
      */
-    taxType?: string;
+    taxType?: TaxTypeEnums | string;
     /**
      * 税分类 1 内含税 2 外加税
      */
-    taxCategory?: string;
+    taxCategory?: TaxCategoryEnum | string;
     /**
      * 状态
      */
@@ -217,9 +229,9 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     id?: number;
 
     /**
-     * 类别 1:内含税  2:外加税
+     * 附加费类型 1 订单附加费 2 支付手续费
      */
-    extraChargeType?: string;
+    extraChargeType?: ExtraChargeTypeEnum | string;
 
     /**
      * 名称
@@ -229,7 +241,7 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     /**
      * 计算类型 1 金额 2 百分比
      */
-    numberCountType?: string;
+    numberCountType?: NumberCountTypeEnum | string;
 
     /**
      * 数值
@@ -244,12 +256,12 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     /**
      * 计算方式 1: 折扣前计算 2: 折扣后计算
      */
-    countType?: string;
+    countType?: CountTypeEnum | string;
 
     /**
      * 按人收费 0 否 1 是
      */
-    perChangeFee?: number;
+    perChangeFee?: YesNoNumberEnums | number;
 
     /**
      * 最少人数
@@ -269,21 +281,21 @@ export interface TrdMasterStoreExtraChangeInfoVo {
     /**
      * 适用的支付方式 1 现金支付 2 VISA支付 3 信用卡支付
      */
-    usePayTypes?: string;
+    usePayTypes?: UsePayTypesEnum | string;
 
     /**
      * 适用的订单类型 1 堂食 2 外卖
      */
-    useOrderTypes?: string;
+    useOrderTypes?: OrderMode | string;
 
     /**
      * 适用的支付方式 1 现金支付 2 VISA支付 3 信用卡支付
      */
-    usePayType?: string[];
+    usePayType?: (UsePayTypesEnum | string)[];
     /**
      * 适用的订单类型 1 堂食 2 外卖
      */
-    useOrderType?: string[];
+    useOrderType?: (OrderMode | string)[];
 
     changeNumber?: number;
 
