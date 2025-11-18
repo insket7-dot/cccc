@@ -198,7 +198,6 @@ export class MenuFacadeService {
 
         // 如果明确设置了且存在，就使用
         if (explicitCategory && menuMap.has(explicitCategory)) {
-            console.log('explicitCategory', explicitCategory);
             return explicitCategory;
         }
 
