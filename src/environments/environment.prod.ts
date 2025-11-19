@@ -8,15 +8,15 @@ export const environment = {
     /** 后台服务接口地址 */
     dynamicUrl: 'https://sxx.rydeen.com.cn',
     /** 资源包版本号 */
-    assetsVersion: '20250324',
+    assetsVersion: '20251119',
     /** App版本号 */
-    appVersion: '3.0.7',
+    appVersion: '1.0.2',
     /** 最大可用版本号 */
-    maxVersionCode: '40',
+    maxVersionCode: '20',
     /** 最小可用版本Code */
-    minVersionName: '3.0.7',
+    minVersionName: '1.0.2',
     /** 最小可用版本号 */
-    minVersionCode: '39',
+    minVersionCode: '10',
     /** 版本更新检查接口 */
     checkPatchUrl: 'https://sxx-v3.rydeen.com.cn/general/version/live-updates',
     /** 运行版本上报接口 */

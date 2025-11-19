@@ -8,7 +8,7 @@ export const environment = {
     /** 后台服务接口地址 */
     dynamicUrl: 'https://staging.yakiapp.io/',
     /** 资源包版本号 */
-    assetsVersion: '20251013',
+    assetsVersion: '20251119',
     /** App版本号 */
     appVersion: '1.0.0',
     /** 最大可用版本号 */

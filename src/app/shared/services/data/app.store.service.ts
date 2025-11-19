@@ -16,6 +16,7 @@ import { DateUtils } from '@app/shared/services/util/date-utils.service';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { AppMqttEnums } from '@app/shared/constants/app.enums';
 import { ExtraChargeTypeEnum } from '@app/shared/constants/tax.enums';
+import { StoreCarouselConstants } from '@app/shared/constants/app.constants';
 
 @Injectable({
     providedIn: 'root',
@@ -73,14 +74,14 @@ export class AppStoreService extends AbstractAppService {
             .filter((t) => t.extraChargeType === ExtraChargeTypeEnum.ORDER)
             .filter((t) => this.isNowInValidity(t.validityTime ?? []));
         // 当前点餐模式
-        const type = this.modelStateService.curModelValue();
+        const type = this.modelStateService.curWayValue();
         if (type) {
             return list.filter((t) => t.useOrderType?.includes(type));
         }
         return list;
     });
     // 税率组
-    readonly taxGroupValue = computed(() => this.storeBaseInfo()?.taxGroup || []);
+    readonly taxGroupValue = computed(() => this.storeBaseInfo()?.taxGroup);
 
     async init() {
         if (this.initialized) return;
@@ -94,6 +95,15 @@ export class AppStoreService extends AbstractAppService {
         ]);
 
         this.initialized = true;
+    }
+
+    /**
+     * @desc 判定门店税率和菜品税率是否一致
+     */
+    isTaxGroupSame(groupCode: string) {
+        if (!groupCode) return false;
+
+        return this.storeBaseInfoValue()?.taxGroupCode === groupCode;
     }
 
     /**
@@ -124,8 +134,8 @@ export class AppStoreService extends AbstractAppService {
      */
     async getRemoteCarouselImages() {
         const res = await this.request<CarouselImageResponseVO[]>(AppUrl.GET_RESOURCE, {
-            pageCode: 'page001',
-            operationAreaCode: 'oper001',
+            pageCode: StoreCarouselConstants.PAGE_CODE,
+            operationAreaCode: StoreCarouselConstants.OPERATION_AREA_CODE,
             nowDate: this.dateUtils.formatDateTime(new Date()),
         });
         const data = res.data[0] || {};
@@ -212,9 +222,9 @@ export class AppStoreService extends AbstractAppService {
                     (err) => console.error('存储门店基础信息失败:', err),
                 );
                 // 设置税率组Map
-                if (baseInfo.taxGroup && baseInfo.taxGroup.length) {
+                if (baseInfo.taxGroup) {
                     this._taxGroup.set(
-                        new Map(baseInfo.taxGroup.map((t) => [t.groupCode ?? '', t])),
+                        new Map([[baseInfo.taxGroup.groupCode ?? '', baseInfo.taxGroup]]),
                     );
                 }
                 // 设置附加费税率组Map

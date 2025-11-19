@@ -159,7 +159,7 @@ export interface StoreBaseInfoInterface {
      */
     taxGroupCode?: string;
 
-    taxGroup?: StoreTaxGroupVO[];
+    taxGroup?: StoreTaxGroupVO;
 
     /**
      * 附加费
@@ -297,7 +297,10 @@ export interface TrdMasterStoreExtraChangeInfoVo {
      */
     useOrderType?: (OrderMode | string)[];
 
-    changeNumber?: number;
+    /**
+     * 按人收费 0 否 1 是
+     */
+    changeNumber?: YesNoNumberEnums | number;
 
     /**
      * 有效期

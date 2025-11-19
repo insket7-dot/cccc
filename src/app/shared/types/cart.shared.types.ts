@@ -1,6 +1,6 @@
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { MenuGrillItem, MenuRoundItem, MenuSpecItem } from '@app/shared/types/menu.shared.types';
-import { TaxCategoryEnum, TaxTypeEnums } from '@app/shared/constants/tax.enums';
+import { TaxTypeEnums } from '@app/shared/constants/tax.enums';
 
 /**
  * @desc 套餐轮次组
@@ -101,7 +101,7 @@ export interface ShopCartSummary {
 
     /* ------------------ 💳 支付相关 ------------------ */
 
-    /** 支付手续费（如信用卡） */
+    /** 支付手续费（如信用卡） 暂未使用 */
     paymentFee?: number;
 
     /** 最终应支付金额（含所有税费, 包含小费） */
@@ -110,7 +110,7 @@ export interface ShopCartSummary {
     /* ------------------ 📊 辅助信息 ------------------ */
 
     /** 消费税税率 */
-    taxRate?: number;
+    taxRate?: number | string;
 }
 
 /**
@@ -125,6 +125,8 @@ export interface ShopCartProductOrigin {
     quantity: number;
     price: number;
     subtotal?: number;
+    /** 菜单显示小计（含内含税，但不含外税） */
+    displaySubtotal?: number;
     taxData?: CartTaxTypes; // 税费数据
     taxGroupCode?: string; // 税率组编码
 }

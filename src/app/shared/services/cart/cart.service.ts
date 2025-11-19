@@ -6,6 +6,7 @@ import { SubtotalService } from '@app/shared/services/cart/subtotal.service';
 import { PriceService } from '@app/shared/services/util/price.service';
 import { ProductLimit } from '@app/shared/constants/menu.constants';
 import { AppStoreService } from '@app/shared/services/data/app.store.service';
+import { NumberCountTypeEnum } from '@app/shared/constants/tax.enums';
 
 @Injectable({
     providedIn: 'root',
@@ -48,43 +49,85 @@ export class CartService {
     readonly cartMap = computed(() => this.cartMapSignal());
     // 购物车总价
     readonly cartTotal = computed(() => {
+        // 购物车商品项总价计算（包含外税）
         const total = this.priceService.toNumber(
             this.priceService.sumList(this.cartList().map((item) => item.subtotal ?? 0)),
         );
+
+        // 商品原价的总和（不含外税）
+        const originalTotal = this.priceService.toNumber(
+            this.priceService.sumList(this.cartList().map((item) => item.displaySubtotal ?? 0)),
+        );
+
+        // 购物车商品项总数量计算
         const totalCount = this.cartList().reduce((acc, item) => acc + item.quantity, 0);
-        const storeInfo = this.appStoreService.storeBaseInfoValue();
+
         // 消费税税率
-        const taxRate = storeInfo?.taxRate;
-        // 订单附加费税率
+        const taxRate = this.storeInfo()?.taxRate;
+
+        // 订单附加费税费
         let extraChargeFee = this.priceService.zero();
-        // 附加费消费税
+
+        // 附加费消费税税费
         let orderFee = this.priceService.zero();
 
-        // 附加费
+        // 附加费计算
         if (this.extraChange().length > 0) {
             extraChargeFee = this.priceService.sumList(
-                this.extraChange().map((item) => this.priceService.mul(total, item.number ?? 0)),
+                this.extraChange().map((item) => {
+                    // 附加费默认人数为1人
+                    let peopleCount: number = 1;
+                    // 就餐人数
+                    // if (item.changeNumber === YesNoNumberEnums.YES) {
+                    //     peopleCount = item.minNum ?? 1;
+                    // }
+
+                    // 百分比
+                    if (item.extraChargeType === NumberCountTypeEnum.PERCENTAGE) {
+                        return this.priceService.mul(
+                            this.priceService.mul(
+                                originalTotal,
+                                this.priceService.toPercentage(item.number ?? 0),
+                            ),
+                            peopleCount,
+                        );
+                    }
+
+                    // 固定金额
+                    if (item.extraChargeType === NumberCountTypeEnum.AMOUNT) {
+                        return this.priceService.mul(item.number ?? 0, peopleCount);
+                    }
+
+                    // 默认返回0
+                    return this.priceService.zero();
+                }),
             );
-            console.log('extraChargeFee', extraChargeFee);
+            console.log('extraChargeFee', this.priceService.toNumber(extraChargeFee));
         }
 
-        // 附加费消费税
+        // 附加费消费税计算
         if (taxRate) {
-            orderFee = this.priceService.mul(orderFee, taxRate);
+            orderFee = this.priceService.mul(
+                extraChargeFee,
+                this.priceService.toPercentage(taxRate),
+            );
+            console.log('orderFee', this.priceService.toNumber(orderFee));
         }
 
         // 订单附加费
-        return {
+        const data: ShopCartSummary = {
             total: this.priceService.toNumber(
                 this.priceService.add(total, extraChargeFee, orderFee, this._tip()),
-            ),
-            surchargeAmount: this.priceService.toNumber(extraChargeFee),
-            surchargeTaxAmount: this.priceService.toNumber(orderFee),
+            ), // 待支付实际金额
+            surchargeAmount: this.priceService.toNumber(extraChargeFee), // 附加费总金额
+            surchargeTaxAmount: this.priceService.toNumber(orderFee), // 附加费消费税总金额
             count: totalCount,
-            orderTotal: total,
+            orderTotal: total, // 订单商品项总金额
             taxRate,
-            tip: this._tip() ?? 0,
-        } as ShopCartSummary;
+            tip: this._tip() ?? 0, // 小费金额
+        };
+        console.log('cart total', data);
+        return data;
     });
 
     /**
@@ -117,6 +160,7 @@ export class CartService {
      * @returns 更新后的购物车商品项（新对象）
      */
     private updateSubtotal(item: ShopCartProduct) {
+        console.log('updateSubtotal', item);
         // 计算小计相关数据
         const computedData = this.subtotalService.subtotalComputed(item);
 

@@ -4,12 +4,14 @@ import { CartTaxTypes, ShopCartProduct } from '@app/shared/types/cart.shared.typ
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { AppMenuService } from '@app/shared/services/data/app.menu.service';
 import { TaxCategoryEnum } from '@app/shared/constants/tax.enums';
+import { AppStoreService } from '@app/shared/services/data/app.store.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubtotalService {
     constructor(
-        private priceService: PriceService,
-        private appMenuService: AppMenuService,
+        private readonly priceService: PriceService,
+        private readonly appMenuService: AppMenuService,
+        private readonly appStoreService: AppStoreService,
     ) {}
 
     /**
@@ -59,8 +61,10 @@ export class SubtotalService {
 
         const qty = item.quantity ?? 1;
 
-        // ---------- 税种处理 ----------
-        const targetTax = this.appMenuService.getTaxGroupByCode(item.taxGroupCode ?? '');
+        // ---------- 税种处理 菜品和门店税率不一致时，不计算 ----------
+        const targetTax = this.appStoreService.isTaxGroupSame(item.taxGroupCode ?? '')
+            ? this.appMenuService.getTaxGroupByCode(item.taxGroupCode ?? '')
+            : undefined;
 
         // 按单价（单件）计算，再乘以 qty。也可以先乘 qty 再算，取决于你的四舍五入策略。
         let internalTaxSingle = this.priceService.zero();
