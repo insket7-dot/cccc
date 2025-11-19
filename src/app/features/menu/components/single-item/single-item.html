@@ -2,7 +2,8 @@
 @if (item()?.specList) {
     <div class="spec">
         <div class="title">{{ 'menu.detail.spec.title' | translate }}</div>
-        <mat-radio-group [value]="selectedSpec()" (change)="onSpecChange($event.value)">
+        <div class="round-div">
+            <mat-radio-group [value]="selectedSpec()" (change)="onSpecChange($event.value)">
             @for (spec of item()?.specList; track spec.skuId) {
                 <div class="spec-item">
                     <span class="spec-item-name">{{ spec | i18nField: 'skuName' }}</span>
@@ -13,6 +14,7 @@
                 </div>
             }
         </mat-radio-group>
+        </div>
     </div>
 }
 <!-- 加料 -->
@@ -22,7 +24,8 @@
         @for (grill of item()?.grillList; track grill.grillCode) {
             <div class="grill-item">
                 <div class="grill-item-title">{{ grill | i18nField: 'grillName' }}</div>
-                <mat-radio-group
+                <div class="round-div">
+                    <mat-radio-group
                     [value]="getSelectedSku(grill.grillCode)"
                     (change)="onGrillChange(grill.grillCode, $event.value)"
                 >
@@ -38,6 +41,7 @@
                         </div>
                     }
                 </mat-radio-group>
+                </div>
             </div>
         }
     </div>

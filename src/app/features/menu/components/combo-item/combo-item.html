@@ -5,7 +5,8 @@
         @for (item of item()?.setMealList; track `combo_round_${item.round}`) {
             <div class="combo-item">
                 <div class="combo-item-title">{{ item | i18nField: 'roundName' }}</div>
-                <mat-radio-group
+                <div class="round-div">
+                    <mat-radio-group
                     [value]="getSelectedRound(item.round)"
                     (change)="onRoundChange(item.round, $event.value)"
                 >
@@ -21,6 +22,7 @@
                         </div>
                     }
                 </mat-radio-group>
+                </div>
             </div>
         }
     </div>
