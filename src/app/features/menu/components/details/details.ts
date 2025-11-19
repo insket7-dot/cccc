@@ -16,7 +16,7 @@ import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe'
 import { ProductLimit, ProductType } from '@app/shared/constants/menu.constants';
 import { SingleItem } from '@app/features/menu/components/single-item/single-item';
 import { ComboItem } from '@app/features/menu/components/combo-item/combo-item';
-import { CartService } from '@app/shared/services/cart.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
 import { CartExtra } from '@app/shared/types/cart.shared.types';
 import { DetailsService } from '@app/features/menu/components/details/details.service';
 
@@ -60,7 +60,6 @@ export class DetailsComponent extends AbstractAppPage {
     // 菜品详情数据
     item = computed(() => {
         const menuMap = this.appMenuService.menuIdMapValue();
-
 
         return this.id ? menuMap.get(this.id) : null;
     });
@@ -109,8 +108,6 @@ export class DetailsComponent extends AbstractAppPage {
     }
 
     close() {
-
         this.onClose.emit();
-
     }
 }

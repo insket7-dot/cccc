@@ -1,6 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { LocalStorage } from '@rydeen/angular-framework';
-import { DateUtils } from '@app/shared/services/date-utils.service';
+import { DateUtils } from '@app/shared/services/util/date-utils.service';
 
 interface SerialNumberData {
     value: number;

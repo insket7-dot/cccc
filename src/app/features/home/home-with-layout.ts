@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AbstractLayoutPage } from '@app/shared/abstracts/abstract.layout.page';
 import { HomeService } from './services/home.service';
 import { MenuData } from '@app/shared/types/menu.shared.types';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 
 @Component({
     selector: 'app-home-with-layout',

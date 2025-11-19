@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CartService } from '@app/shared/services/cart.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
 import { OrderShareService } from '@app/shared/services/order/order.share.service';
 import { ModelStateService } from '@app/shared/services/model-state.service';
 

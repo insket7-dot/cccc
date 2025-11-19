@@ -1,9 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { CartService } from '@app/shared/services/cart.service';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 import { OrderShareService } from '@app/shared/services/order/order.share.service';
 import { PriceI18nPipe, I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { ProductType } from '@app/shared/constants/menu.constants';

@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { I18nTextService } from '@app/shared/services/i18n-text.service';
+import { I18nTextService } from '@app/shared/services/util/i18n-text.service';
 import { CurrencyPipe } from '@angular/common';
 import { LanguageService } from '@app/core/services/language.service';
 

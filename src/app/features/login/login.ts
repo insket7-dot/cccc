@@ -13,7 +13,7 @@ import { DeviceStateEnum } from '@/app/shared/constants/login.constants';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { ModelStateService } from '@app/shared/services/model-state.service';
 import { LocalStorage } from '@rydeen/angular-framework';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 
 @Component({
     selector: 'app-login',
@@ -102,7 +102,7 @@ export class Login extends AbstractAppPage implements OnInit {
                 })
                 .catch((error) => console.error(error));
 
-                this.currentState.set(DeviceStateEnum.BIND_DEVICE)
+            this.currentState.set(DeviceStateEnum.BIND_DEVICE);
         } catch (error) {
             this.error('清除设置失败，请重试');
         }

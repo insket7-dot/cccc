@@ -2,8 +2,8 @@ import { computed, Injectable, signal } from '@angular/core';
 import { ShopCartProduct, ShopCartSummary } from '@app/shared/types/cart.shared.types';
 import { debounceTime, Subject } from 'rxjs';
 import { CartUpdateResult, TipTypeEnums } from '@app/shared/constants/app.enums';
-import { SubtotalService } from '@app/shared/services/subtotal.service';
-import { PriceService } from '@app/shared/services/price.service';
+import { SubtotalService } from '@app/shared/services/cart/subtotal.service';
+import { PriceService } from '@app/shared/services/util/price.service';
 import { ProductLimit } from '@app/shared/constants/menu.constants';
 import { AppStoreService } from '@app/shared/services/app.store.service';
 

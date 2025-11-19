@@ -8,8 +8,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Router, NavigationStart } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { AppUrlService } from '@app/shared/services/app.url.service';
-import { CartService } from '@app/shared/services/cart.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
 import { TipTypeEnums } from '@app/shared/constants/app.enums';
 
 @Component({

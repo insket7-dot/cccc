@@ -17,7 +17,7 @@ import { ModelStateService } from '@app/shared/services/model-state.service';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
 import { DetailsComponent } from './components/details/details';
-import { AppVoiceService } from '@app/shared/services/app.voice.service';
+import { AppVoiceService } from '@app/shared/services/plugin/app.voice.service';
 import { LanguageService } from '@app/core/services/language.service';
 import { fromEvent, Subscription, throttleTime } from 'rxjs';
 import { CategoryOperation, MenuType } from '@app/shared/constants/menu.constants';

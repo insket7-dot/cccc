@@ -1,8 +1,8 @@
 // 菜单UI服务
 import { computed, Injectable, signal } from '@angular/core';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
-import { CartService } from '@app/shared/services/cart.service';
-import { I18nTextService } from '@app/shared/services/i18n-text.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
+import { I18nTextService } from '@app/shared/services/util/i18n-text.service';
 import { cartViewItem } from '@app/shared/types/cart.shared.types';
 import { CategoryOperation, ProductType } from '@app/shared/constants/menu.constants';
 import { menuListItem, MenuResponseVo } from '@app/shared/types/menu.shared.types';

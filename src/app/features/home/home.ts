@@ -5,7 +5,7 @@ import { MenuConstantsItem } from '@app/shared/types/menu.shared.types';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
 import { ModelStateService } from '@app/shared/services/model-state.service';
 import { modeList, wayList } from '@app/shared/constants/menu.constants';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 import { DeviceStateEnum } from '@app/shared/constants/login.constants';
 import { NgOptimizedImage } from '@angular/common';
 

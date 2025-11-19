@@ -1,15 +1,15 @@
 import { computed, Injectable } from '@angular/core';
 import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
 import { OrderDetailItem, OrderRequestVO } from '@app/shared/types/order.shared.types';
-import { CartService } from '@app/shared/services/cart.service';
-import { AppUrlService } from '@app/shared/services/app.url.service';
-import { DateUtils } from '@app/shared/services/date-utils.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
+import { DateUtils } from '@app/shared/services/util/date-utils.service';
 import { v4 as uuidV4 } from 'uuid';
-import { SerialNumberService } from '@app/shared/services/serial-number.service';
+import { SerialNumberService } from '@app/shared/services/order/serial-number.service';
 import { AppStoreService } from '@app/shared/services/app.store.service';
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { OrderConstants } from '../constants/constants';
-import { PriceService } from '@app/shared/services/price.service';
+import { PriceService } from '@app/shared/services/util/price.service';
 import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
 
 @Injectable({ providedIn: 'root' })

@@ -6,9 +6,9 @@ import { CartDetailsBottomSheetComponent } from '../cart-details-bottom-sheet.co
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { MatListModule } from '@angular/material/list';
 import { PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
-import { CartService } from '@app/shared/services/cart.service';
+import { CartService } from '@app/shared/services/cart/cart.service';
 import { CartUpdateResult } from '@app/shared/constants/app.enums';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 import { MenuFacadeService } from '@app/shared/services/ui/menu-facade.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DateUtils } from '@app/shared/services/date-utils.service';
+import { DateUtils } from '@app/shared/services/util/date-utils.service';
 
 @Pipe({
     name: 'dateFormat',

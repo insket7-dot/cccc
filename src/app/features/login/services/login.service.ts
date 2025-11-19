@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractAppService } from '@app/shared/abstracts/abstract.app.service';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService extends AbstractAppService {

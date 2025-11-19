@@ -3,7 +3,7 @@ import { MenuType, OrderMode } from '@app/shared/constants/menu.constants';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { CacheKey } from '@app/shared/constants/cache.key';
 import { Router } from '@angular/router';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 import { DeviceIdLoadStatus } from '@app/shared/constants/app.enums';
 
 @Injectable({ providedIn: 'root' })

@@ -5,11 +5,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppStoreService } from '@/app/shared/services/app.store.service';
 import { MqttService } from '@app/core/services/mqtt.service';
 import { CarouselImage } from '@app/shared/types/store.shared.types';
-import { PrintOrderService } from '@app/shared/services/print-order.service';
-import { AppVoiceService } from '@app/shared/services/app.voice.service';
+import { PrintOrderService } from '@app/shared/services/plugin/print-order.service';
+import { AppVoiceService } from '@app/shared/services/plugin/app.voice.service';
 import { AppMenuService } from '@app/shared/services/app.menu.service';
-import { AppUrlService } from '@app/shared/services/app.url.service';
-import { SerialNumberService } from '@app/shared/services/serial-number.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
+import { SerialNumberService } from '@app/shared/services/order/serial-number.service';
 import { ClearService } from '@app/shared/services/ui/clear.service';
 
 @Component({

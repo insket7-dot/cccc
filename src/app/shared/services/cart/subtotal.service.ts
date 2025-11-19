@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PriceService } from '@app/shared/services/price.service';
+import { PriceService } from '@app/shared/services/util/price.service';
 import { CartTaxTypes, ShopCartProduct } from '@app/shared/types/cart.shared.types';
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { AppMenuService } from '@app/shared/services/app.menu.service';

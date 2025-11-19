@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { menuListItem } from '@app/shared/types/menu.shared.types';
 import { CartExtra, ShopCartProduct } from '@app/shared/types/cart.shared.types';
 import { ProductType } from '@app/shared/constants/menu.constants';
-import { SubtotalService } from '@app/shared/services/subtotal.service';
+import { SubtotalService } from '@app/shared/services/cart/subtotal.service';
 
 export interface BuildCartData {
     item: menuListItem;

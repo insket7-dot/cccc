@@ -10,7 +10,7 @@ import {
     MenuModel,
 } from '@app/shared/types/menu.shared.types';
 import { QueryBuilder, LIKE } from '@app/core/builders/query-builder';
-import { AppUrlService } from '@app/shared/services/app.url.service';
+import { AppUrlService } from '@app/shared/services/util/app.url.service';
 
 @Injectable({ providedIn: 'root' })
 export class HomeService extends AbstractAppService {
