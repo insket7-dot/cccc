@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, Input, Output, signal } from '@angular/core';
 import { MenuGrillItem, menuListItem } from '@app/shared/types/menu.shared.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatRadioModule } from '@angular/material/radio';
@@ -29,6 +29,12 @@ export class SingleItem extends AbstractAppPage {
     constructor() {
         super();
 
+        effect(() => {
+            const specList = this.item()?.specList;
+            if (specList && specList.length === 1) {
+                this.onSpecChange(specList[0].skuId);
+            }
+        });
     }
 
     item = computed(() => this.data);
@@ -41,7 +47,9 @@ export class SingleItem extends AbstractAppPage {
 
     onSpecChange(value: string) {
         this.selectedSpec.set(value);
-        this.selectedSpecName.set(this.item()?.specList?.find((x) => x.skuId === value)?.skuNameCn ?? null);
+        this.selectedSpecName.set(
+            this.item()?.specList?.find((x) => x.skuId === value)?.skuNameCn ?? null,
+        );
         this.getSelection();
     }
 

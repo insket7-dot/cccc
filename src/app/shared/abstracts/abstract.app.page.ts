@@ -16,7 +16,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 // =============== 事件类型与接口定义 ===============
 export type UiEventType = 'click' | 'change' | 'submit' | 'custom';
 export interface UiEvent {
@@ -309,14 +308,21 @@ export abstract class AbstractAppPage extends AbstractComponent {
 @Component({
     selector: 'app-confirm-dialog',
     standalone: true,
-    imports: [MatDialogModule, MatButtonModule,TranslateModule],
+    imports: [MatDialogModule, MatButtonModule, TranslateModule],
     template: `
         <h2 mat-dialog-title>{{ data.message }}</h2>
         <div mat-dialog-actions style="justify-content: flex-end; gap: 8px;">
-            <button mat-button (click)="onCancel()">{{"app.common.cancel" | translate}}</button>
-            <button mat-flat-button color="primary" (click)="onOk()">{{"app.common.confirm" | translate}}</button>
+            <button mat-button (click)="onCancel()">{{ 'app.common.cancel' | translate }}</button>
+            <button mat-flat-button color="primary" (click)="onOk()">
+                {{ 'app.common.confirm' | translate }}
+            </button>
         </div>
     `,
+    styles: `
+        ::ng-deep .mat-primary{
+            background-color: var(--app-primary-color) !important;
+        }
+        `,
 })
 export class ConfirmDialogComponent {
     constructor(
