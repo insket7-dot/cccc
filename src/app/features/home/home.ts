@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnDestroy, computed } from '@angular/core';
+import { Component, inject, OnDestroy, computed } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { MenuConstantsItem } from '@app/shared/types/menu.shared.types';
@@ -8,8 +8,6 @@ import { modeList, wayList } from '@app/shared/constants/menu.constants';
 import { AppUrlService } from '@app/shared/services/app.url.service';
 import { DeviceStateEnum } from '@app/shared/constants/login.constants';
 import { NgOptimizedImage } from '@angular/common';
-import { CartService } from '@app/shared/services/cart.service';
-
 
 @Component({
     selector: 'app-home',
@@ -20,16 +18,16 @@ import { CartService } from '@app/shared/services/cart.service';
 export class Home extends AbstractAppPage implements OnDestroy {
     private readonly modelStateService = inject(ModelStateService);
     // 点餐模式
-    wayList = signal<MenuConstantsItem[]>(wayList);
+    wayList = computed(() => wayList);
     // 普通、儿童模式
-    modelList = signal<MenuConstantsItem[]>(modeList);
+    modelList = computed(() => modeList);
 
     curModel = computed(() => this.modelStateService.curModelValue());
     curWay = computed(() => this.modelStateService.curWayValue());
 
     private clickCount = 0; // 点击次数
 
-    constructor(private readonly appUrlService: AppUrlService,private readonly cartService: CartService) {
+    constructor(private readonly appUrlService: AppUrlService) {
         super();
     }
 
@@ -46,14 +44,12 @@ export class Home extends AbstractAppPage implements OnDestroy {
     }
 
     startOrder() {
-        if (!this.curWay()) {
+        if (this.curWay() === '') {
             this.error(this.translate.instant('page.selectWay')).catch((error) =>
                 console.error(error),
             );
             return;
         } else {
-            this.cartService.clearCart();
-            this.modelStateService.clearUserSelectState();
             this.router
                 .navigate([this.appUrlService.getPageUrlValue('PAGE_MENU')])
                 .catch((error) => console.error(error));
