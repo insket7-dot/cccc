@@ -11,7 +11,7 @@ import {
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
-import { AppMenuService } from '@app/shared/services/app.menu.service';
+import { AppMenuService } from '@app/shared/services/data/app.menu.service';
 import { I18nFieldPipe, PriceI18nPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { ProductLimit, ProductType } from '@app/shared/constants/menu.constants';
 import { SingleItem } from '@app/features/menu/components/single-item/single-item';

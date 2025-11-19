@@ -2,7 +2,7 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { CacheKey } from '@app/shared/constants/cache.key';
-import { ModelStateService } from '@app/shared/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/data/model-state.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 
 @Injectable({

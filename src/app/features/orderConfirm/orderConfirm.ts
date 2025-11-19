@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { AddTipsComponent } from './components/add-tips.component';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { AppStoreService } from '@/app/shared/services/app.store.service';
+import { AppStoreService } from '@app/shared/services/data/app.store.service';
 import { CartService } from '@app/shared/services/cart/cart.service';
 import { PriceI18nPipe, I18nFieldPipe } from '@app/shared/pipes/i18n-field.pipe';
 import { AppUrlService } from '@app/shared/services/util/app.url.service';

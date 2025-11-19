@@ -7,7 +7,7 @@ import {
 } from '@rydeen/angular-framework';
 import { inject } from '@angular/core';
 import { AppEvent } from '@app/core/constants/app.event';
-import { ModelStateService } from '@app/shared/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/data/model-state.service';
 import { DeviceIdLoadStatus } from '@app/shared/constants/app.enums';
 
 export abstract class AbstractAppService extends AbstractService {

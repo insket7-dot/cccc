@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Voice } from '@capacitor-rydeen/voice';
 import { LanguageService } from '@app/core/services/language.service';
-import { AppStoreService } from '@app/shared/services/app.store.service';
+import { AppStoreService } from '@app/shared/services/data/app.store.service';
 
 @Injectable({
     providedIn: 'root',

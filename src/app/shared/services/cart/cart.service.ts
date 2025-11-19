@@ -5,7 +5,7 @@ import { CartUpdateResult, TipTypeEnums } from '@app/shared/constants/app.enums'
 import { SubtotalService } from '@app/shared/services/cart/subtotal.service';
 import { PriceService } from '@app/shared/services/util/price.service';
 import { ProductLimit } from '@app/shared/constants/menu.constants';
-import { AppStoreService } from '@app/shared/services/app.store.service';
+import { AppStoreService } from '@app/shared/services/data/app.store.service';
 
 @Injectable({
     providedIn: 'root',

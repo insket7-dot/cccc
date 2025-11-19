@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AbstractAppPage } from '@app/shared/abstracts/abstract.app.page';
 import { MenuConstantsItem } from '@app/shared/types/menu.shared.types';
 import { LanguageSelectorComponent } from '@app/shared/components/language-selector/language-selector';
-import { ModelStateService } from '@app/shared/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/data/model-state.service';
 import { modeList, wayList } from '@app/shared/constants/menu.constants';
 import { AppUrlService } from '@app/shared/services/util/app.url.service';
 import { DeviceStateEnum } from '@app/shared/constants/login.constants';

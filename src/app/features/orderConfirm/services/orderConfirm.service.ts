@@ -6,7 +6,7 @@ import { AppUrlService } from '@app/shared/services/util/app.url.service';
 import { DateUtils } from '@app/shared/services/util/date-utils.service';
 import { v4 as uuidV4 } from 'uuid';
 import { SerialNumberService } from '@app/shared/services/order/serial-number.service';
-import { AppStoreService } from '@app/shared/services/app.store.service';
+import { AppStoreService } from '@app/shared/services/data/app.store.service';
 import { ProductType } from '@app/shared/constants/menu.constants';
 import { OrderConstants } from '../constants/constants';
 import { PriceService } from '@app/shared/services/util/price.service';

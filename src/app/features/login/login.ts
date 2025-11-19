@@ -11,7 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { DeviceStateEnum } from '@/app/shared/constants/login.constants';
 import { CacheKey } from '@app/shared/constants/cache.key';
-import { ModelStateService } from '@app/shared/services/model-state.service';
+import { ModelStateService } from '@app/shared/services/data/model-state.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { AppUrlService } from '@app/shared/services/util/app.url.service';
 
