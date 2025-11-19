@@ -77,7 +77,7 @@ export class AppMenuService extends AbstractAppService {
         const group = this._taxGroupMap().get(taxCode ?? '');
         if (group) {
             const tax = group.taxList?.[0];
-            const type = this.modelStateService.curModelValue();
+            const type = this.modelStateService.curWayValue();
             if (tax && type) {
                 return tax.useType?.some((t) => t === type) ? tax : undefined;
             }

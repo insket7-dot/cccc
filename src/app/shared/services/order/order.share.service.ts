@@ -3,9 +3,9 @@ import { OrderRequestVO } from '@app/shared/types/order.shared.types';
 
 @Injectable({ providedIn: 'root' })
 export class OrderShareService {
-    _orderInfo = signal<OrderRequestVO | null>(null);
+    private _orderInfo = signal<OrderRequestVO | null>(null);
 
-    getOrderInfoValue = computed(() => this._orderInfo());
+    readonly getOrderInfoValue = computed(() => this._orderInfo());
 
     /**
      * @desc 订单提交成功后，更新订单信息
