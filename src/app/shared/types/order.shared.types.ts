@@ -4,6 +4,8 @@
 export interface OrderRequestVO {
     orderId?: string; // 润典中台订单ID
     brandCode: string; // 品牌编码
+    brandName: string; // 品牌名称
+    storeAddr: string; // 门店地址
     channelId: string; // 点餐渠道编码: 201
     thirdOrderId: string; // 点餐端渠道的订单ID，如，小程序、美团、饿了么、POS的订单ID
     extOrderId?: string; // 外部中台订单ID

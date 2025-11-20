@@ -98,6 +98,10 @@ export interface CarouselImage {
  */
 export interface StoreBaseInfoInterface {
     /**
+     * 门店地址
+     */
+    address?: string;
+    /**
      * @desc 语音播放开关
      */
     voiceFlag?: boolean;

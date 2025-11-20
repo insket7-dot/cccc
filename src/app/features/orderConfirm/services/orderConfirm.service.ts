@@ -124,6 +124,8 @@ export class OrderConfirmService extends AbstractAppService {
             thirdOrderId: this.orderId(),
             takeNo: `K${this.serialNumberService.currentSerialNumberValue()}`,
             brandCode: this.storeBaseInfo()?.brandCode ?? '',
+            brandName: this.storeBaseInfo()?.brandCode ?? '',
+            storeAddr: this.storeBaseInfo()?.address ?? '',
             channelId: OrderConstants.ORDER_CHANNEL,
             orderType: OrderConstants.ORDER_TYPE_TAKE_IN,
             storeCode: this.storeBaseInfo()?.storeCode ?? '',

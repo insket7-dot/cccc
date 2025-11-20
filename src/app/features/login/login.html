@@ -1,6 +1,6 @@
 <div class="login-container">
     <div class="top-bg">
-        <img ngSrc="/assets/image/logo.png" alt="yaki Logo" class="logo" width="180" height="180"/>
+        <img ngSrc="/assets/image/logo.png" alt="yaki Logo" class="logo" width="180" height="180" />
     </div>
 
     @if (currentState() === deviceState.BIND_DEVICE) {
@@ -9,6 +9,7 @@
             <mat-form-field class="field">
                 <!-- <mat-label>Store code</mat-label> -->
                 <input
+                    class="form-input"
                     matInput
                     formControlName="storeCode"
                     [placeholder]="'app.login.pleaseEnterStoreCode' | translate"
@@ -33,6 +34,7 @@
             <mat-form-field>
                 <!-- <mat-label>Auth code</mat-label> -->
                 <input
+                    class="form-input"
                     matInput
                     formControlName="authCode"
                     [placeholder]="'app.login.pleaseEnterAuthCode' | translate"
@@ -65,7 +67,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="onSubmitHandler()" class="login-form">
             <span class="title"> {{ 'page.password' | translate }}</span>
             <mat-form-field class="field">
-                <input matInput formControlName="password" placeholder="password" />
+                <input class="form-input" matInput formControlName="password" placeholder="password" />
                 <mat-hint></mat-hint>
                 @if (loginForm.controls['password'].hasError('required')) {
                     <mat-error>
@@ -100,5 +102,7 @@
     }
 
     <!-- 版本和设备编码 -->
-    <div class="version-info">版本号：1234567890，设备编码：1</div>
+    <div class="version-info">
+        {{ 'app.common.versionNumber' | translate }}：{{ appVersion }}
+    </div>
 </div>

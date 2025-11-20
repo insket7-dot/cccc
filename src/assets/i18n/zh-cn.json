@@ -32,7 +32,9 @@
             "warning": "警告",
             "starting": "起",
             "total": "合计",
-            "order": "下单"
+            "order": "下单",
+            "versionNumber": "版本号",
+            "deviceCode": "设备编码"
         },
         "home": {
             "actions": {
@@ -142,6 +144,9 @@
             "pleaseEnterStoreCode": "请输入门店编码",
             "pleaseEnterAuthCode": "请输入授权码",
             "pleaseEnter8DigitAuthCode": "请输入8位授权码"
+        },
+        "tip": {
+            "clearSettingFailed": "清除设置失败，请重试"
         }
     },
     "page": {
@@ -173,7 +178,6 @@
         "fixed": "固定",
         "clear": "清除",
         "items": "总数"
-
     },
     "menu": {
         "detail": {
@@ -197,14 +201,14 @@
             "addRequired": "请加购商品"
         }
     },
-    "submit":{
+    "submit": {
         "backToHome": "返回首页",
-        "success_text1":"订单提交成功",
-        "success_text2":"请到前台付款",
-        "totalTip":"小费合计",
-        "tip":"小费",
-        "orderNumber":"订单号",
-        "takeNo":"取餐号",
-        "orderAmount":"订单金额"
+        "success_text1": "订单提交成功",
+        "success_text2": "请到前台付款",
+        "totalTip": "小费合计",
+        "tip": "小费",
+        "orderNumber": "订单号",
+        "takeNo": "取餐号",
+        "orderAmount": "订单金额"
     }
 }

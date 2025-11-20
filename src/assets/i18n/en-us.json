@@ -32,7 +32,9 @@
             "warning": "Warning",
             "starting": "from",
             "total": "Total",
-            "order": "Confirm Order"
+            "order": "Confirm Order",
+            "versionNumber": "Version Number",
+            "deviceCode": "Device Code"
         },
         "home": {
             "actions": {
@@ -142,6 +144,9 @@
             "pleaseEnterStoreCode": "Please enter the store code",
             "pleaseEnterAuthCode": "Please enter the authorization code",
             "pleaseEnter8DigitAuthCode": "Please enter the 8-digit authorization code."
+        },
+        "tip": {
+            "clearSettingFailed": "Failed to clear settings. Please try again."
         }
     },
     "page": {
@@ -173,7 +178,6 @@
         "fixed": "fixed",
         "clear": "Clear",
         "items": "items in total"
-
     },
     "menu": {
         "detail": {
@@ -197,17 +201,14 @@
             "addRequired": "Please add products to the cart."
         }
     },
-     "submit":{
-        "backToHome":"Back to Home Page",
-        "success_text1":"Order submitted successfully",
-        "success_text2":"Please go to the front desk to pay",
-        "totalTip":"Total Tip",
-        "tip":"Tip",
-         "orderNumber":"Order Number",
-        "takeNo":"Take No",
-        "orderAmount":"Order Amount"
-
-
-
+    "submit": {
+        "backToHome": "Back to Home Page",
+        "success_text1": "Order submitted successfully",
+        "success_text2": "Please go to the front desk to pay",
+        "totalTip": "Total Tip",
+        "tip": "Tip",
+        "orderNumber": "Order Number",
+        "takeNo": "Take No",
+        "orderAmount": "Order Amount"
     }
 }

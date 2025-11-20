@@ -32,7 +32,9 @@
             "warning": "警告",
             "starting": "起",
             "total": "合計",
-            "order": "下單"
+            "order": "下單",
+            "versionNumber": "版本號",
+            "deviceCode": "設備編碼"
         },
         "home": {
             "actions": {
@@ -142,6 +144,9 @@
             "pleaseEnterStoreCode": "請輸入門店編碼",
             "pleaseEnterAuthCode": "請輸入授權碼",
             "pleaseEnter8DigitAuthCode": "請輸入8位授權碼"
+        },
+        "tip": {
+            "clearSettingFailed": "清除設定失敗，請重試"
         }
     },
     "page": {

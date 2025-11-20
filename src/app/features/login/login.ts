@@ -14,6 +14,7 @@ import { CacheKey } from '@app/shared/constants/cache.key';
 import { ModelStateService } from '@app/shared/services/data/model-state.service';
 import { LocalStorage } from '@rydeen/angular-framework';
 import { AppUrlService } from '@app/shared/services/util/app.url.service';
+import { environment } from '@/environments/environment';
 
 @Component({
     selector: 'app-login',
@@ -53,6 +54,8 @@ export class Login extends AbstractAppPage implements OnInit {
         );
     }
 
+    appVersion = environment.appVersion;
+
     ngOnInit() {
         const queryParams = this.route.snapshot.queryParams;
         this.currentState.set(queryParams['state'] as DeviceStateEnum);
@@ -80,7 +83,7 @@ export class Login extends AbstractAppPage implements OnInit {
                         .navigate([this.appUrlService.getPageUrlValue('PAGE_SCREEN')], {})
                         .catch((error) => console.error(error));
                 } else {
-                    this.error(result.msg);
+                    this.error(result.msg).catch(console.error);
                 }
             }
         } else {
@@ -104,7 +107,7 @@ export class Login extends AbstractAppPage implements OnInit {
 
             this.currentState.set(DeviceStateEnum.BIND_DEVICE);
         } catch (error) {
-            this.error('清除设置失败，请重试');
+            this.error('app.tip.clearSettingFailed').catch(console.error);
         }
     }
 }
