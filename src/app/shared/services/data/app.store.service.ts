@@ -144,6 +144,8 @@ export class AppStoreService extends AbstractAppService {
             if (JSON.stringify(newImages) !== JSON.stringify(this.carouselImages())) {
                 this.carouselImages.set(newImages);
             }
+        } else{
+            this.carouselImages.set([]);
         }
     }
 
